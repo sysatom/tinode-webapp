@@ -14,28 +14,28 @@
     "obsolete": false
   },
   "action_clear_messages": {
-    "translation": "删除讯息",
+    "translation": "清除消息",
     "defaultMessage": "Clear Messages",
     "description": "Flat button [Clear Messages] (soft-delete messages)",
     "missing": false,
     "obsolete": false
   },
   "action_delete_messages": {
-    "translation": "删除所有帖子",
+    "translation": "删除所有消息",
     "defaultMessage": "Clear Messages for All",
     "description": "Flat button [Clear for All] (hard-delete all messages)",
     "missing": false,
     "obsolete": false
   },
   "action_leave_chat": {
-    "translation": "离开",
+    "translation": "离开聊天",
     "defaultMessage": "Leave Conversation",
     "description": "Flat button [Leave Conversation]",
     "missing": false,
     "obsolete": false
   },
   "action_report_chat": {
-    "translation": "检举垃圾邮件",
+    "translation": "检举垃圾消息",
     "defaultMessage": "Report Conversation",
     "description": "Flat button [Report Group]",
     "missing": false,
@@ -63,14 +63,14 @@
     "obsolete": false
   },
   "badge_staff": {
-    "translation": "在员工管理下",
+    "translation": "员工",
     "defaultMessage": "Staff-managed",
     "description": "Explanation of a staff-managed account or topic badge",
     "missing": false,
     "obsolete": false
   },
   "badge_verified": {
-    "translation": "值得信赖",
+    "translation": "已验证",
     "defaultMessage": "Verified/official",
     "description": "Explanation of a verified account or topic badge",
     "missing": false,
@@ -91,7 +91,7 @@
     "obsolete": false
   },
   "blocked_contacts_link": {
-    "translation": "封锁的联络人 ({count})",
+    "translation": "被屏蔽的联系人 ({count})",
     "defaultMessage": "Blocked contacts ({count})",
     "description": "Blocked contacts link",
     "missing": false,
@@ -133,7 +133,7 @@
     "obsolete": false
   },
   "button_delete_account": {
-    "translation": "删除帐户",
+    "translation": "删除账号",
     "defaultMessage": "Delete account",
     "description": "Button [Delete account]",
     "missing": false,
@@ -147,14 +147,14 @@
     "obsolete": false
   },
   "button_logout": {
-    "translation": "登出",
+    "translation": "退出账号",
     "defaultMessage": "Logout",
     "description": "Button [Logout]",
     "missing": false,
     "obsolete": false
   },
   "button_ok": {
-    "translation": "好",
+    "translation": "好的",
     "defaultMessage": "OK",
     "description": "Button [OK]",
     "missing": false,
@@ -280,21 +280,21 @@
     "obsolete": false
   },
   "credential_email_prompt": {
-    "translation": "你的注册邮箱",
+    "translation": "注册邮箱",
     "defaultMessage": "Your registration email",
     "description": "Placeholder for entering email",
     "missing": false,
     "obsolete": false
   },
   "delete_account": {
-    "translation": "删除帐户",
+    "translation": "删除帐号",
     "defaultMessage": "Delete account",
     "description": "Title for delete account warning",
     "missing": false,
     "obsolete": false
   },
   "delete_account_warning": {
-    "translation": "您确定要删除您的帐户吗？无法撤消。",
+    "translation": "您确定要删除您的账号吗？无法撤消。",
     "defaultMessage": "Are you sure you want to delete your account? It cannot be undone.",
     "description": "Warning message when deleting an account",
     "missing": false,
@@ -455,7 +455,7 @@
     "obsolete": false
   },
   "label_default_access_mode": {
-    "translation": "蓦然访问模式：",
+    "translation": "默认访问模式：",
     "defaultMessage": "Default access mode:",
     "description": "Label for default access mode",
     "missing": false,
@@ -476,7 +476,7 @@
     "obsolete": false
   },
   "label_incognito_mode": {
-    "translation": "无痕模式：",
+    "translation": "隐身模式：",
     "defaultMessage": "Incognito mode:",
     "description": "Label for incognito mode toggle",
     "missing": false,
@@ -586,14 +586,14 @@
     "obsolete": false
   },
   "label_user_contacts": {
-    "translation": "往来：",
+    "translation": "联系方式：",
     "defaultMessage": "Contacts:",
     "description": "Label for user contacts",
     "missing": false,
     "obsolete": false
   },
   "label_user_id": {
-    "translation": "地址：",
+    "translation": "ID：",
     "defaultMessage": "ID:",
     "description": "Label for user address (ID)",
     "missing": false,
@@ -614,14 +614,14 @@
     "obsolete": false
   },
   "label_your_name": {
-    "translation": "你的姓名",
+    "translation": "姓名",
     "defaultMessage": "Your name",
     "description": "Label for full name editing",
     "missing": false,
     "obsolete": false
   },
   "label_your_permissions": {
-    "translation": "你的权限：",
+    "translation": "权限：",
     "defaultMessage": "Your permissions:",
     "description": "Label for current user permissions",
     "missing": false,
@@ -1041,7 +1041,7 @@
     "obsolete": false
   },
   "sidepanel_title_blocked": {
-    "translation": "被阻止的聊天",
+    "translation": "被屏蔽的会话",
     "defaultMessage": "Blocked Chats",
     "description": "Sidepanel title for ContactsView-Blocked.",
     "missing": false,
@@ -1069,7 +1069,7 @@
     "obsolete": false
   },
   "sidepanel_title_register": {
-    "translation": "创建账户",
+    "translation": "创建账号",
     "defaultMessage": "Create Account",
     "description": "Sidepanel title for CreateAccountView.",
     "missing": false,
