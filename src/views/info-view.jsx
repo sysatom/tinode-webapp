@@ -2,7 +2,7 @@
 import React from 'react';
 import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 
-import { Tinode } from 'tinode-sdk';
+import { AccessMode, Tinode } from 'tinode-sdk';
 
 import AvatarUpload from '../widgets/avatar-upload.jsx';
 import BadgeList from '../widgets/badge-list.jsx';
@@ -18,7 +18,7 @@ import TopicSecurity from '../widgets/topic-security.jsx';
 import { MAX_TITLE_LENGTH, MAX_TOPIC_DESCRIPTION_LENGTH, NO_ACCESS_MODE } from '../config.js';
 
 import { makeImageUrl } from '../lib/blob-helpers.js';
-import { theCard } from '../lib/utils.js';
+import { theCard, clipStr } from '../lib/utils.js';
 
 const messages = defineMessages({
   info: {
@@ -77,10 +77,6 @@ const messages = defineMessages({
     description: 'Menu item [Edit permissions]'
   },
 });
-
-function _clip(str, length) {
-  return str && str.substring(0, length);
-}
 
 class InfoView extends React.Component {
   constructor(props) {
@@ -206,11 +202,11 @@ class InfoView extends React.Component {
       deleter: acs && acs.isDeleter(),
       muted: acs && acs.isMuted(),
 
-      fullName: _clip(topic.public ? topic.public.fn : undefined, MAX_TITLE_LENGTH),
-      description: _clip(topic.public ? topic.public.note : undefined, MAX_TOPIC_DESCRIPTION_LENGTH),
+      fullName: clipStr(topic.public && topic.public.fn, MAX_TITLE_LENGTH),
+      description: clipStr(topic.public && topic.public.note, MAX_TOPIC_DESCRIPTION_LENGTH),
       avatar: makeImageUrl(topic.public ? topic.public.photo : null),
       trustedBadges: badges,
-      private: _clip(topic.private ? topic.private.comment : null, MAX_TITLE_LENGTH),
+      private: clipStr(topic.private && topic.private.comment, MAX_TITLE_LENGTH),
       archived: topic.isArchived(),
       address: topic.name,
       groupTopic: topic.isGroupType(),
@@ -259,7 +255,7 @@ class InfoView extends React.Component {
     }
   }
 
-  handleImageChanged(img) {
+  handleImageChanged(mime, img) {
     this.setState({avatar: img});
     this.props.onTopicDescUpdate(this.props.topic, theCard(null, img || Tinode.DEL_CHAR), null);
   }
@@ -311,7 +307,7 @@ class InfoView extends React.Component {
           toSkip = 'O';
         } else {
           // Allow accepting any of 'ASDO' permissions but don't allow asking for them.
-          toSkip = Tinode.AccessMode.encode(Tinode.AccessMode.diff('ASDO', this.state.modeGiven));
+          toSkip = AccessMode.encode(AccessMode.diff('ASDO', this.state.modeGiven));
           if (this.state.channel) {
             // Channels are read-only.
             toSkip += 'W';

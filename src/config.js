@@ -17,10 +17,8 @@ export const LOGGING_ENABLED = true;
 
 // Minimum time between two keypress notifications, milliseconds.
 export const KEYPRESS_DELAY = 3_000;
-// Delay before sending a {note} for reciving a message, milliseconds.
-export const RECEIVED_DELAY = 500;
 // Delay before sending a read notification, milliseconds.
-export const READ_DELAY = 1000;
+export const READ_DELAY = 1_500;
 
 // The default shortest allowed tag length. Matches the value on the server.
 export const MIN_TAG_LENGTH = 2;
@@ -89,6 +87,8 @@ export const MAX_ONLINE_IN_TOPIC = 4;
 export const MAX_TITLE_LENGTH = 60;
 // Maximum length of topic description.
 export const MAX_TOPIC_DESCRIPTION_LENGTH = 360;
+// Maximum length of user name when displaying a video call.
+export const MAX_PEER_TITLE_LENGTH = 20;
 
 // Length of message previews in chat list, in characters.
 export const MESSAGE_PREVIEW_LENGTH = 80;
@@ -111,3 +111,4 @@ export const LINK_PRIVACY_POLICY = 'https://tinode.co/privacy.html';
 
 // Link to Terms of Service.
 export const LINK_TERMS_OF_SERVICE = 'https://tinode.co/terms.html';
+

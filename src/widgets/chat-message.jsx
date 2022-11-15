@@ -33,6 +33,7 @@ class BaseChatMessage extends React.PureComponent {
       formatMessage: props.intl.formatMessage.bind(props.intl),
       viewportWidth: props.viewportWidth,
       authorizeURL: props.tinode.authorizeURL.bind(props.tinode),
+
       onImagePreview: this.handleImagePreview,
       onFormButtonClick: this.handleFormButtonClick,
       onQuoteClick: this.handleQuoteClick
@@ -140,6 +141,12 @@ class BaseChatMessage extends React.PureComponent {
       }, this);
       const tree = Drafty.format(content, fullFormatter, this.formatterContext);
       content = React.createElement(React.Fragment, null, tree);
+    } else if (this.props.deleted) {
+      // Message represents a range of deleted messages.
+      content = <><i className="material-icons gray">block</i> <i className="gray">
+        <FormattedMessage id="deleted_content"
+          defaultMessage="content deleted" description="Shown when messages are deleted" />
+      </i></>
     } else if (typeof content != 'string') {
       content = <><i className="material-icons gray">warning_amber</i> <i className="gray">
         <FormattedMessage id="invalid_content"

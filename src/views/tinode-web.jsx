@@ -11,13 +11,17 @@ import { Drafty, Tinode } from 'tinode-sdk';
 import Alert from '../widgets/alert.jsx';
 import ContextMenu from '../widgets/context-menu.jsx';
 import ForwardDialog from '../widgets/forward-dialog.jsx';
+import CallIncoming from '../widgets/call-incoming.jsx';
 
 import InfoView from './info-view.jsx';
 import MessagesView from './messages-view.jsx';
 import SidepanelView from './sidepanel-view.jsx';
 
 import { API_KEY, APP_NAME, DEFAULT_P2P_ACCESS_MODE, FORWARDED_PREVIEW_LENGTH, LOGGING_ENABLED,
-  MEDIA_BREAKPOINT, RECEIVED_DELAY } from '../config.js';
+  MEDIA_BREAKPOINT } from '../config.js';
+import { CALL_STATE_NONE, CALL_STATE_OUTGOING_INITATED,
+         CALL_STATE_INCOMING_RECEIVED, CALL_STATE_IN_PROGRESS,
+         CALL_HEAD_STARTED }  from '../constants.js';
 import { PACKAGE_VERSION } from '../version.js';
 import { base64ReEncode, makeImageUrl } from '../lib/blob-helpers.js';
 import { detectServerAddress, isLocalHost, isSecureConnection } from '../lib/host-name.js';
@@ -27,7 +31,7 @@ import { secondsToTime } from '../lib/strformat.js'
 import { updateFavicon } from '../lib/utils.js';
 
 // Sound to play on message received.
-const POP_SOUND = new Audio('audio/msg.mp3');
+const POP_SOUND = new Audio('audio/msg.m4a');
 
 const messages = defineMessages({
   reconnect_countdown: {
@@ -64,6 +68,16 @@ const messages = defineMessages({
     id: 'menu_item_info',
     defaultMessage: 'Info',
     description: 'Show extended topic information'
+  },
+  menu_item_video_call: {
+    id: 'menu_item_video_call',
+    defaultMessage: 'Video call',
+    description: 'Start video call'
+  },
+  cred_confirmed_successfully: {
+    id: 'cred_confirmed_successfully',
+    defaultMessage: 'Confirmed successfully',
+    description: 'Message explaining that the credential was successfully validated.'
   }
 });
 
@@ -86,14 +100,12 @@ class TinodeWeb extends React.Component {
     this.handleConnected = this.handleConnected.bind(this);
     this.handleAutoreconnectIteration = this.handleAutoreconnectIteration.bind(this);
     this.doLogin = this.doLogin.bind(this);
-    this.handleCredentialsRequest = this.handleCredentialsRequest.bind(this);
     this.handleLoginSuccessful = this.handleLoginSuccessful.bind(this);
     this.handleDisconnect = this.handleDisconnect.bind(this);
     this.tnMeMetaDesc = this.tnMeMetaDesc.bind(this);
     this.tnMeContactUpdate = this.tnMeContactUpdate.bind(this);
     this.tnMeSubsUpdated = this.tnMeSubsUpdated.bind(this);
     this.resetContactList = this.resetContactList.bind(this);
-    this.tnData = this.tnData.bind(this);
     this.tnInitFind = this.tnInitFind.bind(this);
     this.tnFndSubsUpdated = this.tnFndSubsUpdated.bind(this);
     this.handleSearchContacts = this.handleSearchContacts.bind(this);
@@ -145,7 +157,24 @@ class TinodeWeb extends React.Component {
     this.handleShowForwardDialog = this.handleShowForwardDialog.bind(this);
     this.handleHideForwardDialog = this.handleHideForwardDialog.bind(this);
 
+    this.handleStartVideoCall = this.handleStartVideoCall.bind(this);
+    this.handleInfoMessage = this.handleInfoMessage.bind(this);
+    this.handleDataMessage = this.handleDataMessage.bind(this);
+    this.handleCallClose = this.handleCallClose.bind(this);
+
+    this.handleCallInvite = this.handleCallInvite.bind(this);
+    this.handleCallRinging = this.handleCallRinging.bind(this);
+    this.handleCallHangup = this.handleCallHangup.bind(this);
+    this.handleCallSendOffer = this.handleCallSendOffer.bind(this);
+    this.handleCallIceCandidate = this.handleCallIceCandidate.bind(this);
+    this.handleCallSendAnswer = this.handleCallSendAnswer.bind(this);
+
+    this.handleCallAcceptCall = this.handleCallAcceptCall.bind(this);
+
     this.sendMessageToTopic = this.sendMessageToTopic.bind(this);
+
+    // FIXME: this is unused.
+    this.callTimeoutTimer = null;
   }
 
   getBlankState() {
@@ -160,6 +189,8 @@ class TinodeWeb extends React.Component {
       autoLogin: false,
       transport: settings.transport || null,
       serverAddress: settings.serverAddress || detectServerAddress(),
+      secureConnection: settings.secureConnection === undefined ?
+        isSecureConnection() : settings.secureConnection,
       serverVersion: "no connection",
       // "On" is the default, so saving the "off" state.
       messageSounds: !settings.messageSoundsOff,
@@ -199,6 +230,13 @@ class TinodeWeb extends React.Component {
       infoPanel: undefined,
       mobilePanel: 'sidepanel',
 
+      // Video calls.
+      callTopic: undefined,
+      callState: CALL_STATE_NONE,
+      // If true, call state should be transitioned to CALL_STATE_IN_PROGRESS upon
+      // switching to the call topic.
+      callShouldStart: false,
+
       contextMenuVisible: false,
       contextMenuBounds: null,
       contextMenuClickAt: null,
@@ -218,8 +256,10 @@ class TinodeWeb extends React.Component {
       searchResults: [],
       // Merged results of a search query and p2p chats.
       searchableContacts: [],
+      // Credential validation.
       credMethod: undefined,
       credCode: undefined,
+      credToken: undefined,
       // Topic to go to after login.
       requestedTopic: undefined
     };
@@ -249,15 +289,17 @@ class TinodeWeb extends React.Component {
     });
 
     new Promise((resolve, reject) => {
-      this.tinode = TinodeWeb.tnSetup(this.state.serverAddress, this.state.transport,
+      this.tinode = TinodeWeb.tnSetup(this.state.serverAddress, isSecureConnection(), this.state.transport,
         this.props.intl.locale, this.state.persist, resolve);
       this.tinode.onConnect = this.handleConnected;
       this.tinode.onDisconnect = this.handleDisconnect;
       this.tinode.onAutoreconnectIteration = this.handleAutoreconnectIteration;
-    }).then(() => {
+      this.tinode.onInfoMessage = this.handleInfoMessage;
+      this.tinode.onDataMessage = this.handleDataMessage;
+    }).then(_ => {
       // Initialize desktop alerts.
       if (this.state.desktopAlertsEnabled) {
-        this.initFCMessaging().then(() => {
+        this.initFCMessaging().then(_ => {
           if (this.state.desktopAlerts) {
             this.tinode.setDeviceToken(this.state.firebaseToken);
           }
@@ -286,17 +328,20 @@ class TinodeWeb extends React.Component {
         });
       }
 
+      this.readTimer = null;
+      this.readTimerCallback = null;
+
       // Maybe navigate to home screen.
       if (!['cred', 'reset', 'register'].includes(parsedNav.path[0])) {
         // Save possible topic name.
         this.setState({requestedTopic: parsedNav.path[1]});
-        HashNavigation.navigateTo('');
+        const path = parsedNav.params && parsedNav.params.cred_done ?
+          HashNavigation.addUrlParam('', 'cred_done', parsedNav.params.cred_done):
+          '';
+        HashNavigation.navigateTo(path);
+      } else {
+        this.handleHashRoute();
       }
-
-      this.readTimer = null;
-      this.readTimerCallback = null;
-
-      this.handleHashRoute();
     });
   }
 
@@ -307,9 +352,9 @@ class TinodeWeb extends React.Component {
   }
 
   // Setup transport (usually websocket) and server address. This will terminate connection with the server.
-  static tnSetup(serverAddress, transport, locale, persistentCache, onSetupCompleted) {
+  static tnSetup(serverAddress, secureConnection, transport, locale, persistentCache, onSetupCompleted) {
     const tinode = new Tinode({appName: APP_NAME, host: serverAddress, apiKey: API_KEY, transport: transport,
-      secure: isSecureConnection(), persist: persistentCache}, onSetupCompleted);
+      secure: secureConnection, persist: persistentCache}, onSetupCompleted);
     tinode.setHumanLanguage(locale);
     tinode.enableLogging(LOGGING_ENABLED, true);
     return tinode;
@@ -427,14 +472,20 @@ class TinodeWeb extends React.Component {
     }
   }
 
-  // Handle for hashchange event: display appropriate panels.
+  // Handle for hash navigation (hashchange) event: update state.
   handleHashRoute() {
     const hash = HashNavigation.parseUrlHash(window.location.hash);
+    // Start with panel parameters.
+    const newState = {
+      infoPanel: hash.params.info,
+      newTopicTabSelected: hash.params.tab
+    };
+
     if (hash.path && hash.path.length > 0) {
       // Left-side panel selector.
       if (['register','settings','edit','notif','security','support','general','crop',
           'cred','reset','newtpk','archive','blocked','contacts',''].includes(hash.path[0])) {
-        this.setState({sidePanelSelected: hash.path[0]});
+        newState.sidePanelSelected = hash.path[0];
       } else {
         console.warn("Unknown sidepanel view", hash.path[0]);
       }
@@ -446,29 +497,34 @@ class TinodeWeb extends React.Component {
           // Clear invalid topic name.
           topicName = null;
         }
-        this.setState({
+        Object.assign(newState, {
           topicSelected: topicName,
           topicSelectedAcs: this.tinode.getTopicAccessMode(topicName)
         });
       }
     } else {
       // Empty hashpath
-      this.setState({sidePanelSelected: '', topicSelected: null});
+      Object.assign(newState, {sidePanelSelected: '', topicSelected: null});
     }
 
-    // Save validation credentials, if available.
+    // Save credential validation parameters, if available.
     if (hash.params.method) {
-      this.setState({ credMethod: hash.params.method });
+      newState.credMethod = hash.params.method;
     }
     if (hash.params.code) {
-      this.setState({ credCode: hash.params.code });
+      newState.credCode = hash.params.code;
+    }
+    if (hash.params.token) {
+      newState.credToken = hash.params.token;
     }
 
-    // Additional parameters of panels.
-    this.setState({
-      infoPanel: hash.params.info,
-      newTopicTabSelected: hash.params.tab
-    });
+    // Show a message if validation was successful.
+    if (hash.params.cred_done) {
+      Object.assign(newState,
+        TinodeWeb.stateForError(this.props.intl.formatMessage(messages.cred_confirmed_successfully), 'info'));
+    }
+
+    this.setState(newState);
   }
 
   handleOnline(online) {
@@ -486,8 +542,18 @@ class TinodeWeb extends React.Component {
     this.setState({applicationVisible: !document.hidden});
   }
 
+  static stateForError(err, level, action, actionText) {
+    return {
+      errorText: err,
+      errorLevel: level,
+      errorAction: action,
+      errorActionText: actionText,
+      callShouldStart: false,
+    };
+  }
+
   handleError(err, level, action, actionText) {
-    this.setState({errorText: err, errorLevel: level, errorAction: action, errorActionText: actionText});
+    this.setState(TinodeWeb.stateForError(err, level, action, actionText));
   }
 
   // User clicked Login button in the side panel.
@@ -502,7 +568,7 @@ class TinodeWeb extends React.Component {
     this.handleError('', null);
 
     if (this.tinode.isConnected()) {
-      this.doLogin(login, password, {meth: this.state.credMethod, resp: this.state.credCode});
+      this.doLogin(login, password, null, {meth: this.state.credMethod, resp: this.state.credCode});
     } else {
       this.tinode.connect().catch((err) => {
         // Socket error
@@ -539,7 +605,8 @@ class TinodeWeb extends React.Component {
     });
 
     if (this.state.autoLogin) {
-      this.doLogin(this.state.login, this.state.password, {meth: this.state.credMethod, resp: this.state.credCode});
+      this.doLogin(this.state.login, this.state.password, null,
+        {meth: this.state.credMethod, resp: this.state.credCode});
     }
   }
 
@@ -597,63 +664,69 @@ class TinodeWeb extends React.Component {
     });
   }
 
-  doLogin(login, password, cred) {
+  doLogin(login, password, tmpToken, cred) {
     if (this.tinode.isAuthenticated()) {
       // Already logged in. Go to default screen.
       HashNavigation.navigateTo('');
       return;
     }
-    // Sanitize and package credentail.
-    cred = Tinode.credential(cred);
-    // Try to login with login/password. If they are not available, try token. If no token, ask for login/password.
-    let promise = null;
-    let token = this.tinode.getAuthToken();
-    if (login && password) {
-      token = null;
-      this.setState({password: null});
-      promise = this.tinode.loginBasic(login, password, cred);
-    } else if (token) {
-      promise = this.tinode.loginToken(token.token, cred);
-    }
 
-    if (promise) {
-      promise.then((ctrl) => {
-        if (ctrl.code >= 300 && ctrl.text === 'validate credentials') {
-          this.setState({loadSpinnerVisible: false});
-          if (cred) {
-            this.handleError(this.props.intl.formatMessage(messages.code_doesnot_match), 'warn');
-          }
-          this.handleCredentialsRequest(ctrl.params);
-        } else {
-          this.handleLoginSuccessful();
-        }
-      }).catch((err) => {
-        // Login failed, report error.
-        this.setState({
-          loginDisabled: false,
-          credMethod: undefined,
-          credCode: undefined,
-          loadSpinnerVisible: false,
-          autoLogin: false
-        });
-        this.handleError(err.message, 'err');
-        if (token) {
-          this.handleLogout();
-        }
-        HashNavigation.navigateTo('');
-      });
-    } else {
+    let token = tmpToken || (this.tinode.getAuthToken() || {}).token;
+    if (!(login && password) && !token) {
       // No login credentials provided.
       // Make sure we are on the login page.
       HashNavigation.navigateTo('');
       this.setState({loginDisabled: false});
+      return;
     }
+
+    // Sanitize and package credentail.
+    cred = Tinode.credential(cred);
+    // May be disconnected.
+    let connectionPromise = this.tinode.isConnected() ? Promise.resolve() : this.tinode.connect();
+    // Try to login with login/password. If they are not available, try token; if no token, ask for login/password.
+    let loginPromise;
+    if (login && password) {
+      token = null;
+      this.setState({password: null});
+      loginPromise = connectionPromise.then(_ => this.tinode.loginBasic(login, password, cred));
+    } else {
+      loginPromise = connectionPromise.then(_ => this.tinode.loginToken(token, cred));
+    }
+
+    loginPromise.then((ctrl) => {
+      if (ctrl.code >= 300 && ctrl.text === 'validate credentials') {
+        this.setState({loadSpinnerVisible: false});
+        if (cred) {
+          this.handleError(this.props.intl.formatMessage(messages.code_doesnot_match), 'warn');
+        }
+        TinodeWeb.navigateToCredentialsView(ctrl.params);
+      } else {
+        this.handleLoginSuccessful();
+      }
+    }).catch((err) => {
+      // Connection or login failed, report error.
+      this.setState({
+        loginDisabled: false,
+        credMethod: undefined,
+        credCode: undefined,
+        loadSpinnerVisible: false,
+        autoLogin: false
+      });
+      this.handleError(err.message, 'err');
+      console.warn("Login failed", err);
+      if (token) {
+        this.handleLogout();
+      }
+      HashNavigation.navigateTo('');
+    });
   }
 
-  handleCredentialsRequest(params) {
+  static navigateToCredentialsView(params) {
     const parsed = HashNavigation.parseUrlHash(window.location.hash);
     parsed.path[0] = 'cred';
     parsed.params['method'] = params.cred[0];
+    parsed.params['token'] = params.token;
     HashNavigation.navigateTo(HashNavigation.composeUrlHash(parsed.path, parsed.params));
   }
 
@@ -675,6 +748,7 @@ class TinodeWeb extends React.Component {
       connected: true,
       credMethod: undefined,
       credCode: undefined,
+      credToken: undefined,
       myUserId: this.tinode.getCurrentUserID(),
       autoLogin: true,
       requestedTopic: undefined,
@@ -747,7 +821,9 @@ class TinodeWeb extends React.Component {
       if (cont.unread > 0 && this.state.messageSounds && !archived) {
         // Skip update if the topic is currently open, otherwise the badge will annoyingly flash.
         if (document.hidden || this.state.topicSelected != cont.topic) {
-          POP_SOUND.play();
+          POP_SOUND.play().catch(_ => {
+            // play() throws if the user did not click the app first: https://goo.gl/xX8pDD.
+          });
         }
       }
       // Reorder contact list to use possibly updated 'touched'.
@@ -844,18 +920,6 @@ class TinodeWeb extends React.Component {
     this.setState(newState);
   }
 
-  // Sending "received" notifications
-  tnData(data) {
-    const topic = this.tinode.getTopic(data.topic);
-    if (topic.msgStatus(data, true) >= Tinode.MESSAGE_STATUS_SENT && data.from != this.state.myUserId) {
-      clearTimeout(this.receivedTimer);
-      this.receivedTimer = setTimeout(() => {
-        this.receivedTimer = undefined;
-        topic.noteRecv(data.seq);
-      }, RECEIVED_DELAY);
-    }
-  }
-
   /* Fnd topic: find contacts by tokens */
   tnInitFind() {
     const fnd = this.tinode.getFndTopic();
@@ -950,7 +1014,8 @@ class TinodeWeb extends React.Component {
   //  - head - head dictionary to be attached to the message
   handleSendMessage(msg, uploadCompletionPromise, uploader, head) {
     const topic = this.tinode.getTopic(this.state.topicSelected);
-    this.sendMessageToTopic(topic, msg, uploadCompletionPromise, uploader, head);
+    /* TODO: check if return is required */
+    return this.sendMessageToTopic(topic, msg, uploadCompletionPromise, uploader, head);
   }
 
   sendMessageToTopic(topic, msg, uploadCompletionPromise, uploader, head) {
@@ -972,24 +1037,36 @@ class TinodeWeb extends React.Component {
       const subscribePromise =
         topic.subscribe()
           .then(() => {
-            // If there are unsent messages, try sending them now.
+            // If there are unsent messages (except video call messages),
+            // try sending them now. Unsent video call messages will be dropped.
+            let calls = [];
             topic.queuedMessages(pub => {
               if (pub._sending || pub.seq == msg.seq) {
+                return;
+              }
+              if (pub.head && pub.head.webrtc) {
+                // Filter out unsent video call messages.
+                calls.push(pub.seq);
                 return;
               }
               if (topic.isSubscribed()) {
                 topic.publishMessage(pub);
               }
             });
+            if (calls.length > 0) {
+              topic.delMessagesList(calls, true);
+            }
           });
       completion.push(subscribePromise);
     }
 
-    topic.publishDraft(msg, Promise.all(completion))
-      .then(_ => {
+    // TODO: check if return is required.
+    return topic.publishDraft(msg, Promise.all(completion))
+      .then((ctrl) => {
         if (topic.isArchived()) {
           topic.archive(false);
         }
+        return ctrl;
       })
       .catch((err) => {
         this.handleError(err.message, 'err');
@@ -1048,16 +1125,20 @@ class TinodeWeb extends React.Component {
     this.handleError();
 
     this.tinode.connect(this.state.serverAddress)
-      .then(() => {
+      .then(_ => {
+        let attachments;
+        if (public_ && public_.photo && public_.photo.ref) {
+          attachments = [public_.photo.ref];
+        }
         return this.tinode.createAccountBasic(login_, password_,
-          {public: public_, tags: tags_, cred: Tinode.credential(cred_)});
-      }).then((ctrl) => {
+          {public: public_, tags: tags_, cred: Tinode.credential(cred_), attachments: attachments});
+      }).then(ctrl => {
         if (ctrl.code >= 300 && ctrl.text == 'validate credentials') {
-          this.handleCredentialsRequest(ctrl.params);
+          TinodeWeb.navigateToCredentialsView(ctrl.params);
         } else {
           this.handleLoginSuccessful(this);
         }
-      }).catch((err) => {
+      }).catch(err => {
         this.handleError(err.message, 'err');
       });
   }
@@ -1094,24 +1175,30 @@ class TinodeWeb extends React.Component {
   handleGlobalSettings(settings) {
     const serverAddress = settings.serverAddress || this.state.serverAddress;
     const transport = settings.transport || this.state.transport;
+    const secureConnection = settings.secureConnection === undefined ?
+      this.state.secureConnection : settings.secureConnection;
     if (this.tinode) {
       this.tinode.clearStorage();
       this.tinode.onDisconnect = undefined;
       this.tinode.disconnect();
     }
-    this.tinode = TinodeWeb.tnSetup(serverAddress, transport, this.props.intl.locale,
-      LocalStorageUtil.getObject('keep-logged-in'));
+    this.tinode = TinodeWeb.tnSetup(serverAddress, secureConnection, transport,
+      this.props.intl.locale, LocalStorageUtil.getObject('keep-logged-in'));
     this.tinode.onConnect = this.handleConnected;
     this.tinode.onDisconnect = this.handleDisconnect;
     this.tinode.onAutoreconnectIteration = this.handleAutoreconnectIteration;
+    this.tinode.onInfoMessage = this.handleInfoMessage;
+    this.tinode.onDataMessage = this.handleDataMessage;
 
     this.setState({
       serverAddress: serverAddress,
-      transport: transport
+      transport: transport,
+      secureConnection: secureConnection,
     });
     LocalStorageUtil.setObject('settings', {
       serverAddress: serverAddress,
-      transport: transport
+      transport: transport,
+      secureConnection: secureConnection,
     });
 
     HashNavigation.navigateTo(HashNavigation.setUrlSidePanel(window.location.hash, ''));
@@ -1178,7 +1265,7 @@ class TinodeWeb extends React.Component {
   }
 
   handleCredConfirm(method, response) {
-    this.handleCredentialsRequest({cred: [method]});
+    TinodeWeb.navigateToCredentialsView({cred: [method]});
   }
 
   // User clicked Cancel button in Setting or Sign Up panel.
@@ -1243,14 +1330,19 @@ class TinodeWeb extends React.Component {
 
   // New topic was created, here is the new topic name.
   handleNewTopicCreated(oldName, newName) {
+    let nextState = {};
+    if (this.state.callShouldStart) {
+      nextState = {callState: CALL_STATE_IN_PROGRESS, callShouldStart: false};
+    }
     if (this.state.topicSelected == oldName && oldName != newName) {
       // If the current URl contains the old topic name, replace it with new.
       // Update the name of the selected topic first so the navigator doen't clear
       // the state.
-      this.setState({topicSelected: newName}, () => {
-        HashNavigation.navigateTo(HashNavigation.setUrlTopic('', newName));
-      });
+      nextState.topicSelected = newName;
     }
+    this.setState(nextState, _ => {
+      HashNavigation.navigateTo(HashNavigation.setUrlTopic('', newName));
+    });
   }
 
   handleTopicUpdateRequest(topicName, pub, priv, defacs) {
@@ -1353,18 +1445,20 @@ class TinodeWeb extends React.Component {
     this.setState(this.getBlankState());
 
     cleared.then(() => {
-      this.tinode = TinodeWeb.tnSetup(this.state.serverAddress,
+      this.tinode = TinodeWeb.tnSetup(this.state.serverAddress, isSecureConnection(),
         this.state.transport, this.props.intl.locale, LocalStorageUtil.getObject('keep-logged-in'), () => {
           this.tinode.onConnect = this.handleConnected;
           this.tinode.onDisconnect = this.handleDisconnect;
           this.tinode.onAutoreconnectIteration = this.handleAutoreconnectIteration;
+          this.tinode.onInfoMessage = this.handleInfoMessage;
+          this.tinode.onDataMessage = this.handleDataMessage;
           HashNavigation.navigateTo('');
         })
     });
   }
 
   handleDeleteAccount() {
-    this.tinode.delCurrentUser(true).then((ctrl) => {
+    this.tinode.delCurrentUser(true).then(_ => {
       this.handleLogout();
     });
   }
@@ -1482,7 +1576,8 @@ class TinodeWeb extends React.Component {
       ];
     }
 
-    let muted = false, blocked = false, self_blocked = false, subscribed = false, deleter = false, archived = false;
+    let muted = false, blocked = false, self_blocked = false, subscribed = false, deleter = false,
+      archived = false, webrtc = false;
     if (topic) {
       subscribed = topic.isSubscribed();
       archived = topic.isArchived();
@@ -1496,10 +1591,16 @@ class TinodeWeb extends React.Component {
       }
     }
 
+    webrtc = !!this.tinode.getServerParam('iceServers');
+
     return [
       subscribed ? {
         title: this.props.intl.formatMessage(messages.menu_item_info),
         handler: this.handleShowInfoView
+      } : null,
+      subscribed && Tinode.isP2PTopicName(topicName) && webrtc ? {
+        title: this.props.intl.formatMessage(messages.menu_item_video_call),
+        handler: this.handleStartVideoCall
       } : null,
       subscribed ? 'messages_clear' : null,
       subscribed && deleter ? 'messages_clear_hard' : null,
@@ -1584,19 +1685,17 @@ class TinodeWeb extends React.Component {
     }
   }
 
-  handleValidateCredentialsRequest(cred, code) {
+  handleValidateCredentialsRequest(cred, code, token) {
     if (this.tinode.isAuthenticated()) {
-      const me = this.tinode.getMeTopic();
-      me.setMeta({cred: {meth: cred, resp: code}})
-        .then(() => {
-          HashNavigation.navigateTo('');
-        })
+      // Adding new email or phone number in account setting.
+      this.tinode.getMeTopic().setMeta({cred: {meth: cred, resp: code}})
         .catch((err) => {
           this.handleError(err.message, 'err');
         });
     } else {
-      this.setState({credMethod: cred, credCode: code});
-      this.doLogin(null, null, {meth: cred, resp: code});
+      // Credential validation on signup.
+      this.setState({credMethod: cred, credCode: code, credToken: token});
+      this.doLogin(null, null, token, {meth: cred, resp: code});
     }
   }
 
@@ -1628,6 +1727,168 @@ class TinodeWeb extends React.Component {
           // Socket error
           this.handleError(err.message, 'err');
         });
+    }
+  }
+
+  handleStartVideoCall() {
+    this.setState({
+      callTopic: this.state.topicSelected,
+      callState: CALL_STATE_OUTGOING_INITATED
+    });
+  }
+
+  handleCallInvite(callTopic, callSeq, callState) {
+    switch (callState) {
+      case CALL_STATE_OUTGOING_INITATED:
+        let head = { webrtc: CALL_HEAD_STARTED };
+        this.handleSendMessage(Drafty.videoCall(), undefined, undefined, head)
+          .then((ctrl) => {
+            if (ctrl.code < 200 || ctrl.code >= 300 || !ctrl.params || !ctrl.params.seq) {
+              this.handleCallClose();
+              return;
+            }
+            this.setState({callSeq: ctrl.params['seq']});
+          });
+        break;
+      case CALL_STATE_IN_PROGRESS:
+        const topic = this.tinode.getTopic(callTopic);
+        if (!topic) {
+          return;
+        }
+        // We've accepted the call. Let the other side know.
+        topic.videoCall('accept', callSeq);
+        break;
+    }
+  }
+
+  handleCallRinging(callTopic, callSeq) {
+    const topic = this.tinode.getTopic(callTopic);
+    if (!topic) {
+      return;
+    }
+
+    topic.videoCall('ringing', callSeq);
+  }
+
+  handleCallHangup(callTopic, callSeq) {
+    const topic = this.tinode.getTopic(callTopic);
+    if (!topic) {
+      return;
+    }
+
+    topic.videoCall('hang-up', callSeq);
+  }
+
+  handleCallSendOffer(callTopic, callSeq, sdp) {
+    const topic = this.tinode.getTopic(callTopic);
+    if (!topic) {
+      return;
+    }
+
+    topic.videoCall('offer', callSeq, sdp);
+  }
+
+  handleCallIceCandidate(callTopic, callSeq, candidate) {
+    const topic = this.tinode.getTopic(callTopic);
+    if (!topic) {
+      return;
+    }
+
+    topic.videoCall('ice-candidate', callSeq, candidate);
+  }
+  handleCallSendAnswer(callTopic, callSeq, sdp) {
+    const topic = this.tinode.getTopic(callTopic);
+    if (!topic) {
+      return;
+    }
+
+    topic.videoCall('answer', callSeq, sdp);
+  }
+
+  handleCallClose() {
+    if (this.callTimeoutTimer) {
+      clearTimeout(this.callTimeoutTimer);
+    }
+    this.setState({
+      callTopic: undefined,
+      callState: CALL_STATE_NONE
+    });
+  }
+
+  handleCallAcceptCall(topicName) {
+    const topic = this.tinode.getTopic(topicName);
+    if (!topic) {
+      return;
+    }
+    if (topic.isSubscribed()) {
+      this.handleTopicSelected(this.state.callTopic);
+      this.setState({
+        callState: CALL_STATE_IN_PROGRESS
+      });
+    } else {
+      // We need to switch and subscribe to callTopic first.
+      this.setState({
+        callShouldStart: true,
+      }, () => this.handleTopicSelected(this.state.callTopic));
+    }
+  }
+
+  handleInfoMessage(info) {
+    if (info.what != 'call') {
+      return;
+    }
+    switch (info.event) {
+      case 'accept':
+        // If another my session has accepted the call.
+        if (Tinode.isMeTopicName(info.topic) && this.tinode.isMe(info.from)) {
+          this.setState({
+            callTopic: null,
+            callState: CALL_STATE_NONE,
+            callSeq: null
+          });
+          return;
+        }
+        if (info.topic == this.state.callTopic) {
+          // Update state.
+          this.setState({callState: CALL_STATE_IN_PROGRESS});
+        }
+        break;
+      case 'hang-up':
+        // Remote hangup.
+        this.handleCallClose();
+        break;
+    }
+  }
+
+  handleDataMessage(data) {
+    if (data.head && data.head.webrtc && data.head.webrtc == CALL_HEAD_STARTED) {
+      // If it's a video call invite message.
+      // See if we need to display incoming call UI.
+      const topic = this.tinode.getTopic(data.topic);
+      if (topic) {
+        // Check if a later version of the message exists (which means the call
+        // has been either accepted or finished already).
+        const msg = topic.latestMsgVersion(data.seq) || data;
+        if (msg.head && msg.head.webrtc && msg.head.webrtc == CALL_HEAD_STARTED) {
+          // This is a legit new call.
+          if (data.from != this.state.myUserId) {
+            if (this.state.callState == CALL_STATE_NONE) {
+              // Incoming call.
+              this.setState({
+                callTopic: data.topic,
+                callState: CALL_STATE_INCOMING_RECEIVED,
+                callSeq: data.seq
+              });
+            } else {
+              // Another call is either in progress or being established.
+              // Reject the incoming call.
+              this.handleCallHangup(data.topic, data.seq);
+            }
+          }
+        }
+      } else {
+        console.warn("Received vc data message from unknown topic", data.topic);
+      }
     }
   }
 
@@ -1669,6 +1930,20 @@ class TinodeWeb extends React.Component {
           :
           null
         }
+        {this.state.callTopic && this.state.callState == CALL_STATE_INCOMING_RECEIVED ?
+          <CallIncoming
+            tinode={this.tinode}
+            onClose={this.handleCallClose}
+            topic={this.state.callTopic}
+            seq={this.state.callSeq}
+            callState={this.state.callState}
+            onRinging={this.handleCallRinging}
+            onAcceptCall={this.handleCallAcceptCall}
+            onReject={this.handleCallHangup}
+            />
+          :
+          null
+        }
         <Alert
           visible={this.state.alertVisible}
           title={this.state.alertParams.title}
@@ -1702,6 +1977,7 @@ class TinodeWeb extends React.Component {
           chatList={this.state.chatList}
           credMethod={this.state.credMethod}
           credCode={this.state.credCode}
+          credToken={this.state.credToken}
 
           transport={this.state.transport}
           messageSounds={this.state.messageSounds}
@@ -1709,6 +1985,7 @@ class TinodeWeb extends React.Component {
           desktopAlertsEnabled={this.state.desktopAlertsEnabled}
           incognitoMode={this.state.incognitoMode}
           serverAddress={this.state.serverAddress}
+          secureConnection={this.state.secureConnection}
           serverVersion={this.state.serverVersion}
 
           onGlobalSettings={this.handleGlobalSettings}
@@ -1768,6 +2045,16 @@ class TinodeWeb extends React.Component {
           forwardMessage={this.state.forwardMessage}
           onCancelForwardMessage={this.handleHideForwardDialog}
 
+          callTopic={this.state.callTopic}
+          callSeq={this.state.callSeq}
+          callState={this.state.callState}
+          onCallHangup={this.handleCallHangup}
+
+          onCallInvite={this.handleCallInvite}
+          onCallSendOffer={this.handleCallSendOffer}
+          onCallIceCandidate={this.handleCallIceCandidate}
+          onCallSendAnswer={this.handleCallSendAnswer}
+
           errorText={this.state.errorText}
           errorLevel={this.state.errorLevel}
           errorAction={this.state.errorAction}
@@ -1776,13 +2063,13 @@ class TinodeWeb extends React.Component {
           newTopicParams={this.state.newTopicParams}
 
           onHideMessagesView={this.handleHideMessagesView}
-          onData={this.tnData}
           onError={this.handleError}
           onNewTopicCreated={this.handleNewTopicCreated}
           showContextMenu={this.handleShowContextMenu}
           onChangePermissions={this.handleChangePermissions}
           onNewChat={this.handleNewChatInvitation}
-          sendMessage={this.handleSendMessage} />
+          sendMessage={this.handleSendMessage}
+          onVideoCallClosed={this.handleCallClose} />
 
         {this.state.infoPanel ?
           <InfoView

@@ -74,7 +74,7 @@ class Contact extends React.Component {
       preview = this.props.preview;
     } else if (Drafty.isValid(this.props.preview)) {
       preview = React.createElement(React.Fragment, null, Drafty.format(this.props.preview, previewFormatter,
-        {formatMessage: this.props.intl.formatMessage}));
+        {formatMessage: this.props.intl.formatMessage, previewIsResponse: this.props.previewIsResponse}));
     } else if (this.props.preview) {
       preview =
         <><i className="material-icons gray">warning_amber</i> <i className="gray">

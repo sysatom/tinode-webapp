@@ -92,7 +92,7 @@ const messages = defineMessages({
   }
 });
 
-class SidepanelView extends React.Component {
+class SidepanelView extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -165,6 +165,7 @@ class SidepanelView extends React.Component {
           <SettingsView
             transport={this.props.transport}
             serverAddress={this.props.serverAddress}
+            secureConnection={this.props.secureConnection}
             onCancel={this.props.onCancel}
             onUpdate={this.props.onGlobalSettings} /> :
 
@@ -238,9 +239,9 @@ class SidepanelView extends React.Component {
           <ValidationView
             credCode={this.props.credCode}
             credMethod={this.props.credMethod}
+            credToken={this.props.credToken}
             onSubmit={this.props.onValidateCredentials}
-            onCancel={this.props.onCancel}
-            onError={this.props.onError} /> :
+            onCancel={this.props.onCancel} /> :
 
           view === 'reset' ?
           <PasswordResetView

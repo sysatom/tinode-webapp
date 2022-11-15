@@ -25,6 +25,16 @@ This is _NOT_ a standalone app, this is just a frontend, a client. It requires a
 * For bugs and feature requests [open an issue](https://github.com/tinode/webchat/issues/new).
 * Use https://tinode.co/contact for commercial inquiries.
 
+## Helping out
+
+* If you appreciate our work, please help spread the word! Sharing on Reddit, HN, and other communities helps more than you think.
+* Consider buying paid support: https://tinode.co/support.html
+* If you are a software developer, send us your pull requests with bug fixes and new features.
+* If you use the app and discover bugs or missing features, let us know by filing bug reports and feature requests. Vote for existing [feature requests](https://github.com/tinode/chat/issues?q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3A%22feature+request%22) you find most valuable.
+* If you speak a language other than English, [translate](https://github.com/tinode/chat/blob/devel/docs/translations.md#webapp) the apps into your language. You may also review and improve existing translations.
+* If you are a UI/UX expert, help us polish the app UI.
+* Use it: install it for your colleagues or friends at work or at home.
+
 ## Internationalization
 
 The app is fully internationalized using [React-Intl](https://github.com/formatjs/react-intl). The UI language is selected automatically from the language specified by the browser. A specific language can be forced by adding `#?hl=XX` parameter to the URL when starting the app, e.g. https://web.tinode.co/#?hl=ru.
@@ -45,7 +55,6 @@ More translations are welcome. See [instructions](https://github.com/tinode/chat
 
 ## Not done yet
 
-* Video or audio calling.
 * End-to-End encryption.
 * Emoji support is weak.
 * Mentions, hashtags.
@@ -69,5 +78,5 @@ More translations are welcome. See [instructions](https://github.com/tinode/chat
 ### Mobile screenshots
 
 <p align="center">
-  <kbd><img src="web-mob-contacts.png" alt="Mobile web: contacts" width=250 /></kbd> <kbd><img src="web-mob-chat.png" alt="Mobile web: chat" width=250 /></kbd> <kbd><img src="web-mob-info.png" alt="Mobile web: topic info" width=250 /></kbd> <kbd><img src="web-mob-forward.png" alt="Mobile web: forward message" width=250 /></kbd> <kbd><img src="web-mob-acc-settings.png" alt="Mobile web: account settings" width=250 /></kbd> <kbd><img src="web-mob-avatar.png" alt="Mobile web: change avatar" width=250 /></kbd>
+  <kbd><img src="web-mob-contacts.png" alt="Mobile web: contacts" width=250 /></kbd> <kbd><img src="web-mob-chat.png" alt="Mobile web: chat" width=250 /></kbd> <kbd><img src="web-mob-info.png" alt="Mobile web: topic info" width=250 /></kbd> <kbd><img src="web-mob-forward.png" alt="Mobile web: forward message" width=250 /></kbd> <kbd><img src="web-mob-video-call.png" alt="Mobile web: video call" width=250 /></kbd> <kbd><img src="web-mob-avatar.png" alt="Mobile web: change avatar" width=250 /></kbd>
 </p>

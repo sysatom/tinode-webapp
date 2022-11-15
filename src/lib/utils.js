@@ -205,3 +205,8 @@ export function cancelablePromise(promise) {
     },
   };
 };
+
+// Clips string to the specified length.
+export function clipStr(str, length) {
+  return str && str.substring(0, length);
+}

@@ -20,7 +20,6 @@ html, body {
 
 tt {
   font-family: 'Roboto Mono', Courier, monospace;
-  white-space: nowrap;
 }
 
 a {
@@ -154,6 +153,22 @@ button.outline:focus, button.outline:hover, button.outline:active {
   background-color: #e8eaf6; /* indigo 50 */
 }
 
+button.danger {
+  background-color: #ec6560;
+  color: white;
+}
+button.danger:focus, button.danger:hover, button.danger:active {
+  background-color: #f77;
+}
+
+button.positive {
+  background-color: #71c46f;
+  color: white;
+}
+button.positive:focus, button.positive:hover, button.positive:active {
+  background-color: rgb(127, 237, 127);
+}
+
 textarea, input {
   font-family: inherit;
   font-size: 1.1rem;
@@ -268,6 +283,7 @@ ul.menu {
 
 ul.menu > li {
   padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+  cursor: pointer;
 }
 
 ul.menu > li:hover {
@@ -447,6 +463,8 @@ div.trusted-badge {
   touch-action: manipulation;
   white-space: nowrap;
   text-transform: uppercase;
+  background-color: white;
+  z-index: 1;
 }
 .flat-button:hover,
 .flat-button:focus {
@@ -517,7 +535,7 @@ div.trusted-badge {
 #mountPoint {
   height: 100%;
   padding-top: 1rem;
-  padding-bottom: 3rem;
+  padding-bottom: 1rem;
 }
 
 /* Top-level application layout style: sidepanel + main view */
@@ -823,7 +841,7 @@ table.permission-editor td.checkbox {
 }
 
 input#host-name {
-  width: 15rem;
+  width: 100%;
 }
 
 /* Input with a search icon on the left */
@@ -1566,6 +1584,193 @@ img.channel {
   font-size: 6rem;
 }
 
+/* Video-call related styles */
+
+#video-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.90);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.2rem;
+  z-index: 1;
+  background-color: #eceff1;
+  box-shadow: 0px -2px 3px -1px rgba(0,0,0,0.1); /* Faint shadow above panel */
+}
+
+#video-container-panel {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.call-party {
+  background-color: #eee;
+  border-radius: 0.5rem;
+  border: 2px solid #ccc;
+  overflow: hidden;
+}
+
+.call-party:hover {
+  border: 2px solid #2196f3;
+}
+
+.call-party.peer {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+}
+
+.call-party.self {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  width: 10rem;
+  height: 10rem;
+  z-index: 2;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.call-party.self video {
+  transform: scaleX(-1);
+}
+
+.caller-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.caller-card .avatar-box {
+  width: 10rem;
+  height: 10rem;
+  font-size: 6rem;
+}
+
+.caller-card.pulse img.avatar,
+.caller-card.pulse .lettertile {
+  animation: active-call 1.5s linear infinite;
+}
+
+.caller-card .avatar-box .material-icons {
+  font-size: 6rem;
+  line-height: 1.6;
+}
+
+/* Badge with "You" for current user or peer's name. */
+.call-party .caller-name {
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.35rem;
+  z-index: 1;
+  text-shadow: 0 0 1px white;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.call-party.self .caller-name.inactive {
+  position: absolute;
+  bottom: 0.25rem;
+  right: 0.25rem;
+}
+
+.caller-card .caller-name {
+  font-size: larger;
+  margin-top: 0.5rem;
+}
+
+.caller-card .trusted-badge {
+  display: inline-block;
+}
+
+.call-party.peer .caller-name.inactive {
+  position: absolute;
+  font-size: larger;
+  left: 50%;
+  bottom: 0.5rem;
+  transform: translateX(-50%);
+  margin: 0 auto;
+}
+
+.incoming-call {
+  position: relative;
+  background-color: white;
+  box-shadow: 0.15rem 0.15rem 1.5rem rgb(0 0 0 / 45%);
+  border-radius: 0.3rem;
+  margin: auto 2rem auto 2rem;
+  width: fit-content;
+  min-width: 16rem;
+  max-width: 24rem;
+}
+
+.incoming-call .caller-card {
+  position: relative;
+  top: initial;
+  left: initial;
+  width: 100%;
+  height: 100%;
+  padding: 5rem 3.5rem 2rem 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.incoming-call .caller-name {
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.35rem;
+  z-index: 1;
+  text-shadow: 0 0 1px white;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.call-message {
+  display: flex;
+  flex-direction: row;
+}
+
+.call-message .duration {
+  font-weight: lighter;
+}
+
+
+@keyframes active-call {
+  0% {
+    box-shadow:
+      0 0 0 0.1rem rgba(33, 150, 243, 0.3),
+      0 0 0 0.3rem rgba(33, 150, 243, 0.3),
+      0 0 0 0.5rem rgba(33, 150, 243, 0.3);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0.4rem rgba(33, 150, 243, 0.3),
+      0 0 0 2rem rgba(33, 150, 243, 0),
+      0 0 0 3rem rgba(33, 150, 243, 0);
+  }
+}
+
 /* Talk bubbles */
 .chat-box {
   list-style: none;
@@ -2258,11 +2463,25 @@ ul.tabbar li.active > a {
 .material-icons.small {
   font-size: 1rem;
 }
+.material-icons.medium {
+  font-size: 1.2rem;
+}
 .material-icons.big {
-  font-size: 2.4rem;
+  font-size: 2.2rem;
 }
 .material-icons.huge {
   font-size: 4rem;
+}
+.composed-material {
+  display: inline-block;
+  position: relative;
+}
+.composed-material i:nth-child(2) {
+  position: absolute;
+  font-size: 85%;
+  top: 7%;
+  left: 39%;
+  font-weight: bold;
 }
 
 #self-avatar .material-icons {
@@ -2702,6 +2921,15 @@ ul.tabbar li.active > a {
 .audio-player .timer {
   font-size: smaller;
   color: #666C;
+}
+
+/*
+ Very wide monitor.
+ */
+@media (min-width: 1440px){
+  #app-container {
+    max-width: 114rem;
+  }
 }
 
 /*

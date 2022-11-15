@@ -1367,5 +1367,89 @@
     "description": "Unsupported entity in drafty",
     "missing": false,
     "obsolete": false
+  },
+  "calls_incoming": {
+    "translation": "수신 전화",
+    "defaultMessage": "Incoming call",
+    "description": "Incoming call label",
+    "missing": false,
+    "obsolete": false
+  },
+  "calls_outgoing": {
+    "translation": "발신 전화",
+    "defaultMessage": "Outgoing call",
+    "description": "Outgoing call label",
+    "missing": false,
+    "obsolete": false
+  },
+  "calls_you_label": {
+    "translation": "너",
+    "defaultMessage": "You",
+    "description": "Shown over the local video screen",
+    "missing": false,
+    "obsolete": false
+  },
+  "menu_item_video_call": {
+    "translation": "영상 통화",
+    "defaultMessage": "Video call",
+    "description": "Start video call",
+    "missing": false,
+    "obsolete": false
+  },
+  "already_in_call": {
+    "translation": "당신은 이미 말하고 있습니다!",
+    "defaultMessage": "You already in an ongoing call!",
+    "description": "Error message when the user tried to accept a new call without finishing pervious one",
+    "missing": false,
+    "obsolete": false
+  },
+  "call_cancelled": {
+    "translation": "취소 된",
+    "defaultMessage": "cancelled",
+    "description": "Label for cancelled outgoing call",
+    "missing": false,
+    "obsolete": false
+  },
+  "call_missed": {
+    "translation": "부재중",
+    "defaultMessage": "missed",
+    "description": "Label for missed incoming call",
+    "missing": false,
+    "obsolete": false
+  },
+  "call_declined": {
+    "translation": "통화 거부",
+    "defaultMessage": "declined",
+    "description": "Label for declined call",
+    "missing": false,
+    "obsolete": false
+  },
+  "call_disconnected": {
+    "translation": "연결 끊김",
+    "defaultMessage": "disconnected",
+    "description": "Label for disconnected call",
+    "missing": false,
+    "obsolete": false
+  },
+  "label_use_secure_connection": {
+    "translation": "보안 연결 사용",
+    "defaultMessage": "Use secure connection",
+    "description": "Label for WS/WSS connection type in SettingsView",
+    "missing": false,
+    "obsolete": false
+  },
+  "phone_or_email_prompt": {
+    "translation": "전화번호 또는 이메일",
+    "defaultMessage": "Phone number or email",
+    "description": "Placeholer for phone or email",
+    "missing": false,
+    "obsolete": false
+  },
+  "cred_confirmed_successfully": {
+    "translation": "성공적으로 확인됨",
+    "defaultMessage": "Confirmed successfully",
+    "description": "Message explaining that the credential was successfully validated.",
+    "missing": false,
+    "obsolete": false
   }
 }

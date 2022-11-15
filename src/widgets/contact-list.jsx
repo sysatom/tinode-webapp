@@ -77,12 +77,14 @@ class ContactList extends React.Component {
             c.private.join(',') : (c.private ? c.private.comment : null);
           let preview;
           let forwarded;
+          let previewIsResponse;
           let deliveryStatus;
           if (!this.props.showMode && c.latestMessage) {
             const msg = c.latestMessage(true);
             if (msg) {
               forwarded = msg.head ? msg.head.forwarded : null;
               deliveryStatus = msg._status || c.msgStatus(msg, true);
+              previewIsResponse = msg.from != this.props.myUserId;
               if (msg.content) {
                 preview = typeof msg.content == 'string' ?
                   msg.content.substr(0, MESSAGE_PREVIEW_LENGTH) :
@@ -98,6 +100,7 @@ class ContactList extends React.Component {
               avatar={makeImageUrl(c.public ? c.public.photo : null)}
               comment={comment}
               preview={preview}
+              previewIsResponse={previewIsResponse}
               forwarded={forwarded}
               received={deliveryStatus}
               unread={this.props.showUnread ? c.unread : 0}
