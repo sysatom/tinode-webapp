@@ -25,3 +25,17 @@ jobs:
           cache: 'npm'
       - run: npm install
       - run: npm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: tinode-webapp
+          path: |
+            audio/
+            css/
+            img/
+            umd/
+            firebase-init.js
+            index.html
+            index-dev.html
+            manifest.json
+            service-worker.js
+            version.js
