@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/@firebase/util/dist/index.esm2017.js":
@@ -7,7 +8,6 @@
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CONSTANTS": () => (/* binding */ CONSTANTS),
@@ -2153,7 +2153,6 @@ function getModularInstance(service) {
   \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "API_KEY": () => (/* binding */ API_KEY),
@@ -2196,72 +2195,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./version.js */ "./src/version.js");
 
-
 const APP_NAME = 'TinodeWeb/' + (_version_js__WEBPACK_IMPORTED_MODULE_0__.PACKAGE_VERSION || '0.17');
-
 const API_KEY = 'AQEAAAABAAD_rAp4DJh05a1HAwFT3A6K';
-
 const KNOWN_HOSTS = {
   hosted: 'web.tinode.co',
   local: 'localhost:6060'
 };
-
 const DEFAULT_HOST = KNOWN_HOSTS.hosted;
-
 const LOGGING_ENABLED = true;
-
 const KEYPRESS_DELAY = 3_000;
 const READ_DELAY = 1_500;
-
 const MIN_TAG_LENGTH = 2;
 const MAX_TAG_LENGTH = 96;
 const MAX_TAG_COUNT = 16;
-
 const DEFAULT_P2P_ACCESS_MODE = 'JRWPS';
 const NEW_GRP_ACCESS_MODE = 'JRWPSAO';
 const CHANNEL_ACCESS_MODE = 'JR';
-
 const NO_ACCESS_MODE = 'N';
-
 const MEDIA_BREAKPOINT = 640;
 const REM_SIZE = 13;
-
 const AVATAR_SIZE = 384;
-
 const MAX_AVATAR_BYTES = 4096;
-
 const BROKEN_IMAGE_SIZE = 32;
-
 const MESSAGES_PAGE = 24;
-
 const MAX_INBAND_ATTACHMENT_SIZE = 262_144;
-
 const MAX_EXTERN_ATTACHMENT_SIZE = 1 << 23;
-
 const MAX_IMAGE_DIM = 1024;
-
 const IMAGE_PREVIEW_DIM = 64;
-
 const IMAGE_THUMBNAIL_DIM = 36;
-
 const MAX_ONLINE_IN_TOPIC = 4;
-
 const MAX_TITLE_LENGTH = 60;
 const MAX_TOPIC_DESCRIPTION_LENGTH = 360;
 const MAX_PEER_TITLE_LENGTH = 20;
-
 const MESSAGE_PREVIEW_LENGTH = 80;
-
 const QUOTED_REPLY_LENGTH = 30;
 const FORWARDED_PREVIEW_LENGTH = 84;
-
 const MIN_DURATION = 2_000;
 const MAX_DURATION = 600_000;
-
 const LINK_CONTACT_US = 'mailto:support@tinode.co';
-
 const LINK_PRIVACY_POLICY = 'https://tinode.co/privacy.html';
-
 const LINK_TERMS_OF_SERVICE = 'https://tinode.co/terms.html';
 
 /***/ }),
@@ -2272,7 +2244,6 @@ const LINK_TERMS_OF_SERVICE = 'https://tinode.co/terms.html';
   \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CALL_HEAD_STARTED": () => (/* binding */ CALL_HEAD_STARTED),
@@ -2281,12 +2252,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "CALL_STATE_NONE": () => (/* binding */ CALL_STATE_NONE),
 /* harmony export */   "CALL_STATE_OUTGOING_INITATED": () => (/* binding */ CALL_STATE_OUTGOING_INITATED)
 /* harmony export */ });
-
 const CALL_STATE_NONE = 0;
 const CALL_STATE_OUTGOING_INITATED = 1;
 const CALL_STATE_INCOMING_RECEIVED = 2;
 const CALL_STATE_IN_PROGRESS = 3;
-
 const CALL_HEAD_STARTED = 'started';
 
 /***/ }),
@@ -2297,7 +2266,6 @@ const CALL_HEAD_STARTED = 'started';
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "MIME_EXTENSIONS": () => (/* binding */ MIME_EXTENSIONS),
@@ -2318,11 +2286,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "intArrayToBase64": () => (/* binding */ intArrayToBase64),
 /* harmony export */   "makeImageUrl": () => (/* binding */ makeImageUrl)
 /* harmony export */ });
-
-
 const SUPPORTED_IMAGE_FORMATS = ['image/jpeg', 'image/gif', 'image/png', 'image/svg', 'image/svg+xml'];
 const MIME_EXTENSIONS = ['jpg', 'gif', 'png', 'svg', 'svg'];
-
 function makeImageUrl(photo) {
   if (photo && typeof photo == 'object') {
     if (photo.ref) {
@@ -2335,7 +2300,6 @@ function makeImageUrl(photo) {
   }
   return null;
 }
-
 function fitImageSize(width, height, maxWidth, maxHeight, forceSquare) {
   width = width | 0;
   height = height | 0;
@@ -2364,7 +2328,6 @@ function fitImageSize(width, height, maxWidth, maxHeight, forceSquare) {
   }
   return size;
 }
-
 function fileNameForMime(fname, mime) {
   const idx = SUPPORTED_IMAGE_FORMATS.indexOf(mime);
   if (idx < 0 || !fname) {
@@ -2377,7 +2340,6 @@ function fileNameForMime(fname, mime) {
   }
   return fname + '.' + ext;
 }
-
 function imageScaled(fileOrBlob, maxWidth, maxHeight, maxSize, forceSquare) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -2387,7 +2349,6 @@ function imageScaled(fileOrBlob, maxWidth, maxHeight, maxSize, forceSquare) {
     };
     img.onload = async function () {
       URL.revokeObjectURL(img.src);
-
       const dim = fitImageSize(img.width, img.height, maxWidth, maxHeight, forceSquare);
       if (!dim) {
         reject(new Error("Invalid image"));
@@ -2427,7 +2388,6 @@ function imageScaled(fileOrBlob, maxWidth, maxHeight, maxSize, forceSquare) {
     img.src = URL.createObjectURL(fileOrBlob);
   });
 }
-
 function imageCrop(mime, objURL, left, top, width, height, scale) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -2461,7 +2421,6 @@ function imageCrop(mime, objURL, left, top, width, height, scale) {
     img.src = objURL;
   });
 }
-
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -2478,7 +2437,6 @@ function fileToBase64(file) {
     reader.readAsDataURL(file);
   });
 }
-
 function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -2494,7 +2452,6 @@ function blobToBase64(blob) {
     reader.readAsDataURL(blob);
   });
 }
-
 function filePasted(event, onImageSuccess, onAttachmentSuccess, onError) {
   const items = (event.clipboardData || event.originalEvent.clipboardData || {}).items;
   if (!items || !items.length) {
@@ -2519,20 +2476,16 @@ function filePasted(event, onImageSuccess, onAttachmentSuccess, onError) {
   }
   return false;
 }
-
 function getMimeType(header) {
   var mime = /^data:(image\/[-+a-z0-9.]+);base64/.exec(header);
   return mime && mime.length > 1 ? mime[1] : null;
 }
-
 function base64EncodedLen(n) {
   return Math.floor((n + 2) / 3) * 4;
 }
-
 function base64DecodedLen(n) {
   return Math.floor(n / 4) * 3;
 }
-
 function base64ReEncode(str) {
   if (str) {
     str = str.replace(/-/g, '+').replace(/_/g, '/');
@@ -2545,7 +2498,6 @@ function base64ReEncode(str) {
   }
   return str;
 }
-
 function base64ToBlob(str, mime) {
   if (!str) {
     return null;
@@ -2597,7 +2549,6 @@ function base64ToIntArray(b64) {
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fullFormatter": () => (/* binding */ fullFormatter),
@@ -2661,7 +2612,6 @@ const messages = (0,react_intl__WEBPACK_IMPORTED_MODULE_1__.defineMessages)({
     }]
   }
 });
-
 function handleImageData(el, data, attr) {
   if (!data) {
     attr.src = 'img/broken_image.png';
@@ -2699,7 +2649,6 @@ function handleImageData(el, data, attr) {
   }
   return el;
 }
-
 function fullFormatter(style, data, values, key, stack) {
   if (stack.includes('QQ')) {
     return quoteFormatter.call(this, style, data, values, key);
@@ -2796,7 +2745,6 @@ function fullFormatter(style, data, values, key, stack) {
   }
   return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(el, attr, values);
 }
-
 function previewFormatter(style, data, values, key) {
   if (!style) {
     return values;
@@ -2889,7 +2837,6 @@ function previewFormatter(style, data, values, key) {
   return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(el, attr, values);
 }
 ;
-
 function inlineImageAttr(attr, data) {
   attr.style = {
     width: _config_js__WEBPACK_IMPORTED_MODULE_8__.IMAGE_THUMBNAIL_DIM + 'px',
@@ -2905,7 +2852,6 @@ function inlineImageAttr(attr, data) {
   attr.title = attr.alt;
   return attr;
 }
-
 function quoteFormatter(style, data, values, key) {
   if (['BR', 'EX', 'IM', 'MN'].includes(style)) {
     let el = tinode_sdk__WEBPACK_IMPORTED_MODULE_2__.Drafty.tagName(style);
@@ -2951,7 +2897,6 @@ function quoteFormatter(style, data, values, key) {
   }
   return previewFormatter.call(this, style, data, values, key);
 }
-
 function quoteImage(data) {
   let promise;
   if (data.val) {
@@ -2971,7 +2916,6 @@ function quoteImage(data) {
   } else {
     throw new Error("Missing image data");
   }
-
   return promise.then(blob => {
     return (0,_blob_helpers_js__WEBPACK_IMPORTED_MODULE_9__.imageScaled)(blob, _config_js__WEBPACK_IMPORTED_MODULE_8__.IMAGE_THUMBNAIL_DIM, _config_js__WEBPACK_IMPORTED_MODULE_8__.IMAGE_THUMBNAIL_DIM, -1, true);
   }).then(scaled => {
@@ -2980,7 +2924,6 @@ function quoteImage(data) {
     data.width = scaled.width;
     data.height = scaled.height;
     delete data.ref;
-
     data.src = URL.createObjectURL(scaled.blob);
     return (0,_blob_helpers_js__WEBPACK_IMPORTED_MODULE_9__.blobToBase64)(scaled.blob);
   }).then(b64 => {
@@ -2994,7 +2937,6 @@ function quoteImage(data) {
     throw err;
   });
 }
-
 function replyFormatter(style, data, values, key, stack) {
   if (style == 'IM') {
     const attr = inlineImageAttr.call(this, {
@@ -3036,7 +2978,6 @@ function replyFormatter(style, data, values, key, stack) {
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "detectServerAddress": () => (/* binding */ detectServerAddress),
@@ -3044,7 +2985,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "isSecureConnection": () => (/* binding */ isSecureConnection)
 /* harmony export */ });
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 function detectServerAddress() {
   let host = _config_js__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_HOST;
@@ -3057,7 +2997,6 @@ function detectServerAddress() {
   }
   return host;
 }
-
 function isSecureConnection() {
   if (typeof window.location == 'object') {
     return window.location.protocol == 'https:';
@@ -3079,28 +3018,22 @@ function isLocalHost() {
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LocalStorageUtil)
 /* harmony export */ });
-
-
 class LocalStorageUtil {
   static setObject(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
   }
-
   static getObject(key) {
     const value = localStorage.getItem(key);
     return value && JSON.parse(value);
   }
-
   static updateObject(key, value) {
     const oldVal = this.getObject(key);
     this.setObject(key, Object.assign(oldVal || {}, value));
   }
-
   static removeItem(key) {
     localStorage.removeItem(key);
   }
@@ -3114,13 +3047,10 @@ class LocalStorageUtil {
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ HashNavigation)
 /* harmony export */ });
-
-
 class HashNavigation {
   static parseUrlHash(hash) {
     const parts = hash.split('?', 2);
@@ -3198,7 +3128,6 @@ class HashNavigation {
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "bytesToHumanSize": () => (/* binding */ bytesToHumanSize),
@@ -3208,7 +3137,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "shortDateFormat": () => (/* binding */ shortDateFormat),
 /* harmony export */   "shortenFileName": () => (/* binding */ shortenFileName)
 /* harmony export */ });
-
 function shortDateFormat(then, locale) {
   locale = locale || window.navigator.userLanguage || window.navigator.language;
   const now = new Date();
@@ -3234,7 +3162,6 @@ function shortDateFormat(then, locale) {
     day: 'numeric'
   });
 }
-
 function secondsToTime(seconds, fixedMin) {
   let min = Math.floor(seconds / 60) | 0;
   let hours = Math.floor(min / 60) | 0;
@@ -3248,7 +3175,6 @@ function secondsToTime(seconds, fixedMin) {
   }
   return `${hours}:${min}:${sec}`;
 }
-
 function bytesToHumanSize(bytes) {
   if (!bytes || bytes == 0) {
     return '0 Bytes';
@@ -3259,14 +3185,12 @@ function bytesToHumanSize(bytes) {
   const round = bucket > 0 ? count < 3 ? 2 : count < 30 ? 1 : 0 : 0;
   return count.toFixed(round) + ' ' + sizes[bucket];
 }
-
 function shortenFileName(filename, maxLength) {
   if (typeof filename != 'string') {
     return filename;
   }
   return filename.length > maxLength ? filename.slice(0, maxLength / 2 - 1) + '…' + filename.slice(1 - maxLength / 2) : filename;
 }
-
 function stringToColorHash(value) {
   let hash = 0;
   value = '' + value;
@@ -3274,14 +3198,11 @@ function stringToColorHash(value) {
     hash = (hash << 5) - hash + value.charCodeAt(i);
     hash = hash & hash;
   }
-
   return hash;
 }
-
 function letterTileColorId(userId) {
   return Math.abs(stringToColorHash(userId)) % 16;
 }
-
 function idToColorClass(id, light, fg) {
   return (light ? 'lt-' : 'dk-') + (fg ? 'fg-' : 'bg-') + letterTileColorId(id);
 }
@@ -3294,7 +3215,6 @@ function idToColorClass(id, light, fg) {
   \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "arrayEqual": () => (/* binding */ arrayEqual),
@@ -3312,9 +3232,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tinode-sdk */ "tinode-sdk");
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(tinode_sdk__WEBPACK_IMPORTED_MODULE_0__);
 
-
-
-
 function updateFavicon(count) {
   const oldIcon = document.getElementById('shortcut-icon');
   const head = document.head || document.getElementsByTagName('head')[0];
@@ -3329,7 +3246,6 @@ function updateFavicon(count) {
   head.appendChild(newIcon);
   document.title = (count > 0 ? '(' + count + ') ' : '') + 'Tinode';
 }
-
 function theCard(fn, imageUrl, imageMimeType, note) {
   let card = null;
   fn = fn && fn.trim();
@@ -3363,7 +3279,6 @@ function theCard(fn, imageUrl, imageMimeType, note) {
   }
   return card;
 }
-
 function arrayEqual(a, b) {
   if (a === b) {
     return true;
@@ -3371,7 +3286,6 @@ function arrayEqual(a, b) {
   if (!Array.isArray(a) || !Array.isArray(b)) {
     return false;
   }
-
   if (a.length != b.length) {
     return false;
   }
@@ -3384,7 +3298,6 @@ function arrayEqual(a, b) {
   }
   return true;
 }
-
 function asPhone(val) {
   val = val.trim();
   if (/^(?:\+?(\d{1,3}))?[- (.]*(\d{3})[- ).]*(\d{3})[- .]*(\d{2})[- .]*(\d{2})?$/.test(val)) {
@@ -3392,7 +3305,6 @@ function asPhone(val) {
   }
   return null;
 }
-
 function asEmail(val) {
   val = val.trim();
   if (/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(val)) {
@@ -3400,26 +3312,20 @@ function asEmail(val) {
   }
   return null;
 }
-
 function isUrlRelative(url) {
   return url && !/^\s*([a-z][a-z0-9+.-]*:|\/\/)/im.test(url);
 }
-
 function sanitizeUrl(url, allowedSchemes) {
   if (typeof url != 'string') {
     return url;
   }
-
   url = url.replace(/[^\x20-\x7E]/gmi, '').trim();
-
   if (!/^([a-z][a-z0-9+.-]*:|\/\/)/i.test(url)) {
     return url;
   }
-
   if (/^blob:http/.test(url)) {
     return url;
   }
-
   const schemes = Array.isArray(allowedSchemes) ? allowedSchemes.join('|') : 'http|https';
   const re = new RegExp('^((' + schemes + '):|//)', 'i');
   if (!re.test(url)) {
@@ -3427,7 +3333,6 @@ function sanitizeUrl(url, allowedSchemes) {
   }
   return url;
 }
-
 function sanitizeUrlForMime(url, mimeMajor) {
   if (!url) {
     return null;
@@ -3436,14 +3341,12 @@ function sanitizeUrlForMime(url, mimeMajor) {
   if (sanitizedUrl) {
     return sanitizedUrl;
   }
-
   const re = new RegExp(`data:${mimeMajor}\/[a-z0-9.-]+;base64,`, 'i');
   if (re.test(url.trim())) {
     return url;
   }
   return null;
 }
-
 function deliveryMarker(received) {
   switch (received) {
     case tinode_sdk__WEBPACK_IMPORTED_MODULE_0__.Tinode.MESSAGE_STATUS_SENDING:
@@ -3469,10 +3372,8 @@ function deliveryMarker(received) {
         color: 'blue'
       };
   }
-
   return null;
 }
-
 function cancelablePromise(promise) {
   let hasCanceled = false;
   const wrappedPromise = promise instanceof Error ? Promise.reject(promise) : new Promise((resolve, reject) => {
@@ -3490,7 +3391,6 @@ function cancelablePromise(promise) {
   };
 }
 ;
-
 function clipStr(str, length) {
   return str && str.substring(0, length);
 }
@@ -3503,14 +3403,11 @@ function clipStr(str, length) {
   \************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "PACKAGE_VERSION": () => (/* binding */ PACKAGE_VERSION)
 /* harmony export */ });
-
-
-const PACKAGE_VERSION = "0.20.2";
+const PACKAGE_VERSION = "0.20.3";
 
 /***/ }),
 
@@ -3520,7 +3417,6 @@ const PACKAGE_VERSION = "0.20.2";
   \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ EditAccountView)
@@ -3530,7 +3426,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _widgets_checkbox_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/checkbox.jsx */ "./src/widgets/checkbox.jsx");
-
 
 
 
@@ -3615,7 +3510,6 @@ class EditAccountView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Pure
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -3626,7 +3520,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _widgets_in_place_edit_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/in-place-edit.jsx */ "./src/widgets/in-place-edit.jsx");
 /* harmony import */ var _widgets_permissions_editor_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/permissions-editor.jsx */ "./src/widgets/permissions-editor.jsx");
-
 
 
 
@@ -3702,16 +3595,10 @@ class AccSecurityView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Comp
     const {
       formatMessage
     } = this.props.intl;
-    this.props.onShowAlert(formatMessage(messages.delete_account),
-    formatMessage(messages.delete_account_warning),
-    () => {
+    this.props.onShowAlert(formatMessage(messages.delete_account), formatMessage(messages.delete_account_warning), () => {
       this.props.onDeleteAccount();
-    },
-    null,
-    true,
-    null);
+    }, null, true, null);
   }
-
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, this.state.showPermissionEditorFor ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_permissions_editor_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
       mode: this.state.editedPermissions,
@@ -3835,7 +3722,6 @@ class AccSecurityView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Comp
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AccSupportView)
@@ -3847,7 +3733,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tinode-sdk */ "tinode-sdk");
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(tinode_sdk__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 
 
@@ -3951,7 +3836,6 @@ class AccSupportView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AccountSettingsView)
@@ -3964,7 +3848,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _widgets_badge_list_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/badge-list.jsx */ "./src/widgets/badge-list.jsx");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 
 
@@ -4108,7 +3991,6 @@ class AccountSettingsView extends (react__WEBPACK_IMPORTED_MODULE_0___default().
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ContactsView)
@@ -4119,7 +4001,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _widgets_contact_list_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/contact-list.jsx */ "./src/widgets/contact-list.jsx");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
 
 
 
@@ -4235,7 +4116,6 @@ class ContactsView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CreateAccountView)
@@ -4252,7 +4132,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 
 
@@ -4332,7 +4211,6 @@ class CreateAccountView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Pu
       'val': this.state.email
     });
   }
-
   handleAvatarCropped(mime, blob, width, height) {
     const url = blob ? URL.createObjectURL(blob) : null;
     this.setState({
@@ -4350,7 +4228,6 @@ class CreateAccountView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Pu
       newAvatarMime: null
     });
   }
-
   uploadAvatar(mime, blob, width, height) {
     const readyToUpload = image => {
       let {
@@ -4512,7 +4389,6 @@ class CreateAccountView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Pu
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -4536,7 +4412,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
 
 
 
@@ -4678,7 +4553,6 @@ class InfoView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
     this.handleContextMenu = this.handleContextMenu.bind(this);
     this.handleBackNavigate = this.handleBackNavigate.bind(this);
   }
-
   componentDidUpdate(props) {
     const topic = this.props.tinode.getTopic(props.topic);
     if (!topic) {
@@ -5224,7 +5098,6 @@ class InfoView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LoginView)
@@ -5235,7 +5108,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _widgets_checkbox_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/checkbox.jsx */ "./src/widgets/checkbox.jsx");
 /* harmony import */ var _widgets_visible_password_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/visible-password.jsx */ "./src/widgets/visible-password.jsx");
-
 
 
 
@@ -5360,7 +5232,6 @@ class LoginView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LogoView)
@@ -5372,7 +5243,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tinode-sdk */ "tinode-sdk");
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(tinode_sdk__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 
 
@@ -5413,7 +5283,6 @@ class LogoView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompone
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -5442,9 +5311,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
 /* harmony import */ var _lib_navigation_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../lib/navigation.js */ "./src/lib/navigation.js");
 /* harmony import */ var _lib_strformat_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../lib/strformat.js */ "./src/lib/strformat.js");
-
-
-
 
 
 
@@ -5524,7 +5390,6 @@ const messages = (0,react_intl__WEBPACK_IMPORTED_MODULE_1__.defineMessages)({
     }]
   }
 });
-
 function isUnconfirmed(acs) {
   if (acs) {
     const ex = acs.getExcessive() || '';
@@ -5601,10 +5466,8 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     if (this.messagesScroller) {
       this.messagesScroller.removeEventListener('scroll', this.handleScrollEvent);
     }
-
     this.clearNotificationQueue();
   }
-
   componentDidUpdate(prevProps, prevState) {
     if (this.messagesScroller && (prevState.topic != this.state.topic || prevState.messageCount != this.state.messageCount)) {
       if (this.state.scrollPosition < SHOW_GO_TO_LAST_DIST) {
@@ -5774,7 +5637,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     if (isUnconfirmed(nextProps.acs) == !prevState.unconformed) {
       nextState.unconfirmed = !prevState.unconformed;
     }
-
     if (!nextProps.connected && prevState.onlineSubs && prevState.onlineSubs.length > 0) {
       nextState.onlineSubs = [];
     }
@@ -5784,9 +5646,7 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     if (topic.isSubscribed() || !this.props.ready) {
       return;
     }
-
     const newTopic = this.props.newTopicParams && this.props.newTopicParams._topicName == this.props.topic;
-
     let getQuery = topic.startMetaQuery().withLaterDesc().withLaterSub();
     if (this.state.isReader || newTopic) {
       getQuery = getQuery.withLaterData(_config_js__WEBPACK_IMPORTED_MODULE_16__.MESSAGES_PAGE);
@@ -5852,7 +5712,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       });
     }
   }
-
   handleScrollReference(node) {
     if (node) {
       node.addEventListener('scroll', this.handleScrollEvent);
@@ -5860,7 +5719,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       this.messagesScroller.scrollTop = this.messagesScroller.scrollHeight - this.state.scrollPosition;
     }
   }
-
   handleScrollEvent(event) {
     const pos = event.target.scrollHeight - event.target.scrollTop - event.target.offsetHeight;
     this.setState({
@@ -5916,7 +5774,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     if (!this.props.applicationVisible) {
       return;
     }
-
     if (!this.readNotificationTimer) {
       this.readNotificationTimer = setInterval(_ => {
         if (this.readNotificationQueue.length == 0) {
@@ -5939,7 +5796,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
             break;
           }
         }
-
         if (seq >= 0) {
           const topic = this.props.tinode.getTopic(this.state.topic);
           if (topic) {
@@ -5955,7 +5811,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       sendAt: now.setMilliseconds(now.getMilliseconds() + _config_js__WEBPACK_IMPORTED_MODULE_16__.READ_DELAY)
     });
   }
-
   clearNotificationQueue() {
     this.readNotificationQueue = [];
     if (this.readNotificationTimer) {
@@ -5988,7 +5843,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       this.setState(newState);
     }
   }
-
   handleMessageUpdate(msg) {
     const topic = this.props.tinode.getTopic(this.state.topic);
     if (!msg) {
@@ -6012,7 +5866,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
         }
       }
     });
-
     const status = topic.msgStatus(msg, true);
     if (status >= tinode_sdk__WEBPACK_IMPORTED_MODULE_2__.Tinode.MESSAGE_STATUS_SENT && msg.from != this.props.myUserId) {
       this.postReadNotification(msg.seq);
@@ -6131,7 +5984,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       topic.noteKeyPress();
     }
   }
-
   sendMessage(msg, uploadCompletionPromise, uploader) {
     let head;
     if (this.props.forwardMessage) {
@@ -6150,14 +6002,12 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     }
     this.props.sendMessage(msg, uploadCompletionPromise, uploader, head);
   }
-
   retrySend(pub) {
     this.props.sendMessage(pub.content, undefined, undefined, pub.head).then(() => {
       const topic = this.props.tinode.getTopic(this.state.topic);
       topic.delMessagesList([pub.seq], true);
     });
   }
-
   sendFileAttachment(file) {
     const maxInbandAttachmentSize = this.props.tinode.getServerParam('maxMessageSize', _config_js__WEBPACK_IMPORTED_MODULE_16__.MAX_INBAND_ATTACHMENT_SIZE) * 0.75 - 1024 | 0;
     if (file.size > maxInbandAttachmentSize) {
@@ -6182,7 +6032,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       }))).catch(err => this.props.onError(err));
     }
   }
-
   handleAttachFile(file) {
     const maxExternAttachmentSize = this.props.tinode.getServerParam('maxFileUploadSize', _config_js__WEBPACK_IMPORTED_MODULE_16__.MAX_EXTERN_ATTACHMENT_SIZE);
     if (file.size > maxExternAttachmentSize) {
@@ -6208,13 +6057,11 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     });
     this.props.onCallHangup(topic, seq);
   }
-
   sendImageAttachment(caption, blob) {
     const mime = this.state.imagePreview.mime;
     const width = this.state.imagePreview.width;
     const height = this.state.imagePreview.height;
     const fname = this.state.imagePreview.name;
-
     const maxInbandAttachmentSize = this.props.tinode.getServerParam('maxMessageSize', _config_js__WEBPACK_IMPORTED_MODULE_16__.MAX_INBAND_ATTACHMENT_SIZE) * 0.75 - 1024 | 0;
     if (blob.size > maxInbandAttachmentSize) {
       const uploader = this.props.tinode.getLargeFileHelper();
@@ -6223,9 +6070,7 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
         return;
       }
       const uploadCompletionPromise = uploader.upload(blob);
-
-      (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_18__.imageScaled)(blob, _config_js__WEBPACK_IMPORTED_MODULE_16__.IMAGE_PREVIEW_DIM, _config_js__WEBPACK_IMPORTED_MODULE_16__.IMAGE_PREVIEW_DIM, -1, false)
-      .then(scaled => (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_18__.blobToBase64)(scaled.blob)).then(b64 => {
+      (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_18__.imageScaled)(blob, _config_js__WEBPACK_IMPORTED_MODULE_16__.IMAGE_PREVIEW_DIM, _config_js__WEBPACK_IMPORTED_MODULE_16__.IMAGE_PREVIEW_DIM, -1, false).then(scaled => (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_18__.blobToBase64)(scaled.blob)).then(b64 => {
         let msg = tinode_sdk__WEBPACK_IMPORTED_MODULE_2__.Drafty.insertImage(null, 0, {
           mime: mime,
           _tempPreview: b64.bits,
@@ -6245,7 +6090,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       });
       return;
     }
-
     (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_18__.blobToBase64)(blob).then(b64 => {
       let msg = tinode_sdk__WEBPACK_IMPORTED_MODULE_2__.Drafty.insertImage(null, 0, {
         mime: b64.mime,
@@ -6262,10 +6106,8 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       this.sendMessage(msg);
     });
   }
-
   handleAttachImage(file) {
     const maxExternAttachmentSize = this.props.tinode.getServerParam('maxFileUploadSize', _config_js__WEBPACK_IMPORTED_MODULE_16__.MAX_EXTERN_ATTACHMENT_SIZE);
-
     (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_18__.imageScaled)(file, _config_js__WEBPACK_IMPORTED_MODULE_16__.MAX_IMAGE_DIM, _config_js__WEBPACK_IMPORTED_MODULE_16__.MAX_IMAGE_DIM, maxExternAttachmentSize, false).then(scaled => {
       this.setState({
         imagePreview: {
@@ -6282,7 +6124,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       this.props.onError(err, 'err');
     });
   }
-
   sendAudioAttachment(url, preview, duration) {
     fetch(url).then(result => result.blob()).then(blob => {
       const maxInbandAttachmentSize = this.props.tinode.getServerParam('maxMessageSize', _config_js__WEBPACK_IMPORTED_MODULE_16__.MAX_INBAND_ATTACHMENT_SIZE) * 0.75 - 1024;
@@ -6325,7 +6166,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     }
     uploader.cancel();
   }
-
   handlePickReply(seq, content, senderId, senderName) {
     this.setState({
       reply: null
@@ -6475,7 +6315,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
             userAvatar = (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_18__.makeImageUrl)(user.public.photo);
           }
           chatBoxClass = groupTopic ? 'chat-box group' : 'chat-box';
-
           const ref = this.getOrCreateMessageRef(msg.seq);
           let replyToSeq = msg.head ? parseInt(msg.head.reply) : null;
           if (!replyToSeq || isNaN(replyToSeq)) {
@@ -6539,7 +6378,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
             }
           }
         }
-
         const avatar = this.state.avatar || true;
         const online = this.state.deleted ? null : this.props.online ? 'online' + (this.state.typingIndicator ? ' typing' : '') : 'offline';
         const titleClass = 'panel-title' + (this.state.deleted ? ' deleted' : '');
@@ -6674,7 +6512,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -6691,7 +6528,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _widgets_search_contacts_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../widgets/search-contacts.jsx */ "./src/widgets/search-contacts.jsx");
 /* harmony import */ var _lib_navigation_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lib/navigation.js */ "./src/lib/navigation.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
 
 
 
@@ -6819,7 +6655,8 @@ class NewTopicView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       }]
     })))), this.state.tabSelected === 'grp' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_new_topic_group_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
       tinode: this.props.tinode,
-      onSubmit: this.handleNewGroupSubmit
+      onSubmit: this.handleNewGroupSubmit,
+      onError: this.props.onError
     }) : this.state.tabSelected === 'byid' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_new_topic_by_id_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
       onSubmit: this.handleGroupByID,
       onError: this.props.onError
@@ -6851,7 +6688,6 @@ class NewTopicView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ PasswordResetView)
@@ -6862,7 +6698,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _widgets_visible_password_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/visible-password.jsx */ "./src/widgets/visible-password.jsx");
 /* harmony import */ var _lib_navigation_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/navigation.js */ "./src/lib/navigation.js");
-
 
 
 
@@ -7015,7 +6850,6 @@ class PasswordResetView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Pu
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SettingsView)
@@ -7026,7 +6860,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _widgets_checkbox_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/checkbox.jsx */ "./src/widgets/checkbox.jsx");
 /* harmony import */ var _widgets_host_selector_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/host-selector.jsx */ "./src/widgets/host-selector.jsx");
-
 
 
 
@@ -7161,7 +6994,6 @@ class SettingsView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -7185,7 +7017,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _password_reset_view_jsx__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./password-reset-view.jsx */ "./src/views/password-reset-view.jsx");
 /* harmony import */ var _settings_view_jsx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./settings-view.jsx */ "./src/views/settings-view.jsx");
 /* harmony import */ var _validation_view_jsx__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./validation-view.jsx */ "./src/views/validation-view.jsx");
-
 
 
 
@@ -7445,7 +7276,6 @@ class SidepanelView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -7474,8 +7304,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../lib/navigation.js */ "./src/lib/navigation.js");
 /* harmony import */ var _lib_strformat_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../lib/strformat.js */ "./src/lib/strformat.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
-
 
 
 
@@ -7652,7 +7480,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     this.handleCallSendAnswer = this.handleCallSendAnswer.bind(this);
     this.handleCallAcceptCall = this.handleCallAcceptCall.bind(this);
     this.sendMessageToTopic = this.sendMessageToTopic.bind(this);
-
     this.callTimeoutTimer = null;
   }
   getBlankState() {
@@ -7724,14 +7551,12 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       this.handleOnline(false);
     });
     window.addEventListener('hashchange', this.handleHashRoute);
-
     if (typeof BroadcastChannel == 'function') {
       const serviceWorkerChannel = new BroadcastChannel('tinode-sw');
       serviceWorkerChannel.addEventListener('message', this.handlePushMessage);
     } else {
       console.warn("Your browser does not support BroadcastChannel. Some features will not be available");
     }
-
     document.addEventListener('visibilitychange', this.handleVisibilityEvent);
     this.setState({
       viewportWidth: document.documentElement.clientWidth,
@@ -7750,20 +7575,15 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
           if (this.state.desktopAlerts) {
             this.tinode.setDeviceToken(this.state.firebaseToken);
           }
-        }).catch(() => {
-        }
-        );
+        }).catch(() => {});
       }
-
       const parsedNav = _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].parseUrlHash(window.location.hash);
-
       this.resetContactList();
       const token = this.state.persist ? _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_17__["default"].getObject('auth-token') : undefined;
       if (token) {
         this.setState({
           autoLogin: true
         });
-
         token.expires = new Date(token.expires);
         this.tinode.setAuthToken(token);
         this.tinode.connect().catch(err => {
@@ -7772,7 +7592,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       }
       this.readTimer = null;
       this.readTimerCallback = null;
-
       if (!['cred', 'reset', 'register'].includes(parsedNav.path[0])) {
         this.setState({
           requestedTopic: parsedNav.path[1]
@@ -7789,7 +7608,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     window.removeEventListener('hashchange', this.handleHashRoute);
     document.removeEventListener('visibilitychange', this.handleVisibilityEvent);
   }
-
   static tnSetup(serverAddress, secureConnection, transport, locale, persistentCache, onSetupCompleted) {
     const tinode = new tinode_sdk__WEBPACK_IMPORTED_MODULE_4__.Tinode({
       appName: _config_js__WEBPACK_IMPORTED_MODULE_12__.APP_NAME,
@@ -7803,7 +7621,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     tinode.enableLogging(_config_js__WEBPACK_IMPORTED_MODULE_12__.LOGGING_ENABLED, true);
     return tinode;
   }
-
   handlePushMessage(payload) {
     this.tinode.oobNotification(payload.data || {});
   }
@@ -7851,7 +7668,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
             desktopAlerts: true
           });
         }
-
         (0,firebase_messaging__WEBPACK_IMPORTED_MODULE_3__.onMessage)(this.fcm, payload => {
           this.handlePushMessage(payload);
         });
@@ -7864,7 +7680,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       return Promise.reject(err);
     }
   }
-
   static requestFCMToken(fcm, sw) {
     return (0,firebase_messaging__WEBPACK_IMPORTED_MODULE_3__.getToken)(fcm, {
       serviceWorkerRegistration: sw,
@@ -7904,7 +7719,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       });
     }
   }
-
   checkForAppUpdate(reg) {
     reg.onupdatefound = () => {
       const installingWorker = reg.installing;
@@ -7930,7 +7744,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       };
     };
   }
-
   handleHashRoute() {
     const hash = _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].parseUrlHash(window.location.hash);
     const newState = {
@@ -7943,7 +7756,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       } else {
         console.warn("Unknown sidepanel view", hash.path[0]);
       }
-
       let topicName = hash.path[1] || null;
       if (topicName != this.state.topicSelected) {
         if (!tinode_sdk__WEBPACK_IMPORTED_MODULE_4__.Tinode.topicType(topicName)) {
@@ -7960,7 +7772,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
         topicSelected: null
       });
     }
-
     if (hash.params.method) {
       newState.credMethod = hash.params.method;
     }
@@ -7970,7 +7781,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     if (hash.params.token) {
       newState.credToken = hash.params.token;
     }
-
     if (hash.params.cred_done) {
       Object.assign(newState, TinodeWeb.stateForError(this.props.intl.formatMessage(messages.cred_confirmed_successfully), 'info'));
     }
@@ -8005,7 +7815,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   handleError(err, level, action, actionText) {
     this.setState(TinodeWeb.stateForError(err, level, action, actionText));
   }
-
   handleLoginRequest(login, password) {
     this.setState({
       loginDisabled: true,
@@ -8031,7 +7840,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       });
     }
   }
-
   handlePersistenceChange(persist) {
     if (persist) {
       this.tinode.initStorage().then(() => {
@@ -8049,7 +7857,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       });
     }
   }
-
   handleConnected() {
     clearInterval(this.reconnectCountdown);
     this.handleError();
@@ -8064,7 +7871,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       });
     }
   }
-
   handleAutoreconnectIteration(sec, prom) {
     clearInterval(this.reconnectCountdown);
     if (sec < 0) {
@@ -8100,7 +7906,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       count -= 1;
     }, 1000);
   }
-
   handleDisconnect(err) {
     this.setState({
       connected: false,
@@ -8127,7 +7932,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       });
       return;
     }
-
     cred = tinode_sdk__WEBPACK_IMPORTED_MODULE_4__.Tinode.credential(cred);
     let connectionPromise = this.tinode.isConnected() ? Promise.resolve() : this.tinode.connect();
     let loginPromise;
@@ -8177,7 +7981,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   }
   handleLoginSuccessful() {
     this.handleError();
-
     if (_lib_local_storage_js__WEBPACK_IMPORTED_MODULE_17__["default"].getObject('keep-logged-in')) {
       _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_17__["default"].setObject('auth-token', this.tinode.getAuthToken());
     }
@@ -8237,7 +8040,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       }
     }
   }
-
   tnMeContactUpdate(what, cont) {
     if (what == 'on' || what == 'off') {
       this.resetContactList();
@@ -8251,16 +8053,13 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     } else if (what == 'msg') {
       const topic = this.tinode.getTopic(cont.topic);
       const archived = topic && topic.isArchived();
-
       if (cont.unread > 0 && this.state.messageSounds && !archived) {
         if (document.hidden || this.state.topicSelected != cont.topic) {
-          POP_SOUND.play().catch(_ => {
-          });
+          POP_SOUND.play().catch(_ => {});
         }
       }
       this.resetContactList();
-    } else if (what == 'recv') {
-    } else if (what == 'gone' || what == 'unsub') {
+    } else if (what == 'recv') {} else if (what == 'gone' || what == 'unsub') {
       if (this.state.topicSelected == cont.topic) {
         this.handleTopicSelected(null);
       }
@@ -8271,19 +8070,15 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
           topicSelectedAcs: cont.acs
         });
       }
-    } else if (what == 'del') {
-    } else if (what == 'upd' || what == 'call') {
-    } else {
+    } else if (what == 'del') {} else if (what == 'upd' || what == 'call') {} else {
       console.info("Unsupported (yet) presence update:", what, "in", cont.topic);
     }
   }
   tnMeSubsUpdated(unused) {
     this.resetContactList();
   }
-
   static prepareSearchableContacts(chatList, foundContacts) {
     const merged = {};
-
     for (const c of chatList) {
       if (tinode_sdk__WEBPACK_IMPORTED_MODULE_4__.Tinode.isP2PTopicName(c.topic)) {
         merged[c.topic] = {
@@ -8295,7 +8090,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
         };
       }
     }
-
     for (const c of foundContacts) {
       if (!merged[c.user]) {
         merged[c.user] = c;
@@ -8324,11 +8118,9 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     newState.chatList.sort((a, b) => {
       return (a.touched || past).getTime() - (b.touched || past).getTime();
     });
-
     newState.searchableContacts = TinodeWeb.prepareSearchableContacts(newState.chatList, this.state.searchResults);
     this.setState(newState);
   }
-
   tnInitFind() {
     const fnd = this.tinode.getFndTopic();
     fnd.onSubsUpdated = this.tnFndSubsUpdated;
@@ -8350,7 +8142,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       searchableContacts: TinodeWeb.prepareSearchableContacts(this.state.chatList, foundContacts)
     });
   }
-
   handleSearchContacts(query) {
     const fnd = this.tinode.getFndTopic();
     fnd.setMeta({
@@ -8363,7 +8154,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       this.handleError(err.message, 'err');
     });
   }
-
   handleTopicSelected(topicName) {
     if (this.state.newTopicParams && this.state.newTopicParams._topicName != topicName) {
       this.setState({
@@ -8398,14 +8188,12 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlTopic('', null));
     }
   }
-
   handleHideMessagesView() {
     this.setState({
       mobilePanel: 'sidepanel'
     });
     _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlTopic(window.location.hash, null));
   }
-
   handleSendMessage(msg, uploadCompletionPromise, uploader, head) {
     const topic = this.tinode.getTopic(this.state.topicSelected);
     return this.sendMessageToTopic(topic, msg, uploadCompletionPromise, uploader, head);
@@ -8441,7 +8229,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       });
       completion.push(subscribePromise);
     }
-
     return topic.publishDraft(msg, Promise.all(completion)).then(ctrl => {
       if (topic.isArchived()) {
         topic.archive(false);
@@ -8495,12 +8282,10 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       });
     }
   }
-
   handleNewAccount() {
     this.handleError();
     _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlSidePanel(window.location.hash, 'register'));
   }
-
   handleNewAccountRequest(login_, password_, public_, cred_, tags_) {
     this.handleError();
     this.tinode.connect(this.state.serverAddress).then(_ => {
@@ -8548,12 +8333,10 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       this.handleError(err.message, 'err');
     });
   }
-
   handleSettings() {
     this.handleError();
     _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlSidePanel(window.location.hash, this.state.myUserId ? 'edit' : 'settings'));
   }
-
   handleGlobalSettings(settings) {
     const serverAddress = settings.serverAddress || this.state.serverAddress;
     const transport = settings.transport || this.state.transport;
@@ -8581,11 +8364,9 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     });
     _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlSidePanel(window.location.hash, ''));
   }
-
   handleShowArchive() {
     _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlSidePanel(window.location.hash, this.state.myUserId ? 'archive' : ''));
   }
-
   handleShowBlocked() {
     _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlSidePanel(window.location.hash, this.state.myUserId ? 'blocked' : ''));
   }
@@ -8660,7 +8441,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       cred: [method]
     });
   }
-
   handleSidepanelCancel() {
     const parsed = _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].parseUrlHash(window.location.hash);
     let path = '';
@@ -8687,15 +8467,12 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       errorLevel: null
     });
   }
-
   basicNavigator(hash) {
     _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlSidePanel(window.location.hash, hash));
   }
-
   infoNavigator(hash) {
     _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlInfoPanel(window.location.hash, hash));
   }
-
   handleStartTopicRequest(topicName, newTopicParams, isChannel) {
     if (topicName && this.tinode.isTopicCached(topicName)) {
       this.handleTopicSelected(topicName);
@@ -8730,7 +8507,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       this.handleTopicSelected(topicName);
     });
   }
-
   handleNewTopicCreated(oldName, newName) {
     let nextState = {};
     if (this.state.callShouldStart) {
@@ -8827,7 +8603,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   }
   handleLogout() {
     (0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_20__.updateFavicon)(0);
-
     localStorage.removeItem('auth-token');
     localStorage.removeItem('firebase-token');
     localStorage.removeItem('settings');
@@ -8865,7 +8640,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     if (!topic) {
       return;
     }
-
     topic.delTopic(true).then(ctrl => {
       _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlTopic(window.location.hash, ''));
     }).catch(err => {
@@ -8877,7 +8651,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     if (!topic) {
       return;
     }
-
     topic.delMessagesAll(true).catch(err => {
       this.handleError(err.message, 'err');
     });
@@ -8909,9 +8682,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     if (!topic) {
       return;
     }
-
     this.tinode.report('report', topicName);
-
     topic.updateMode(null, '-JP').then(ctrl => {
       _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo(_lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].setUrlTopic(window.location.hash, ''));
     }).catch(err => {
@@ -8930,7 +8701,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       contextMenuBounds: this.selfRef.current.getBoundingClientRect()
     });
   }
-
   handleShowForwardDialog(params) {
     if (this.state.sidePanelSelected == 'newtpk') {
       this.handleSidepanelCancel();
@@ -9364,8 +9134,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       viewportHeight: this.state.viewportHeight,
       hideSelf: this.state.displayMobile && (this.state.mobilePanel !== 'topic-view' || this.state.infoPanel),
       topic: this.state.topicSelected,
-      myUserId: this.state.myUserId
-      ,
+      myUserId: this.state.myUserId,
       myUserName: this.state.sidePanelTitle,
       serverVersion: this.state.serverVersion,
       serverAddress: this.state.serverAddress,
@@ -9435,7 +9204,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -9444,7 +9212,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-
 
 
 const messages = (0,react_intl__WEBPACK_IMPORTED_MODULE_1__.defineMessages)({
@@ -9597,7 +9364,6 @@ class ValidationView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Alert)
@@ -9651,7 +9417,6 @@ class Alert extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent)
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Attachment)
@@ -9723,7 +9488,6 @@ class Attachment extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
     let size = this.props.size > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
       className: "small gray"
     }, "(", (0,_lib_strformat_js__WEBPACK_IMPORTED_MODULE_3__.bytesToHumanSize)(this.props.size), ")") : null;
-
     let url, helperFunc;
     if (!this.props.uploading && !this.state.downloader && (0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_4__.isUrlRelative)(this.props.downloadUrl)) {
       url = '#';
@@ -9772,7 +9536,6 @@ class Attachment extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AudioPlayer)
@@ -9781,9 +9544,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _lib_strformat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/strformat */ "./src/lib/strformat.js");
 /* harmony import */ var _lib_blob_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/blob-helpers */ "./src/lib/blob-helpers.js");
-
-
-
 
 
 
@@ -9873,7 +9633,6 @@ class AudioPlayer extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
     this.viewBuffer = this.resampleBars(this.state.preview);
     this.visualize();
   }
-
   visualize() {
     if (!this.canvasRef.current) {
       return;
@@ -9890,9 +9649,7 @@ class AudioPlayer extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
         if (this.state.playing) {
           window.requestAnimationFrame(drawFrame);
         }
-
         const thumbAt = this.props.duration ? Math.max(0, Math.min(this.audioPlayer.currentTime * 1000 / this.props.duration, 1)) * (width - LINE_WIDTH * 2) : -1;
-
         this.canvasContext.beginPath();
         this.canvasContext.strokeStyle = BAR_COLOR_DARK;
         for (let i = 0; i < this.viewBuffer.length; i++) {
@@ -9908,7 +9665,6 @@ class AudioPlayer extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
           this.canvasContext.lineTo(x, height * 0.5 + y * 0.5);
         }
         this.canvasContext.stroke();
-
         if (this.props.duration) {
           this.canvasContext.beginPath();
           this.canvasContext.arc(thumbAt + LINE_WIDTH * 2, height * 0.5, LINE_WIDTH * 2, 0, 2 * Math.PI);
@@ -9919,7 +9675,6 @@ class AudioPlayer extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
     };
     drawFrame();
   }
-
   resampleBars(original) {
     const dstCount = (this.canvasRef.current.width - SPACING) / (LINE_WIDTH + SPACING) | 0;
     this.effectiveWidth = dstCount * (LINE_WIDTH + SPACING) + SPACING;
@@ -10015,7 +9770,6 @@ class AudioPlayer extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AudioRecorder)
@@ -10023,15 +9777,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _audio_player_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./audio-player.jsx */ "./src/widgets/audio-player.jsx");
-/* harmony import */ var fix_webm_duration__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! fix-webm-duration */ "./node_modules/fix-webm-duration/fix-webm-duration.js");
-/* harmony import */ var fix_webm_duration__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(fix_webm_duration__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
-/* harmony import */ var _lib_strformat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/strformat */ "./src/lib/strformat.js");
-/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
-
-
-
+/* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
+/* harmony import */ var _lib_strformat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/strformat */ "./src/lib/strformat.js");
+/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
 
 
 
@@ -10046,7 +9794,6 @@ const BAR_COLOR = '#BBBD';
 const BAR_SCALE = 64.0;
 const VISUALIZATION_BARS = 96;
 const MAX_SAMPLES_PER_BAR = 10;
-
 const AUDIO_MIME_TYPE = 'audio/webm';
 class AudioRecorder extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
   constructor(props) {
@@ -10081,7 +9828,6 @@ class AudioRecorder extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
     this.audioInput = null;
     this.analyser = null;
     this.audioChunks = [];
-
     try {
       navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -10097,7 +9843,6 @@ class AudioRecorder extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       this.cleanUp();
     }
   }
-
   visualize() {
     this.initCanvas();
     const pcmData = new Uint8Array(this.analyser.frequencyBinCount);
@@ -10117,26 +9862,23 @@ class AudioRecorder extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       window.requestAnimationFrame(drawFrame);
       const duration = this.durationMillis + (Date.now() - this.startedOn);
       this.setState({
-        duration: (0,_lib_strformat__WEBPACK_IMPORTED_MODULE_4__.secondsToTime)(duration / 1000)
+        duration: (0,_lib_strformat__WEBPACK_IMPORTED_MODULE_3__.secondsToTime)(duration / 1000)
       });
-
-      if (duration > _config_js__WEBPACK_IMPORTED_MODULE_5__.MAX_DURATION) {
+      if (duration > _config_js__WEBPACK_IMPORTED_MODULE_4__.MAX_DURATION) {
         this.startedOn = null;
         this.mediaRecorder.pause();
         this.durationMillis += Date.now() - this.startedOn;
         this.setState({
           enabled: false,
           recording: false,
-          duration: (0,_lib_strformat__WEBPACK_IMPORTED_MODULE_4__.secondsToTime)(this.durationMillis / 1000)
+          duration: (0,_lib_strformat__WEBPACK_IMPORTED_MODULE_3__.secondsToTime)(this.durationMillis / 1000)
         });
       }
-
       this.analyser.getByteTimeDomainData(pcmData);
       let amp = 0.0;
       for (const amplitude of pcmData) {
         amp += (amplitude - 127) ** 2;
       }
-
       volume += Math.sqrt(amp / pcmData.length);
       countPerBar++;
       let barCount = duration / MILLIS_PER_BAR | 0;
@@ -10150,9 +9892,7 @@ class AudioRecorder extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
           this.viewBuffer.shift();
         }
       }
-
       this.canvasContext.clearRect(0, 0, width, height);
-
       this.canvasContext.beginPath();
       for (let i = 0; i < this.viewBuffer.length; i++) {
         let x = i * (LINE_WIDTH + SPACING) - dx;
@@ -10219,16 +9959,16 @@ class AudioRecorder extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   initMediaRecording(stream) {
     this.stream = stream;
     this.mediaRecorder = new MediaRecorder(stream, {
-      mimeType: AUDIO_MIME_TYPE
+      mimeType: AUDIO_MIME_TYPE,
+      audioBitsPerSecond: 24_000
     });
-
     this.audioContext = new AudioContext();
     this.audioInput = this.audioContext.createMediaStreamSource(stream);
     this.analyser = this.audioContext.createAnalyser();
     this.analyser.fftSize = BUFFER_SIZE;
     this.audioInput.connect(this.analyser);
     this.mediaRecorder.onstop = _ => {
-      if (this.durationMillis > _config_js__WEBPACK_IMPORTED_MODULE_5__.MIN_DURATION) {
+      if (this.durationMillis > _config_js__WEBPACK_IMPORTED_MODULE_4__.MIN_DURATION) {
         this.getRecording(this.mediaRecorder.mimeType, this.durationMillis).then(result => this.props.onFinished(result.url, result.preview, this.durationMillis));
       } else {
         this.props.onDeleted();
@@ -10253,22 +9993,20 @@ class AudioRecorder extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
     this.mediaRecorder.start();
     this.visualize();
   }
-
   getRecording(mimeType, duration) {
     let blob = new Blob(this.audioChunks, {
       type: mimeType || AUDIO_MIME_TYPE
     });
-    return (duration > 0 ? fix_webm_duration__WEBPACK_IMPORTED_MODULE_2___default()(blob, duration, {
+    return (duration > 0 ? ysFixWebmDuration(blob, duration, {
       logger: false
     }) : Promise.resolve(blob)).then(fixedBlob => {
       blob = fixedBlob;
       return fixedBlob.arrayBuffer();
     }).then(arrayBuff => this.audioContext.decodeAudioData(arrayBuff)).then(decoded => this.createPreview(decoded)).then(preview => ({
       url: window.URL.createObjectURL(blob),
-      preview: (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_3__.intArrayToBase64)(preview)
+      preview: (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_2__.intArrayToBase64)(preview)
     }));
   }
-
   createPreview(audio) {
     const data = audio.getChannelData(0);
     const viewLength = Math.min(data.length, VISUALIZATION_BARS);
@@ -10345,7 +10083,6 @@ class AudioRecorder extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AvatarCrop)
@@ -10356,7 +10093,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _cropper_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cropper.jsx */ "./src/widgets/cropper.jsx");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
-
 
 
 
@@ -10374,7 +10110,6 @@ class AvatarCrop extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
   handleChange(left, top, width, height, scale) {
     this.setState({
       left: left,
@@ -10432,7 +10167,6 @@ class AvatarCrop extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ AvatarUpload)
@@ -10523,7 +10257,6 @@ class AvatarUpload extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -10560,7 +10293,6 @@ const messages = (0,react_intl__WEBPACK_IMPORTED_MODULE_1__.defineMessages)({
     }]
   }
 });
-
 class BadgeList extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
   render() {
     const {
@@ -10595,14 +10327,12 @@ class BadgeList extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ButtonBack)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
 
 class ButtonBack extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
   render() {
@@ -10626,7 +10356,6 @@ class ButtonBack extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CallIncoming)
@@ -10639,7 +10368,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants.js */ "./src/constants.js");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
 
 
 
@@ -10678,7 +10406,6 @@ class CallIncoming extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       this.props.onRinging(this.props.topic, this.props.seq);
     }
   }
-
   componentDidUpdate(props) {
     const topic = this.props.tinode.getTopic(props.topic);
     if (!topic) {
@@ -10787,7 +10514,6 @@ class CallIncoming extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CallMessage)
@@ -10797,8 +10523,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _lib_strformat_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/strformat.js */ "./src/lib/strformat.js");
-
-
 
 
 
@@ -10881,7 +10605,6 @@ class CallMessage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -10894,7 +10617,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
 /* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants.js */ "./src/constants.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
 
 
 
@@ -11018,7 +10740,6 @@ class CallPanel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
       this.props.onInvite(this.props.topic, this.props.seq, this.props.callState);
       return;
     }
-
     navigator.mediaDevices.getUserMedia(this.localStreamConstraints).then(stream => {
       this.setState({
         localStream: stream,
@@ -11026,7 +10747,6 @@ class CallPanel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
       });
       this.localRef.current.srcObject = stream;
       DIALING_SOUND.play();
-
       this.props.onInvite(this.props.topic, this.props.seq, this.props.callState);
     }).catch(this.handleGetUserMediaError);
   }
@@ -11149,9 +10869,7 @@ class CallPanel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
       this.handleCloseClick();
     }
   }
-  handleICEGatheringStateChangeEvent(event) {
-  }
-
+  handleICEGatheringStateChangeEvent(event) {}
   handleTrackEvent(event) {
     this.remoteRef.current.srcObject = event.streams[0];
     this.forceUpdate();
@@ -11169,7 +10887,6 @@ class CallPanel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
         console.error("Error opening your camera and/or microphone:", e.message);
         break;
     }
-
     this.handleCloseClick();
   }
   handleVideoOfferMsg(info) {
@@ -11198,7 +10915,6 @@ class CallPanel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
       }, () => this.drainRemoteIceCandidatesCache());
     }).catch(this.handleGetUserMediaError);
   }
-
   handleRemoteHangup() {
     if (!this.state.waitingForPeer) {
       this.handleCloseClick();
@@ -11219,7 +10935,6 @@ class CallPanel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
     this.stop();
     this.props.onHangup(this.props.topic, this.props.seq);
   }
-
   toggleMedia(kind) {
     const stream = this.state.localStream;
     stream.getTracks().forEach(track => {
@@ -11314,7 +11029,6 @@ class CallPanel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CallStatus)
@@ -11324,8 +11038,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _lib_strformat_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/strformat.js */ "./src/lib/strformat.js");
-
-
 
 
 
@@ -11392,7 +11104,6 @@ class CallStatus extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -11409,7 +11120,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_formatters_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../lib/formatters.js */ "./src/lib/formatters.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 
 
 
@@ -11608,14 +11318,12 @@ const ChatMessage = react__WEBPACK_IMPORTED_MODULE_0___default().forwardRef((pro
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ CheckBox)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
 
 class CheckBox extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
   constructor(props) {
@@ -11670,7 +11378,6 @@ class CheckBox extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompone
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ChipInput)
@@ -11679,7 +11386,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _chip_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./chip.jsx */ "./src/widgets/chip.jsx");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
-
 
 
 
@@ -11713,7 +11419,6 @@ class ChipInput extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       });
     }
   }
-
   static indexChips(chips) {
     const index = {};
     let count = 0;
@@ -11723,7 +11428,6 @@ class ChipInput extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     });
     return index;
   }
-
   static sortChips(chips, keep) {
     const required = [];
     const normal = [];
@@ -11828,7 +11532,6 @@ class ChipInput extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Chip)
@@ -11879,7 +11582,6 @@ class Chip extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) 
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -11888,7 +11590,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-
 
 
 class ContactAction extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
@@ -11924,7 +11625,6 @@ class ContactAction extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ContactBadges)
@@ -11937,7 +11637,6 @@ const icon_mapping = {
   'banned': 'block',
   'staff': 'verified_user'
 };
-
 class ContactBadges extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
   render() {
     let badges = null;
@@ -11972,7 +11671,6 @@ class ContactBadges extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -11987,7 +11685,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _contact_action_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./contact-action.jsx */ "./src/widgets/contact-action.jsx");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 
 
@@ -12131,7 +11828,6 @@ class ContactList extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -12147,7 +11843,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(tinode_sdk__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _lib_formatters_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../lib/formatters.js */ "./src/lib/formatters.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
 
 
 
@@ -12231,7 +11926,6 @@ class Contact extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
         });
       }
     }
-
     let preview;
     if (typeof this.props.preview == 'string') {
       preview = this.props.preview;
@@ -12312,7 +12006,6 @@ class Contact extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -12322,7 +12015,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 
 
@@ -12485,7 +12177,6 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
     this.handlePageClick = this.handlePageClick.bind(this);
     this.handleEscapeKey = this.handleEscapeKey.bind(this);
     this.handleClick = this.handleClick.bind(this);
-
     this.MenuItems = {
       'topic_info': {
         id: 'topic_info',
@@ -12496,31 +12187,20 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
         id: 'messages_clear',
         title: formatMessage(messages.clear_messages),
         handler: (params, errorHandler) => {
-          return props.onShowAlert(formatMessage(messages.clear_messages),
-          formatMessage(messages.clear_messages_warning),
-          _ => {
+          return props.onShowAlert(formatMessage(messages.clear_messages), formatMessage(messages.clear_messages_warning), _ => {
             this.deleteMessages(true, false, params, errorHandler);
-          },
-          null,
-          true,
-          null);
+          }, null, true, null);
         }
       },
-
       'messages_clear_hard': {
         id: 'messages_clear_hard',
         title: formatMessage(messages.clear_for_all),
         handler: (params, errorHandler) => {
-          return props.onShowAlert(formatMessage(messages.clear_for_all),
-          formatMessage(messages.delete_messages_warning),
-          _ => {
+          return props.onShowAlert(formatMessage(messages.clear_for_all), formatMessage(messages.delete_messages_warning), _ => {
             return this.deleteMessages(true, true, params, errorHandler);
-          }, null,
-          true,
-          null);
+          }, null, true, null);
         }
       },
-
       'message_delete': {
         id: 'message_delete',
         title: formatMessage(messages.delete),
@@ -12554,7 +12234,6 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
         title: formatMessage(messages.forward),
         handler: () => {}
       },
-
       'topic_unmute': {
         id: 'topic_unmute',
         title: formatMessage(messages.unmute),
@@ -12574,26 +12253,19 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
         id: 'topic_block',
         title: formatMessage(messages.block),
         handler: (params, errorHandler) => {
-          return props.onShowAlert(formatMessage(messages.block),
-          formatMessage(messages.topic_block_warning),
-          () => {
+          return props.onShowAlert(formatMessage(messages.block), formatMessage(messages.topic_block_warning), () => {
             return this.topicPermissionSetter('-JP', params, errorHandler).then(ctrl => {
               this.props.onTopicRemoved(params.topicName);
               return ctrl;
             });
-          }, null,
-          true,
-          null);
+          }, null, true, null);
         }
       },
-
       'topic_delete': {
         id: 'topic_delete',
         title: formatMessage(messages.topic_delete),
         handler: (params, errorHandler) => {
-          return props.onShowAlert(formatMessage(messages.topic_delete),
-          formatMessage(messages.topic_delete_warning),
-          () => {
+          return props.onShowAlert(formatMessage(messages.topic_delete), formatMessage(messages.topic_delete_warning), () => {
             const topic = this.props.tinode.getTopic(params.topicName);
             if (!topic) {
               console.warn("Topic not found: ", params.topicName);
@@ -12604,12 +12276,9 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
                 errorHandler(err.message, 'err');
               }
             });
-          }, null,
-          true,
-          null);
+          }, null, true, null);
         }
       },
-
       'topic_archive': {
         id: 'topic_archive',
         title: formatMessage(messages.archive),
@@ -12720,14 +12389,12 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
       this.props.onAction(item.id, item.handler(this.props.params, this.props.onError), this.props.params);
     }
   }
-
   deleteMessages(all, hard, params, errorHandler) {
     const topic = this.props.tinode.getTopic(params.topicName);
     if (!topic) {
       console.warn("Topic not found: ", params.topicName);
       return;
     }
-
     if (!all && topic.cancelSend(params.seq)) {
       return;
     }
@@ -12738,7 +12405,6 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
       }
     });
   }
-
   retryMessage(params, errorHandler) {
     const topic = this.props.tinode.getTopic(params.topicName);
     if (!topic || !topic.flushMessage(params.seq)) {
@@ -12751,7 +12417,6 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
       }
     });
   }
-
   topicPermissionSetter(mode, params, errorHandler) {
     const topic = this.props.tinode.getTopic(params.topicName);
     if (!topic) {
@@ -12788,7 +12453,6 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
       }
       count++;
     });
-
     const hSize = 12 * _config_js__WEBPACK_IMPORTED_MODULE_2__.REM_SIZE;
     const vSize = _config_js__WEBPACK_IMPORTED_MODULE_2__.REM_SIZE * (0.7 + menu.length * 2.5);
     const left = this.props.bounds.right - this.props.clickAt.x < hSize ? this.props.clickAt.x - this.props.bounds.left - hSize : this.props.clickAt.x - this.props.bounds.left;
@@ -12814,15 +12478,12 @@ class ContextMenu extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
   \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Cropper)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
 
 const DEFAULT_MAX_ZOOM = 2.5;
 class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
@@ -12837,19 +12498,15 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
       minZoom: 0,
       maxZoom: DEFAULT_MAX_ZOOM
     };
-
     this.overlay = react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
     this.cutout = react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
     this.preview = react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
     this.boundingBox = react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
-
     this.imageWidth = 0;
     this.imageHeight = 0;
-
     this.mouseX = 0;
     this.mouseY = 0;
     this.prevDistance = 0;
-
     this.cutoutRect = {};
     this.bBoxRect = {};
     this.originX = 0;
@@ -12871,18 +12528,15 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
     this.overlay.current.addEventListener('touchstart', this.mouseDown, {
       passive: true
     });
-
     this.bBoxRect = this.boundingBox.current.getBoundingClientRect();
     this.originX = this.bBoxRect.width / 2;
     this.originY = this.bBoxRect.height / 2;
-
     this.cutoutRect = this.cutout.current.getBoundingClientRect();
   }
   componentWillUnmount() {
     this.overlay.current.removeEventListener('mousedown', this.mouseDown);
     this.overlay.current.removeEventListener('touchstart', this.mouseDown);
   }
-
   positionAll(panX, panY, zoom) {
     this.setState({
       panX: panX,
@@ -12891,12 +12545,10 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
       originX: this.originX - panX,
       originY: this.originY - panY
     });
-
     const left = (this.originX - panX) * zoom - this.originX;
     const top = (this.originY - panY) * zoom - this.originY;
     this.props.onChange((left + this.cutoutRect.left - this.bBoxRect.left) / zoom, (top + this.cutoutRect.top - this.bBoxRect.top) / zoom, this.cutoutRect.width / zoom, this.cutoutRect.height / zoom, zoom);
   }
-
   static checkBound(currPan, img, cutout, delta) {
     let nextDiff = Math.min(0, cutout[0] - img[0] - delta, img[1] - cutout[1] + delta);
     if (nextDiff == 0) {
@@ -12910,13 +12562,11 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
     const imgRect = this.preview.current.getBoundingClientRect();
     this.imageWidth = imgRect.width;
     this.imageHeight = imgRect.height;
-
     const minZoom = Math.max(this.cutoutRect.width / imgRect.width, this.cutoutRect.height / imgRect.height);
     this.setState({
       minZoom: minZoom,
       maxZoom: Math.max(DEFAULT_MAX_ZOOM, minZoom + 1)
     });
-
     const zoom = Math.max(this.bBoxRect.width / imgRect.width, this.bBoxRect.height / imgRect.height);
     const panX = this.cutoutRect.left - this.bBoxRect.left - (imgRect.width - this.cutoutRect.width) / 2;
     const panY = this.cutoutRect.top - this.bBoxRect.top - (imgRect.height - this.cutoutRect.height) / 2;
@@ -12928,7 +12578,6 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   handleZoom(zoom) {
     let panX = this.state.panX;
     let panY = this.state.panY;
-
     const imgLeft = this.originX - (this.originX - panX) * zoom;
     const imgRight = imgLeft + this.imageWidth * zoom;
     const coLeft = this.cutoutRect.left - this.bBoxRect.left;
@@ -12971,20 +12620,16 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
     });
     document.body.style['userSelect'] = 'none';
   }
-
   translate(pageX, pageY) {
     const dX = pageX - this.mouseX;
     const dY = pageY - this.mouseY;
     this.mouseX = pageX;
     this.mouseY = pageY;
-
     const imgRect = this.preview.current.getBoundingClientRect();
-
     let panX = Cropper.checkBound(this.state.panX, [imgRect.left, imgRect.right], [this.cutoutRect.left, this.cutoutRect.right], dX);
     let panY = Cropper.checkBound(this.state.panY, [imgRect.top, imgRect.bottom], [this.cutoutRect.top, this.cutoutRect.bottom], dY);
     this.positionAll(panX, panY, this.state.zoom);
   }
-
   mouseMove(e) {
     e.preventDefault();
     this.translate(e.pageX, e.pageY);
@@ -12995,7 +12640,6 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
       this.translate(e.touches[0].pageX, e.touches[0].pageY);
       return;
     }
-
     const [touch0, touch1] = e.touches;
     const distance = Math.sqrt((touch0.pageX - touch1.pageX) * (touch0.pageX - touch1.pageX) + (touch0.pageY - touch1.pageY) * (touch0.pageY - touch1.pageY));
     if (!this.prevDistance) {
@@ -13015,7 +12659,6 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   render() {
     const t3d = `translate3d(${this.state.panX}px, ${this.state.panY}px, 0) scale(${this.state.zoom})`;
     const orig = `${this.state.originX}px ${this.state.originY}px`;
-
     const overlay = {
       top: `${this.originY - this.state.originY * this.state.zoom}px`,
       left: `${this.originX - this.state.originX * this.state.zoom}px`,
@@ -13066,7 +12709,6 @@ class Cropper extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ DocPreview)
@@ -13077,7 +12719,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _widgets_send_message_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/send-message.jsx */ "./src/widgets/send-message.jsx");
 /* harmony import */ var _lib_strformat_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/strformat.js */ "./src/lib/strformat.js");
-
 
 
 
@@ -13160,7 +12801,6 @@ class DocPreview extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ErrorPanel)
@@ -13233,7 +12873,6 @@ class ErrorPanel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ FileProgress)
@@ -13242,7 +12881,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-
 
 
 class FileProgress extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
@@ -13285,7 +12923,6 @@ class FileProgress extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ForwardDialog)
@@ -13298,7 +12935,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(tinode_sdk__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _contact_list_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./contact-list.jsx */ "./src/widgets/contact-list.jsx");
 /* harmony import */ var _search_contacts_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./search-contacts.jsx */ "./src/widgets/search-contacts.jsx");
-
 
 
 
@@ -13396,7 +13032,6 @@ class ForwardDialog extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compon
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -13407,7 +13042,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _chip_input_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chip-input.jsx */ "./src/widgets/chip-input.jsx");
 /* harmony import */ var _contact_list_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./contact-list.jsx */ "./src/widgets/contact-list.jsx");
-
 
 
 
@@ -13459,7 +13093,6 @@ class GroupManager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
         present: true
       };
     });
-
     return index;
   }
   static staticMembers(members, keepInitial, requiredMember) {
@@ -13646,7 +13279,6 @@ class GroupManager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ GroupSubs)
@@ -13658,7 +13290,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
 /* harmony import */ var _letter_tile_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./letter-tile.jsx */ "./src/widgets/letter-tile.jsx");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
-
 
 
 
@@ -13714,7 +13345,6 @@ class GroupSubs extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ HostSelector)
@@ -13722,7 +13352,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 
 class HostSelector extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
@@ -13791,7 +13420,6 @@ class HostSelector extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ ImagePreview)
@@ -13847,7 +13475,6 @@ class ImagePreview extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
     };
     size.maxWidth = '100%';
     size.maxHeight = '100%';
-
     const maxlength = Math.max((this.state.width / _config_js__WEBPACK_IMPORTED_MODULE_3__.REM_SIZE / 1.5 | 0) - 2, 12);
     const fname = (0,_lib_strformat_js__WEBPACK_IMPORTED_MODULE_5__.shortenFileName)(this.props.content.name, maxlength) || '-';
     const width = this.props.content.width || '-';
@@ -13926,7 +13553,6 @@ class ImagePreview extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ InPlaceEdit)
@@ -13934,7 +13560,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _visible_password_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./visible-password.jsx */ "./src/widgets/visible-password.jsx");
-
 
 
 class InPlaceEdit extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
@@ -14064,7 +13689,6 @@ class InPlaceEdit extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Invitation)
@@ -14073,7 +13697,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-
 
 
 class Invitation extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
@@ -14144,7 +13767,6 @@ class Invitation extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LazyImage)
@@ -14153,7 +13775,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-
 
 
 class LazyImage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
@@ -14217,7 +13838,6 @@ class LazyImage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LetterTile)
@@ -14279,7 +13899,6 @@ class LetterTile extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LoadSpinner)
@@ -14306,14 +13925,12 @@ class LoadSpinner extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ MenuCancel)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
 
 class MenuCancel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
   render() {
@@ -14337,7 +13954,6 @@ class MenuCancel extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ MenuContacts)
@@ -14376,7 +13992,6 @@ class MenuContacts extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ MenuStart)
@@ -14415,7 +14030,6 @@ class MenuStart extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompon
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ MetaMessage)
@@ -14424,8 +14038,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-
-
 
 
 class MetaMessage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
@@ -14474,7 +14086,6 @@ class MetaMessage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -14570,7 +14181,6 @@ class NewTopicById extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ NewTopicGroup)
@@ -14579,10 +14189,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _avatar_upload_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./avatar-upload.jsx */ "./src/widgets/avatar-upload.jsx");
-/* harmony import */ var _checkbox_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./checkbox.jsx */ "./src/widgets/checkbox.jsx");
-/* harmony import */ var _tag_manager_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./tag-manager.jsx */ "./src/widgets/tag-manager.jsx");
-/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
+/* harmony import */ var _avatar_crop_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./avatar-crop.jsx */ "./src/widgets/avatar-crop.jsx");
+/* harmony import */ var _avatar_upload_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./avatar-upload.jsx */ "./src/widgets/avatar-upload.jsx");
+/* harmony import */ var _checkbox_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./checkbox.jsx */ "./src/widgets/checkbox.jsx");
+/* harmony import */ var _tag_manager_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tag-manager.jsx */ "./src/widgets/tag-manager.jsx");
+/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
+/* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
+
+
 
 
 
@@ -14597,19 +14211,22 @@ class NewTopicGroup extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       fullName: '',
       private: '',
       description: '',
-      imageDataUrl: null,
+      imageUrl: null,
       tags: [],
-      isChannel: false
+      isChannel: false,
+      newAvatar: null,
+      newAvatarMime: null
     };
     this.handleFieldEdit = this.handleFieldEdit.bind(this);
     this.handleImageChanged = this.handleImageChanged.bind(this);
+    this.handleAvatarCropped = this.handleAvatarCropped.bind(this);
+    this.handleAvatarCropCancel = this.handleAvatarCropCancel.bind(this);
+    this.uploadAvatar = this.uploadAvatar.bind(this);
     this.handleTagsChanged = this.handleTagsChanged.bind(this);
     this.handleChannelToggle = this.handleChannelToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  componentDidMount() {
-  }
-
+  componentDidMount() {}
   handleFieldEdit(name, e) {
     this.setState({
       [name]: e.target.value || ''
@@ -14617,8 +14234,57 @@ class NewTopicGroup extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   }
   handleImageChanged(mime, img) {
     this.setState({
-      imageDataUrl: img
+      newAvatar: img,
+      newAvatarMime: mime
     });
+  }
+  handleAvatarCropped(mime, blob, width, height) {
+    const url = blob ? URL.createObjectURL(blob) : null;
+    this.setState({
+      imageUrl: url,
+      newAvatar: null,
+      newAvatarMime: null
+    });
+    if (blob) {
+      this.uploadAvatar(mime, blob, width, height);
+    }
+  }
+  handleAvatarCropCancel() {
+    this.setState({
+      newAvatar: null,
+      newAvatarMime: null
+    });
+  }
+  uploadAvatar(mime, blob, width, height) {
+    const readyToUpload = image => {
+      let {
+        mime,
+        blob
+      } = image;
+      if (blob.size > _config_js__WEBPACK_IMPORTED_MODULE_6__.MAX_AVATAR_BYTES) {
+        const uploader = this.props.tinode.getLargeFileHelper();
+        uploader.upload(blob).then(url => this.setState({
+          imageUrl: url
+        })).catch(err => this.props.onError(err.message, 'err'));
+      } else {
+        (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__.blobToBase64)(blob).then(b64 => this.setState({
+          imageUrl: (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__.makeImageUrl)({
+            data: b64.bits,
+            type: mime
+          })
+        }));
+      }
+    };
+    if (width > _config_js__WEBPACK_IMPORTED_MODULE_6__.AVATAR_SIZE || height > _config_js__WEBPACK_IMPORTED_MODULE_6__.AVATAR_SIZE || width != height) {
+      (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__.imageScaled)(blob, _config_js__WEBPACK_IMPORTED_MODULE_6__.AVATAR_SIZE, _config_js__WEBPACK_IMPORTED_MODULE_6__.AVATAR_SIZE, _config_js__WEBPACK_IMPORTED_MODULE_6__.MAX_EXTERN_ATTACHMENT_SIZE, true).then(scaled => readyToUpload(scaled)).catch(err => this.props.onError(err.message, 'err'));
+    } else {
+      readyToUpload({
+        mime: mime,
+        blob: blob,
+        width: width,
+        height: height
+      });
+    }
   }
   handleTagsChanged(tags) {
     this.setState({
@@ -14632,14 +14298,23 @@ class NewTopicGroup extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   }
   handleSubmit(e) {
     e.preventDefault();
-    const fn = this.state.fullName.trim().substring(0, _config_js__WEBPACK_IMPORTED_MODULE_5__.MAX_TITLE_LENGTH);
-    const comment = this.state.private.trim().substring(0, _config_js__WEBPACK_IMPORTED_MODULE_5__.MAX_TITLE_LENGTH);
-    const description = this.state.description.trim().substring(0, _config_js__WEBPACK_IMPORTED_MODULE_5__.MAX_TOPIC_DESCRIPTION_LENGTH);
+    const fn = this.state.fullName.trim().substring(0, _config_js__WEBPACK_IMPORTED_MODULE_6__.MAX_TITLE_LENGTH);
+    const comment = this.state.private.trim().substring(0, _config_js__WEBPACK_IMPORTED_MODULE_6__.MAX_TITLE_LENGTH);
+    const description = this.state.description.trim().substring(0, _config_js__WEBPACK_IMPORTED_MODULE_6__.MAX_TOPIC_DESCRIPTION_LENGTH);
     if (fn) {
-      this.props.onSubmit(fn, description, this.state.imageDataUrl, comment, this.state.tags, this.state.isChannel);
+      this.props.onSubmit(fn, description, this.state.imageUrl, comment, this.state.tags, this.state.isChannel);
     }
   }
   render() {
+    if (this.state.newAvatar) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_avatar_crop_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        avatar: this.state.newAvatar,
+        mime: this.state.newAvatarMime,
+        onSubmit: this.handleAvatarCropped,
+        onCancel: this.handleAvatarCropCancel,
+        onError: this.props.onError
+      });
+    }
     let submitClasses = 'primary';
     if (this.props.disabled) {
       submitClasses += ' disabled';
@@ -14649,8 +14324,9 @@ class NewTopicGroup extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       onSubmit: this.handleSubmit
     }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "panel-form-column"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("center", null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_avatar_upload_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("center", null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_avatar_upload_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
       tinode: this.props.tinode,
+      avatar: this.state.imageUrl,
       onError: this.props.onError,
       onImageUpdated: this.handleImageChanged
     })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -14730,7 +14406,7 @@ class NewTopicGroup extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       tabIndex: 2
     })))), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "panel-form-row"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_checkbox_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_checkbox_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
       checked: this.state.isChannel,
       tabIndex: 3,
       onChange: this.handleChannelToggle
@@ -14748,7 +14424,7 @@ class NewTopicGroup extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
         "type": 0,
         "value": "Tags (search & discovery)"
       }]
-    }, title => react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tag_manager_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }, title => react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_tag_manager_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
       tinode: this.props.tinode,
       tags: this.state.tags,
       activated: true,
@@ -14778,7 +14454,6 @@ class NewTopicGroup extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -14790,8 +14465,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _checkbox_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./checkbox.jsx */ "./src/widgets/checkbox.jsx");
 /* harmony import */ var _contact_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./contact.jsx */ "./src/widgets/contact.jsx");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
-
-
 
 
 
@@ -15049,7 +14722,6 @@ class PermissionsEditor extends (react__WEBPACK_IMPORTED_MODULE_0___default().Co
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -15061,7 +14733,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tinode-sdk */ "tinode-sdk");
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(tinode_sdk__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
 
 
 
@@ -15117,7 +14788,6 @@ class ReceivedMarker extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SearchContacts)
@@ -15215,7 +14885,6 @@ class SearchContacts extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -15230,7 +14899,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
 /* harmony import */ var _lib_formatters_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../lib/formatters.js */ "./src/lib/formatters.js");
-
 
 
 
@@ -15383,14 +15051,12 @@ class SendMessage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
       });
     }
   }
-
   handleKeyPress(e) {
     if (this.state.audioRec) {
       e.preventDefault();
       e.stopPropagation();
       return;
     }
-
     if (e.key === 'Enter') {
       if (!e.shiftKey) {
         e.preventDefault();
@@ -15530,7 +15196,6 @@ class SendMessage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SideNavbar)
@@ -15602,7 +15267,6 @@ class SideNavbar extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ TagManager)
@@ -15614,7 +15278,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _chip_input_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./chip-input.jsx */ "./src/widgets/chip-input.jsx");
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
 
 
 
@@ -15805,7 +15468,6 @@ class TagManager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ TopicCommon)
@@ -15816,8 +15478,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _widgets_topic_desc_edit_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/topic-desc-edit.jsx */ "./src/widgets/topic-desc-edit.jsx");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
-
 
 
 
@@ -15844,7 +15504,6 @@ class TopicCommon extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
     this.handleCredKeyDown = this.handleCredKeyDown.bind(this);
     this.handleCredEntered = this.handleCredEntered.bind(this);
   }
-
   componentDidUpdate(props) {
     const topic = this.props.tinode.getTopic(props.topic);
     if (!topic) {
@@ -15922,7 +15581,6 @@ class TopicCommon extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
       });
     }
   }
-
   onTagsUpdated(tags) {
     this.setState({
       tags: tags
@@ -15931,7 +15589,6 @@ class TopicCommon extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
       this.previousTagsUpdated(tags);
     }
   }
-
   handleTagsUpdated(tags) {
     if (!(0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_3__.arrayEqual)(this.state.tags.slice(0), tags.slice(0))) {
       this.props.onTopicTagsUpdateRequest(this.props.topic, tags);
@@ -16033,7 +15690,6 @@ class TopicCommon extends (react__WEBPACK_IMPORTED_MODULE_0___default().Componen
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ TopicDescEdit)
@@ -16051,8 +15707,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
 /* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
-
 
 
 
@@ -16131,7 +15785,6 @@ class TopicDescEdit extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compon
       this.props.onUpdateTopicDesc(this.props.topic, (0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_9__.theCard)(null, null, null, desc));
     }
   }
-
   handleImageUpdated(mime, img) {
     this.setState({
       newAvatar: img,
@@ -16144,7 +15797,6 @@ class TopicDescEdit extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compon
       this.props.onUpdateTopicDesc(this.props.topic, (0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_9__.theCard)(null, tinode_sdk__WEBPACK_IMPORTED_MODULE_2__.Tinode.DEL_CHAR));
     }
   }
-
   handleAvatarCropped(mime, blob, width, height) {
     const url = blob ? URL.createObjectURL(blob) : null;
     this.setState({
@@ -16156,7 +15808,6 @@ class TopicDescEdit extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compon
       this.uploadAvatar(mime, blob, width, height);
     }
   }
-
   uploadAvatar(mime, blob, width, height) {
     const readyToUpload = image => {
       let {
@@ -16335,7 +15986,6 @@ class TopicDescEdit extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compon
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -16346,7 +15996,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _in_place_edit_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./in-place-edit.jsx */ "./src/widgets/in-place-edit.jsx");
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
 
 
 
@@ -16458,76 +16107,46 @@ class TopicSecurity extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
     const {
       formatMessage
     } = this.props.intl;
-    this.props.onShowAlert(formatMessage(messages.topic_delete),
-    formatMessage(messages.topic_delete_warning),
-    () => {
+    this.props.onShowAlert(formatMessage(messages.topic_delete), formatMessage(messages.topic_delete_warning), () => {
       this.props.onDeleteTopic(this.props.topic);
-    },
-    null,
-    true,
-    null);
+    }, null, true, null);
   }
-
   handleDeleteMessages(e) {
     e.preventDefault();
     const {
       formatMessage
     } = this.props.intl;
-    this.props.onShowAlert(formatMessage(this.props.deleter ? messages.delete_messages : messages.clear_messages),
-    formatMessage(this.props.deleter ? messages.delete_messages_warning : messages.clear_messages_warning),
-    () => {
+    this.props.onShowAlert(formatMessage(this.props.deleter ? messages.delete_messages : messages.clear_messages), formatMessage(this.props.deleter ? messages.delete_messages_warning : messages.clear_messages_warning), () => {
       this.props.onDeleteMessages(this.props.topic);
-    },
-    null,
-    true,
-    null);
+    }, null, true, null);
   }
-
   handleLeave(e) {
     e.preventDefault();
     const {
       formatMessage
     } = this.props.intl;
-    this.props.onShowAlert(formatMessage(messages.leave_chat),
-    formatMessage(messages.leave_chat_warning),
-    () => {
+    this.props.onShowAlert(formatMessage(messages.leave_chat), formatMessage(messages.leave_chat_warning), () => {
       this.props.onLeaveTopic(this.props.topic);
-    },
-    null,
-    true,
-    null);
+    }, null, true, null);
   }
-
   handleBlock(e) {
     e.preventDefault();
     const {
       formatMessage
     } = this.props.intl;
-    this.props.onShowAlert(formatMessage(messages.block_contact),
-    formatMessage(messages.block_contact_warning),
-    () => {
+    this.props.onShowAlert(formatMessage(messages.block_contact), formatMessage(messages.block_contact_warning), () => {
       this.props.onBlockTopic(this.props.topic);
-    },
-    null,
-    true,
-    null);
+    }, null, true, null);
   }
-
   handleReport(e) {
     e.preventDefault();
     const {
       formatMessage
     } = this.props.intl;
-    this.props.onShowAlert(formatMessage(messages.report_chat),
-    formatMessage(messages.report_chat_warning),
-    _ => {
+    this.props.onShowAlert(formatMessage(messages.report_chat), formatMessage(messages.report_chat_warning), _ => {
       this.props.onReportTopic(this.props.topic);
-    },
-    null,
-    true,
-    null);
+    }, null, true, null);
   }
-
   render() {
     const {
       formatMessage
@@ -16656,14 +16275,12 @@ class TopicSecurity extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
   \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ UnreadBadge)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
 
 class UnreadBadge extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
   render() {
@@ -16682,7 +16299,6 @@ class UnreadBadge extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
   \*****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ UploadingImage)
@@ -16692,7 +16308,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _file_progress_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./file-progress.jsx */ "./src/widgets/file-progress.jsx");
-
 
 
 
@@ -16721,14 +16336,12 @@ class UploadingImage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
   \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ VisiblePassword)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
 
 class VisiblePassword extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
   constructor(props) {
@@ -16821,7 +16434,6 @@ class VisiblePassword extends (react__WEBPACK_IMPORTED_MODULE_0___default().Pure
   \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "FirebaseError": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.FirebaseError),
@@ -16878,7 +16490,6 @@ var version = "9.14.0";
   \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "deleteToken": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.deleteToken),
@@ -16894,536 +16505,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/fix-webm-duration/fix-webm-duration.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/fix-webm-duration/fix-webm-duration.js ***!
-  \*************************************************************/
-/***/ ((module, exports, __webpack_require__) => {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (name, definition) {
-    if (true) { // RequireJS / AMD
-        !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition),
-		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-		(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-		__WEBPACK_AMD_DEFINE_FACTORY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else {}
-})('fix-webm-duration', function () {
-    /*
-     * This is the list of possible WEBM file sections by their IDs.
-     * Possible types: Container, Binary, Uint, Int, String, Float, Date
-     */
-    var sections = {
-        0xa45dfa3: { name: 'EBML', type: 'Container' },
-        0x286: { name: 'EBMLVersion', type: 'Uint' },
-        0x2f7: { name: 'EBMLReadVersion', type: 'Uint' },
-        0x2f2: { name: 'EBMLMaxIDLength', type: 'Uint' },
-        0x2f3: { name: 'EBMLMaxSizeLength', type: 'Uint' },
-        0x282: { name: 'DocType', type: 'String' },
-        0x287: { name: 'DocTypeVersion', type: 'Uint' },
-        0x285: { name: 'DocTypeReadVersion', type: 'Uint' },
-        0x6c: { name: 'Void', type: 'Binary' },
-        0x3f: { name: 'CRC-32', type: 'Binary' },
-        0xb538667: { name: 'SignatureSlot', type: 'Container' },
-        0x3e8a: { name: 'SignatureAlgo', type: 'Uint' },
-        0x3e9a: { name: 'SignatureHash', type: 'Uint' },
-        0x3ea5: { name: 'SignaturePublicKey', type: 'Binary' },
-        0x3eb5: { name: 'Signature', type: 'Binary' },
-        0x3e5b: { name: 'SignatureElements', type: 'Container' },
-        0x3e7b: { name: 'SignatureElementList', type: 'Container' },
-        0x2532: { name: 'SignedElement', type: 'Binary' },
-        0x8538067: { name: 'Segment', type: 'Container' },
-        0x14d9b74: { name: 'SeekHead', type: 'Container' },
-        0xdbb: { name: 'Seek', type: 'Container' },
-        0x13ab: { name: 'SeekID', type: 'Binary' },
-        0x13ac: { name: 'SeekPosition', type: 'Uint' },
-        0x549a966: { name: 'Info', type: 'Container' },
-        0x33a4: { name: 'SegmentUID', type: 'Binary' },
-        0x3384: { name: 'SegmentFilename', type: 'String' },
-        0x1cb923: { name: 'PrevUID', type: 'Binary' },
-        0x1c83ab: { name: 'PrevFilename', type: 'String' },
-        0x1eb923: { name: 'NextUID', type: 'Binary' },
-        0x1e83bb: { name: 'NextFilename', type: 'String' },
-        0x444: { name: 'SegmentFamily', type: 'Binary' },
-        0x2924: { name: 'ChapterTranslate', type: 'Container' },
-        0x29fc: { name: 'ChapterTranslateEditionUID', type: 'Uint' },
-        0x29bf: { name: 'ChapterTranslateCodec', type: 'Uint' },
-        0x29a5: { name: 'ChapterTranslateID', type: 'Binary' },
-        0xad7b1: { name: 'TimecodeScale', type: 'Uint' },
-        0x489: { name: 'Duration', type: 'Float' },
-        0x461: { name: 'DateUTC', type: 'Date' },
-        0x3ba9: { name: 'Title', type: 'String' },
-        0xd80: { name: 'MuxingApp', type: 'String' },
-        0x1741: { name: 'WritingApp', type: 'String' },
-        // 0xf43b675: { name: 'Cluster', type: 'Container' },
-        0x67: { name: 'Timecode', type: 'Uint' },
-        0x1854: { name: 'SilentTracks', type: 'Container' },
-        0x18d7: { name: 'SilentTrackNumber', type: 'Uint' },
-        0x27: { name: 'Position', type: 'Uint' },
-        0x2b: { name: 'PrevSize', type: 'Uint' },
-        0x23: { name: 'SimpleBlock', type: 'Binary' },
-        0x20: { name: 'BlockGroup', type: 'Container' },
-        0x21: { name: 'Block', type: 'Binary' },
-        0x22: { name: 'BlockVirtual', type: 'Binary' },
-        0x35a1: { name: 'BlockAdditions', type: 'Container' },
-        0x26: { name: 'BlockMore', type: 'Container' },
-        0x6e: { name: 'BlockAddID', type: 'Uint' },
-        0x25: { name: 'BlockAdditional', type: 'Binary' },
-        0x1b: { name: 'BlockDuration', type: 'Uint' },
-        0x7a: { name: 'ReferencePriority', type: 'Uint' },
-        0x7b: { name: 'ReferenceBlock', type: 'Int' },
-        0x7d: { name: 'ReferenceVirtual', type: 'Int' },
-        0x24: { name: 'CodecState', type: 'Binary' },
-        0x35a2: { name: 'DiscardPadding', type: 'Int' },
-        0xe: { name: 'Slices', type: 'Container' },
-        0x68: { name: 'TimeSlice', type: 'Container' },
-        0x4c: { name: 'LaceNumber', type: 'Uint' },
-        0x4d: { name: 'FrameNumber', type: 'Uint' },
-        0x4b: { name: 'BlockAdditionID', type: 'Uint' },
-        0x4e: { name: 'Delay', type: 'Uint' },
-        0x4f: { name: 'SliceDuration', type: 'Uint' },
-        0x48: { name: 'ReferenceFrame', type: 'Container' },
-        0x49: { name: 'ReferenceOffset', type: 'Uint' },
-        0x4a: { name: 'ReferenceTimeCode', type: 'Uint' },
-        0x2f: { name: 'EncryptedBlock', type: 'Binary' },
-        0x654ae6b: { name: 'Tracks', type: 'Container' },
-        0x2e: { name: 'TrackEntry', type: 'Container' },
-        0x57: { name: 'TrackNumber', type: 'Uint' },
-        0x33c5: { name: 'TrackUID', type: 'Uint' },
-        0x3: { name: 'TrackType', type: 'Uint' },
-        0x39: { name: 'FlagEnabled', type: 'Uint' },
-        0x8: { name: 'FlagDefault', type: 'Uint' },
-        0x15aa: { name: 'FlagForced', type: 'Uint' },
-        0x1c: { name: 'FlagLacing', type: 'Uint' },
-        0x2de7: { name: 'MinCache', type: 'Uint' },
-        0x2df8: { name: 'MaxCache', type: 'Uint' },
-        0x3e383: { name: 'DefaultDuration', type: 'Uint' },
-        0x34e7a: { name: 'DefaultDecodedFieldDuration', type: 'Uint' },
-        0x3314f: { name: 'TrackTimecodeScale', type: 'Float' },
-        0x137f: { name: 'TrackOffset', type: 'Int' },
-        0x15ee: { name: 'MaxBlockAdditionID', type: 'Uint' },
-        0x136e: { name: 'Name', type: 'String' },
-        0x2b59c: { name: 'Language', type: 'String' },
-        0x6: { name: 'CodecID', type: 'String' },
-        0x23a2: { name: 'CodecPrivate', type: 'Binary' },
-        0x58688: { name: 'CodecName', type: 'String' },
-        0x3446: { name: 'AttachmentLink', type: 'Uint' },
-        0x1a9697: { name: 'CodecSettings', type: 'String' },
-        0x1b4040: { name: 'CodecInfoURL', type: 'String' },
-        0x6b240: { name: 'CodecDownloadURL', type: 'String' },
-        0x2a: { name: 'CodecDecodeAll', type: 'Uint' },
-        0x2fab: { name: 'TrackOverlay', type: 'Uint' },
-        0x16aa: { name: 'CodecDelay', type: 'Uint' },
-        0x16bb: { name: 'SeekPreRoll', type: 'Uint' },
-        0x2624: { name: 'TrackTranslate', type: 'Container' },
-        0x26fc: { name: 'TrackTranslateEditionUID', type: 'Uint' },
-        0x26bf: { name: 'TrackTranslateCodec', type: 'Uint' },
-        0x26a5: { name: 'TrackTranslateTrackID', type: 'Binary' },
-        0x60: { name: 'Video', type: 'Container' },
-        0x1a: { name: 'FlagInterlaced', type: 'Uint' },
-        0x13b8: { name: 'StereoMode', type: 'Uint' },
-        0x13c0: { name: 'AlphaMode', type: 'Uint' },
-        0x13b9: { name: 'OldStereoMode', type: 'Uint' },
-        0x30: { name: 'PixelWidth', type: 'Uint' },
-        0x3a: { name: 'PixelHeight', type: 'Uint' },
-        0x14aa: { name: 'PixelCropBottom', type: 'Uint' },
-        0x14bb: { name: 'PixelCropTop', type: 'Uint' },
-        0x14cc: { name: 'PixelCropLeft', type: 'Uint' },
-        0x14dd: { name: 'PixelCropRight', type: 'Uint' },
-        0x14b0: { name: 'DisplayWidth', type: 'Uint' },
-        0x14ba: { name: 'DisplayHeight', type: 'Uint' },
-        0x14b2: { name: 'DisplayUnit', type: 'Uint' },
-        0x14b3: { name: 'AspectRatioType', type: 'Uint' },
-        0xeb524: { name: 'ColourSpace', type: 'Binary' },
-        0xfb523: { name: 'GammaValue', type: 'Float' },
-        0x383e3: { name: 'FrameRate', type: 'Float' },
-        0x61: { name: 'Audio', type: 'Container' },
-        0x35: { name: 'SamplingFrequency', type: 'Float' },
-        0x38b5: { name: 'OutputSamplingFrequency', type: 'Float' },
-        0x1f: { name: 'Channels', type: 'Uint' },
-        0x3d7b: { name: 'ChannelPositions', type: 'Binary' },
-        0x2264: { name: 'BitDepth', type: 'Uint' },
-        0x62: { name: 'TrackOperation', type: 'Container' },
-        0x63: { name: 'TrackCombinePlanes', type: 'Container' },
-        0x64: { name: 'TrackPlane', type: 'Container' },
-        0x65: { name: 'TrackPlaneUID', type: 'Uint' },
-        0x66: { name: 'TrackPlaneType', type: 'Uint' },
-        0x69: { name: 'TrackJoinBlocks', type: 'Container' },
-        0x6d: { name: 'TrackJoinUID', type: 'Uint' },
-        0x40: { name: 'TrickTrackUID', type: 'Uint' },
-        0x41: { name: 'TrickTrackSegmentUID', type: 'Binary' },
-        0x46: { name: 'TrickTrackFlag', type: 'Uint' },
-        0x47: { name: 'TrickMasterTrackUID', type: 'Uint' },
-        0x44: { name: 'TrickMasterTrackSegmentUID', type: 'Binary' },
-        0x2d80: { name: 'ContentEncodings', type: 'Container' },
-        0x2240: { name: 'ContentEncoding', type: 'Container' },
-        0x1031: { name: 'ContentEncodingOrder', type: 'Uint' },
-        0x1032: { name: 'ContentEncodingScope', type: 'Uint' },
-        0x1033: { name: 'ContentEncodingType', type: 'Uint' },
-        0x1034: { name: 'ContentCompression', type: 'Container' },
-        0x254: { name: 'ContentCompAlgo', type: 'Uint' },
-        0x255: { name: 'ContentCompSettings', type: 'Binary' },
-        0x1035: { name: 'ContentEncryption', type: 'Container' },
-        0x7e1: { name: 'ContentEncAlgo', type: 'Uint' },
-        0x7e2: { name: 'ContentEncKeyID', type: 'Binary' },
-        0x7e3: { name: 'ContentSignature', type: 'Binary' },
-        0x7e4: { name: 'ContentSigKeyID', type: 'Binary' },
-        0x7e5: { name: 'ContentSigAlgo', type: 'Uint' },
-        0x7e6: { name: 'ContentSigHashAlgo', type: 'Uint' },
-        0xc53bb6b: { name: 'Cues', type: 'Container' },
-        0x3b: { name: 'CuePoint', type: 'Container' },
-        0x33: { name: 'CueTime', type: 'Uint' },
-        0x37: { name: 'CueTrackPositions', type: 'Container' },
-        0x77: { name: 'CueTrack', type: 'Uint' },
-        0x71: { name: 'CueClusterPosition', type: 'Uint' },
-        0x70: { name: 'CueRelativePosition', type: 'Uint' },
-        0x32: { name: 'CueDuration', type: 'Uint' },
-        0x1378: { name: 'CueBlockNumber', type: 'Uint' },
-        0x6a: { name: 'CueCodecState', type: 'Uint' },
-        0x5b: { name: 'CueReference', type: 'Container' },
-        0x16: { name: 'CueRefTime', type: 'Uint' },
-        0x17: { name: 'CueRefCluster', type: 'Uint' },
-        0x135f: { name: 'CueRefNumber', type: 'Uint' },
-        0x6b: { name: 'CueRefCodecState', type: 'Uint' },
-        0x941a469: { name: 'Attachments', type: 'Container' },
-        0x21a7: { name: 'AttachedFile', type: 'Container' },
-        0x67e: { name: 'FileDescription', type: 'String' },
-        0x66e: { name: 'FileName', type: 'String' },
-        0x660: { name: 'FileMimeType', type: 'String' },
-        0x65c: { name: 'FileData', type: 'Binary' },
-        0x6ae: { name: 'FileUID', type: 'Uint' },
-        0x675: { name: 'FileReferral', type: 'Binary' },
-        0x661: { name: 'FileUsedStartTime', type: 'Uint' },
-        0x662: { name: 'FileUsedEndTime', type: 'Uint' },
-        0x43a770: { name: 'Chapters', type: 'Container' },
-        0x5b9: { name: 'EditionEntry', type: 'Container' },
-        0x5bc: { name: 'EditionUID', type: 'Uint' },
-        0x5bd: { name: 'EditionFlagHidden', type: 'Uint' },
-        0x5db: { name: 'EditionFlagDefault', type: 'Uint' },
-        0x5dd: { name: 'EditionFlagOrdered', type: 'Uint' },
-        0x36: { name: 'ChapterAtom', type: 'Container' },
-        0x33c4: { name: 'ChapterUID', type: 'Uint' },
-        0x1654: { name: 'ChapterStringUID', type: 'String' },
-        0x11: { name: 'ChapterTimeStart', type: 'Uint' },
-        0x12: { name: 'ChapterTimeEnd', type: 'Uint' },
-        0x18: { name: 'ChapterFlagHidden', type: 'Uint' },
-        0x598: { name: 'ChapterFlagEnabled', type: 'Uint' },
-        0x2e67: { name: 'ChapterSegmentUID', type: 'Binary' },
-        0x2ebc: { name: 'ChapterSegmentEditionUID', type: 'Uint' },
-        0x23c3: { name: 'ChapterPhysicalEquiv', type: 'Uint' },
-        0xf: { name: 'ChapterTrack', type: 'Container' },
-        0x9: { name: 'ChapterTrackNumber', type: 'Uint' },
-        0x0: { name: 'ChapterDisplay', type: 'Container' },
-        0x5: { name: 'ChapString', type: 'String' },
-        0x37c: { name: 'ChapLanguage', type: 'String' },
-        0x37e: { name: 'ChapCountry', type: 'String' },
-        0x2944: { name: 'ChapProcess', type: 'Container' },
-        0x2955: { name: 'ChapProcessCodecID', type: 'Uint' },
-        0x50d: { name: 'ChapProcessPrivate', type: 'Binary' },
-        0x2911: { name: 'ChapProcessCommand', type: 'Container' },
-        0x2922: { name: 'ChapProcessTime', type: 'Uint' },
-        0x2933: { name: 'ChapProcessData', type: 'Binary' },
-        0x254c367: { name: 'Tags', type: 'Container' },
-        0x3373: { name: 'Tag', type: 'Container' },
-        0x23c0: { name: 'Targets', type: 'Container' },
-        0x28ca: { name: 'TargetTypeValue', type: 'Uint' },
-        0x23ca: { name: 'TargetType', type: 'String' },
-        0x23c5: { name: 'TagTrackUID', type: 'Uint' },
-        0x23c9: { name: 'TagEditionUID', type: 'Uint' },
-        0x23c4: { name: 'TagChapterUID', type: 'Uint' },
-        0x23c6: { name: 'TagAttachmentUID', type: 'Uint' },
-        0x27c8: { name: 'SimpleTag', type: 'Container' },
-        0x5a3: { name: 'TagName', type: 'String' },
-        0x47a: { name: 'TagLanguage', type: 'String' },
-        0x484: { name: 'TagDefault', type: 'Uint' },
-        0x487: { name: 'TagString', type: 'String' },
-        0x485: { name: 'TagBinary', type: 'Binary' }
-    };
-
-    function doInherit(newClass, baseClass) {
-        newClass.prototype = Object.create(baseClass.prototype);
-        newClass.prototype.constructor = newClass;
-    }
-
-    function WebmBase(name, type) {
-        this.name = name || 'Unknown';
-        this.type = type || 'Unknown';
-    }
-    WebmBase.prototype.updateBySource = function() { };
-    WebmBase.prototype.setSource = function(source) {
-        this.source = source;
-        this.updateBySource();
-    };
-    WebmBase.prototype.updateByData = function() { };
-    WebmBase.prototype.setData = function(data) {
-        this.data = data;
-        this.updateByData();
-    };
-
-    function WebmUint(name, type) {
-        WebmBase.call(this, name, type || 'Uint');
-    }
-    doInherit(WebmUint, WebmBase);
-    function padHex(hex) {
-        return hex.length % 2 === 1 ? '0' + hex : hex;
-    }
-    WebmUint.prototype.updateBySource = function() {
-        // use hex representation of a number instead of number value
-        this.data = '';
-        for (var i = 0; i < this.source.length; i++) {
-            var hex = this.source[i].toString(16);
-            this.data += padHex(hex);
-        }
-    };
-    WebmUint.prototype.updateByData = function() {
-        var length = this.data.length / 2;
-        this.source = new Uint8Array(length);
-        for (var i = 0; i < length; i++) {
-            var hex = this.data.substr(i * 2, 2);
-            this.source[i] = parseInt(hex, 16);
-        }
-    };
-    WebmUint.prototype.getValue = function() {
-        return parseInt(this.data, 16);
-    };
-    WebmUint.prototype.setValue = function(value) {
-        this.setData(padHex(value.toString(16)));
-    };
-
-    function WebmFloat(name, type) {
-        WebmBase.call(this, name, type || 'Float');
-    }
-    doInherit(WebmFloat, WebmBase);
-    WebmFloat.prototype.getFloatArrayType = function() {
-        return this.source && this.source.length === 4 ? Float32Array : Float64Array;
-    };
-    WebmFloat.prototype.updateBySource = function() {
-        var byteArray = this.source.reverse();
-        var floatArrayType = this.getFloatArrayType();
-        var floatArray = new floatArrayType(byteArray.buffer);
-        this.data = floatArray[0];
-    };
-    WebmFloat.prototype.updateByData = function() {
-        var floatArrayType = this.getFloatArrayType();
-        var floatArray = new floatArrayType([ this.data ]);
-        var byteArray = new Uint8Array(floatArray.buffer);
-        this.source = byteArray.reverse();
-    };
-    WebmFloat.prototype.getValue = function() {
-        return this.data;
-    };
-    WebmFloat.prototype.setValue = function(value) {
-        this.setData(value);
-    };
-
-    function WebmContainer(name, type) {
-        WebmBase.call(this, name, type || 'Container');
-    }
-    doInherit(WebmContainer, WebmBase);
-    WebmContainer.prototype.readByte = function() {
-        return this.source[this.offset++];
-    };
-    WebmContainer.prototype.readUint = function() {
-        var firstByte = this.readByte();
-        var bytes = 8 - firstByte.toString(2).length;
-        var value = firstByte - (1 << (7 - bytes));
-        for (var i = 0; i < bytes; i++) {
-            // don't use bit operators to support x86
-            value *= 256;
-            value += this.readByte();
-        }
-        return value;
-    };
-    WebmContainer.prototype.updateBySource = function() {
-        this.data = [];
-        for (this.offset = 0; this.offset < this.source.length; this.offset = end) {
-            var id = this.readUint();
-            var len = this.readUint();
-            var end = Math.min(this.offset + len, this.source.length);
-            var data = this.source.slice(this.offset, end);
-
-            var info = sections[id] || { name: 'Unknown', type: 'Unknown' };
-            var ctr = WebmBase;
-            switch (info.type) {
-                case 'Container':
-                    ctr = WebmContainer;
-                    break;
-                case 'Uint':
-                    ctr = WebmUint;
-                    break;
-                case 'Float':
-                    ctr = WebmFloat;
-                    break;
-            }
-            var section = new ctr(info.name, info.type);
-            section.setSource(data);
-            this.data.push({
-                id: id,
-                idHex: id.toString(16),
-                data: section
-            });
-        }
-    };
-    WebmContainer.prototype.writeUint = function(x, draft) {
-        for (var bytes = 1, flag = 0x80; x >= flag && bytes < 8; bytes++, flag *= 0x80) { }
-
-        if (!draft) {
-            var value = flag + x;
-            for (var i = bytes - 1; i >= 0; i--) {
-                // don't use bit operators to support x86
-                var c = value % 256;
-                this.source[this.offset + i] = c;
-                value = (value - c) / 256;
-            }
-        }
-
-        this.offset += bytes;
-    };
-    WebmContainer.prototype.writeSections = function(draft) {
-        this.offset = 0;
-        for (var i = 0; i < this.data.length; i++) {
-            var section = this.data[i],
-                content = section.data.source,
-                contentLength = content.length;
-            this.writeUint(section.id, draft);
-            this.writeUint(contentLength, draft);
-            if (!draft) {
-                this.source.set(content, this.offset);
-            }
-            this.offset += contentLength;
-        }
-        return this.offset;
-    };
-    WebmContainer.prototype.updateByData = function() {
-        // run without accessing this.source to determine total length - need to know it to create Uint8Array
-        var length = this.writeSections('draft');
-        this.source = new Uint8Array(length);
-        // now really write data
-        this.writeSections();
-    };
-    WebmContainer.prototype.getSectionById = function(id) {
-        for (var i = 0; i < this.data.length; i++) {
-            var section = this.data[i];
-            if (section.id === id) {
-                return section.data;
-            }
-        }
-        return null;
-    };
-
-    function WebmFile(source) {
-        WebmContainer.call(this, 'File', 'File');
-        this.setSource(source);
-    }
-    doInherit(WebmFile, WebmContainer);
-    WebmFile.prototype.fixDuration = function(duration, options) {
-        var logger = options && options.logger;
-        if (logger === undefined) {
-            logger = function(message) {
-                console.log(message);
-            };
-        } else if (!logger) {
-            logger = function() { };
-        }
-
-        var segmentSection = this.getSectionById(0x8538067);
-        if (!segmentSection) {
-            logger('[fix-webm-duration] Segment section is missing');
-            return false;
-        }
-
-        var infoSection = segmentSection.getSectionById(0x549a966);
-        if (!infoSection) {
-            logger('[fix-webm-duration] Info section is missing');
-            return false;
-        }
-
-        var timeScaleSection = infoSection.getSectionById(0xad7b1);
-        if (!timeScaleSection) {
-            logger('[fix-webm-duration] TimecodeScale section is missing');
-            return false;
-        }
-
-        var durationSection = infoSection.getSectionById(0x489);
-        if (durationSection) {
-            if (durationSection.getValue() <= 0) {
-                logger('[fix-webm-duration] Duration section is present, but the value is empty');
-                durationSection.setValue(duration);
-            } else {
-                logger('[fix-webm-duration] Duration section is present');
-                return false;
-            }
-        } else {
-            logger('[fix-webm-duration] Duration section is missing');
-            // append Duration section
-            durationSection = new WebmFloat('Duration', 'Float');
-            durationSection.setValue(duration);
-            infoSection.data.push({
-                id: 0x489,
-                data: durationSection
-            });
-        }
-
-        // set default time scale to 1 millisecond (1000000 nanoseconds)
-        timeScaleSection.setValue(1000000);
-        infoSection.updateByData();
-        segmentSection.updateByData();
-        this.updateByData();
-
-        return true;
-    };
-    WebmFile.prototype.toBlob = function(mimeType) {
-        return new Blob([ this.source.buffer ], { type: mimeType || 'video/webm' });
-    };
-
-    function fixWebmDuration(blob, duration, callback, options) {
-        // The callback may be omitted - then the third argument is options
-        if (typeof callback === "object") {
-            options = callback;
-            callback = undefined;
-        }
-
-        if (!callback) {
-            return new Promise(function(resolve) {
-                fixWebmDuration(blob, duration, resolve, options);
-            });
-        }
-
-        try {
-            var reader = new FileReader();
-            reader.onloadend = function() {
-                try {
-                    var file = new WebmFile(new Uint8Array(reader.result));
-                    if (file.fixDuration(duration, options)) {
-                        blob = file.toBlob(blob.type);
-                    }
-                } catch (ex) {
-                    // ignore
-                }
-                callback(blob);
-            };
-            reader.readAsArrayBuffer(blob);
-        } catch (ex) {
-            callback(blob);
-        }
-    }
-
-    // Support AMD import default
-    fixWebmDuration.default = fixWebmDuration;
-
-    return fixWebmDuration;
-});
-
-
-/***/ }),
-
 /***/ "react":
 /*!************************!*\
   !*** external "React" ***!
   \************************/
 /***/ ((module) => {
 
-"use strict";
 module.exports = React;
 
 /***/ }),
@@ -17434,7 +16521,6 @@ module.exports = React;
   \***************************/
 /***/ ((module) => {
 
-"use strict";
 module.exports = ReactDOM;
 
 /***/ }),
@@ -17445,7 +16531,6 @@ module.exports = ReactDOM;
   \****************************/
 /***/ ((module) => {
 
-"use strict";
 module.exports = ReactIntl;
 
 /***/ }),
@@ -17456,7 +16541,6 @@ module.exports = ReactIntl;
   \*************************/
 /***/ ((module) => {
 
-"use strict";
 module.exports = Tinode;
 
 /***/ }),
@@ -17467,7 +16551,6 @@ module.exports = Tinode;
   \**************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "FirebaseError": () => (/* reexport safe */ _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError),
@@ -18438,7 +17521,6 @@ registerCoreComponents('');
   \********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Component": () => (/* binding */ Component),
@@ -18865,7 +17947,6 @@ class ComponentContainer {
   \************************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "deleteInstallations": () => (/* binding */ deleteInstallations),
@@ -20042,7 +19123,6 @@ registerInstallations();
   \*****************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "LogLevel": () => (/* binding */ LogLevel),
@@ -20279,7 +19359,6 @@ function setUserLogHandler(logCallback, options) {
   \********************************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "deleteToken": () => (/* binding */ deleteToken),
@@ -21541,7 +20620,6 @@ registerMessagingInWindow();
   \*****************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "deleteDB": () => (/* binding */ deleteDB),
@@ -21648,7 +20726,6 @@ function getMethod(target, prop) {
   \**************************************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "a": () => (/* binding */ reverseTransformCache),
@@ -21852,7 +20929,6 @@ const unwrap = (value) => reverseTransformCache.get(value);
   \***************************/
 /***/ ((module) => {
 
-"use strict";
 module.exports = JSON.parse('{"de":{"action_block_contact":"Kontakt blockieren","action_cancel":"Abbrechen","action_clear_messages":"Nachrichten leeren","action_delete_messages":"Nachrichten für alle löschen","action_leave_chat":"Unterhaltung verlassen","action_report_chat":"Unterhaltung melden","archived_contacts":"Archivierte Kontakte ({count})","badge_danger":"Verdächtig","badge_owner":"Besitzer","badge_staff":"Verwaltung","badge_verified":"Verifiziert","badge_you":"Sie","block_contact_warning":"Möchten Sie diesen Kontakt wirklich blockieren?","blocked_contacts_link":"Blockierte Kontakte ({count})","button_add_another":"Hinzufügen","button_add_members":"Mitglieder hinzufügen","button_cancel":"Abbrechen","button_confirm":"Bestätigen","button_create":"Erstellen","button_delete_account":"Konto löschen","button_edit":"Bearbeiten","button_logout":"Abmelden","button_ok":"OK","button_reset":"Zurücksetzen","button_send_request":"Anfrage senden","button_sign_in":"Anmelden","button_sign_up":"Anmelden","button_subscribe":"Abbonieren","button_update":"Aktualisieren","cannot_initiate_file_upload":"Datei kann nicht hochgeladen werden.","channel":"Sender","channel_prompt":"Dies ist ein Sender","chat_invitation":"Sie sind eingeladen, an einem neuen Chat teilzunehmen. Was möchten Sie tun?","chat_invitation_accept":"Akzeptieren","chat_invitation_block":"Blockieren","chat_invitation_ignore":"Ignorieren","clear_messages_warning":"Sind Sie sicher, dass Sie diese Unterhaltung für alle leeren wollen? Das kann nicht rückgängig gemacht werden.","code_doesnot_match":"Code stimmt nicht überein","contacts_not_found":"Sie haben keine Unterhaltungen<br />¯∖_(ツ)_/¯","contacts_not_found_short":"Keine Kontakte für \'\'{query}\'\'","credential_email_prompt":"E-Mail Adresse für Registrierung","delete_account":"Konto löschen","delete_account_warning":"Möchten Sie das Konto wirklich löschen? Das kann nicht rückgängig gemacht werden","delete_messages_warning":"Sind Sie sicher, dass Sie diese Unterhaltung für alle löschen wollen? Das kann nicht rückgängig gemacht werden.","deleted_content":"Inhalt gelöscht","download_action":"herunterladen","drafty_attachment":"Dateianhang","drafty_form":"Formular:","drafty_image":"Bild","email_dative":"E-Mail","email_prompt":"E-Mail, z.B. lisam@beispiel.de","enable_peers_messaging":"Aktivieren","enter_confirmation_code_prompt":"Geben Sie den Bestätigungscode ein, der per {method} geschickt wurde:","error_invalid_id":"ungültige ID","file_attachment_too_large":"Die Dateigröße {size} überschreitet das Limit von {limit}.","forgot_password_link":"Passwort vergessen?","full_name_prompt":"Vollständiger Name, z.B. Lisa Musterfrau","granted_permissions":"Erteilt","group_has_no_members":"Keine Mitglieder","group_user_id_prompt":"Gruppe oder Benutzer ID","image_caption_prompt":"Bildunterschrift","invalid_content":"ungültiger Inhalt","invalid_security_token":"Ungültiger Sicherheitsschlüssel","label_client":"Client:","label_content_type":"Inhaltsart:","label_default_access_mode":"Standard Zugriffsmodus:","label_file_name":"Dateiname:","label_group_members":"Gruppenmitglieder:","label_incognito_mode":"inkognito-Modus:","label_message_sound":"Benachrichtigungston:","label_muting_topic":"Stumm geschaltet:","label_other_user":"Andere","label_password":"Passwort","label_permissions":"Berechtigungen:","label_private":"Privater Kommentar","label_push_notifications":"Benachrichtigungsmeldungen:","label_push_notifications_disabled":"Benachrichtigungsmeldungen (erfordert HTTPS):","label_reset_password":"Passwort per E-Mail wiederherstellen:","label_sdk":"SDK:","label_server":"Server:","label_server_address":"Server Adresse:","label_server_to_use":"Server verwenden:","label_size":"Größe:","label_topic_name":"Name","label_user_contacts":"Kontakte:","label_user_id":"ID:","label_wire_transport":"Übertragung per Kabel:","label_you":"Sie:","label_your_name":"Ihr Name","label_your_permissions":"Ihre Berechtigungen:","last_seen_timestamp":"Zuletzt gesehen","leave_chat_warning":"Möchten Sie diese Unterhaltung wirklich verlassen?","link_contact_us":"Kontakt","link_privacy_policy":"Datenschutzerklärung","link_terms_of_service":"Nutzungsbedingungen","login_prompt":"Anmelden","menu_item_archive_topic":"Archivieren","menu_item_block":"Blockieren","menu_item_clear_messages":"Nachrichten leeren","menu_item_clear_messages_for_all":"Für alle leeren","menu_item_delete":"Löschen","menu_item_delete_for_all":"Für alle löschen","menu_item_delete_topic":"Entfernen","menu_item_edit_permissions":"Berechtigungen ändern","menu_item_info":"Info","menu_item_member_delete":"Entfernen","menu_item_mute":"Unterhaltung stumm schalten","menu_item_restore_topic":"Wiederherstellen","menu_item_send_retry":"Wiederholen","menu_item_unblock":"Blockierung aufheben","menu_item_unmute":"Stumm schalten beenden","message_sending":"wird gesendet...","message_sending_failed":"fehlgeschlagen","messages_not_readable":"Neue Nachrichten können nicht gelesen werden","messaging_disabled_prompt":"Nachrichtenübermittlung deaktiviert","more_online_members":"+{overflow} mehr","new_message_prompt":"Neue Nachricht","new_password_placeholder":"Geben Sie ein neues Passwort ein","no_connection":"Keine Verbindung","no_contacts":"Sie haben keine Kontakte :-(","numeric_confirmation_code_prompt":"Nur zahlen","online_now":"jetzt online","password_prompt":"Passwort","password_unchanged_prompt":"unverändert","peers_messaging_disabled":"Gruppennachrichten sind deaktiviert","permission_admin":"Bestätigen ({val})","permission_delete":"Entfernen ({val})","permission_join":"Beitreten ({val})","permission_owner":"Besitzer ({val})","permission_pres":"Benachrichtigt werden ({val})","permission_read":"Lesen ({val})","permission_share":"Teilen ({val})","permission_write":"Schreiben ({val})","phone_dative":"Telefon","private_editing_placeholder":"Nur für Sie sichtbar","push_init_failed":"Initialisierung von Push-Benachrichtigungen fehlgeschlagen","reconnect_countdown":"Getrennt. Wiederverbinden in {seconds}…","reconnect_now":"Jetzt probieren","reload_update":"Neu laden","report_chat_warning":"Möchten Sie diese Unterhaltung wirklich blockieren und melden?","requested_permissions":"Angefordert","save_attachment":"Speichern","search_for_contacts":"Nutzen Sie die Suche um Kontakte zu finden","search_no_results":"Die Suche hatte keine Ergebnisse","search_placeholder":"Liste: email:lisa@beispiel.de, tel:17025550003...","sidepanel_title_acc_notifications":"Benachrichtigungen","sidepanel_title_acc_support":"Unterstützung","sidepanel_title_account_settings":"Konto-Einstellungen","sidepanel_title_archive":"Archivierte Unterhaltungen","sidepanel_title_blocked":"Blockierte Unterhaltungen","sidepanel_title_cred":"Anmeldeinformationen bestätigen","sidepanel_title_login":"Anmelden","sidepanel_title_newtpk":"Neue Unterhaltung starten","sidepanel_title_register":"Konto erstellen","sidepanel_title_reset":"Passwort zurücksetzen","sidepanel_title_settings":"Einstellungen","stay_logged_in":"Angemeldet bleiben","tabtitle_find_user":"Suchen","tabtitle_group_by_id":"nach ID","tabtitle_new_group":"Neue Gruppe","tags_editor_no_tags":"Schlagworte hinzufügen","tags_not_found":"Keine Schlagworte definiert. Erstellen Sie welche.","title_all_contacts":"Alle Kontakte","title_group_members":"Gruppenmitglieder","panel_title_info":"Info","title_manage_tags":"Verwalten","title_not_found":"Nicht gefunden","title_permissions":"Berechtigungen","title_tag_manager":"Schlagworte (Nutzer entdecken)","topic_block_warning":"Möchten Sie diese Unterhaltung wirklich blockieren?","topic_delete_warning":"Möchten Sie diese Unterhaltung wirklich löschen?","topic_name_editing_placeholder":"Freiform Name der Gruppe","unnamed_topic":"Unbenannt","update_available":"Aktualisierung verfügbar.","upload_finishing":"wird abgeschlossen...","user_not_found":"Nicht gefunden","validate_credential_action":"bestätigen","description_editing_placeholder":"Beschreibung (optional)","label_description":"Beschreibung","button_security":"Sicherheit","panel_title_general":"Allgemein","panel_title_security":"Sicherheit","panel_title_crop":"Zum Anpassen ziehen","panel_title_members":"Mitglieder","permissions_anonymous":"Anonym","permissions_authenticated":"Authentifiziert","topic_delete":"Chat löschen","permissions_user":"Benutzerberechtigungen","password_reset_email_sent":"Eine E-Mail wurde an {email} gesendet. Folgen Sie den Anweisungen in der E-Mail, um Ihr Passwort zurückzusetzen.","label_unarchive_topic":"Archiviert:","menu_item_reply":"Antwort","menu_item_forward":"Nach vorne","forward_to":"Weiterleiten","forward_to_search_placeholder":"Kontakte durchsuchen","label_new_password":"Neues Kennwort","drafty_unknown":"Nicht unterstützt","calls_incoming":"Eingehender Anruf","calls_outgoing":"Ausgehender Anruf","calls_you_label":"Du","menu_item_video_call":"Videoanruf","already_in_call":"Du redest schon!","call_cancelled":"abgebrochen","call_missed":"verpasster","call_declined":"abgelehnt","call_disconnected":"getrennt","label_use_secure_connection":"Verwenden Sie eine sichere Verbindung","phone_or_email_prompt":"Telefonnummer oder E-Mail","cred_confirmed_successfully":"Erfolgreich bestätigt"},"en":{"action_block_contact":"Block Contact","action_cancel":"cancel","action_clear_messages":"Clear Messages","action_delete_messages":"Clear Messages for All","action_leave_chat":"Leave Conversation","action_report_chat":"Report Conversation","archived_contacts":"Archived contacts ({count})","badge_danger":"Untrustworthy","badge_owner":"owner","badge_staff":"Staff-managed","badge_verified":"Verified/official","badge_you":"you","block_contact_warning":"Are you sure you want to block this contact?","blocked_contacts_link":"Blocked contacts ({count})","button_add_another":"Add another","button_add_members":"Add members","button_cancel":"Cancel","button_confirm":"Confirm","button_create":"Create","button_delete_account":"Delete account","button_edit":"Edit","button_logout":"Logout","button_ok":"OK","button_reset":"Reset","button_send_request":"Send request","button_sign_in":"Sign in","button_sign_up":"Sign up","button_subscribe":"Subscribe","button_update":"Update","cannot_initiate_file_upload":"Cannot initiate file upload.","channel":"channel","channel_prompt":"This is a channel","chat_invitation":"You are invited to start a new chat. What would you like to do?","chat_invitation_accept":"Accept","chat_invitation_block":"Block","chat_invitation_ignore":"Ignore","clear_messages_warning":"Are you sure you want to clear all messages? It cannot be undone.","code_doesnot_match":"Code does not match","contacts_not_found":"You have no chats<br />¯∖_(ツ)_/¯","contacts_not_found_short":"No contacts match \'\'{query}\'\'","credential_email_prompt":"Your registration email","delete_account":"Delete account","delete_account_warning":"Are you sure you want to delete your account? It cannot be undone.","delete_messages_warning":"Are you sure you want to delete all messages for everyone? It cannot be undone.","deleted_content":"content deleted","download_action":"download","drafty_attachment":"Attachment","drafty_form":"Form:","drafty_image":"Picture","email_dative":"email","email_prompt":"Email, e.g. jdoe@example.com","enable_peers_messaging":"Enable","enter_confirmation_code_prompt":"Enter confirmation code sent to you by {method}:","error_invalid_id":"Invalid ID","file_attachment_too_large":"The file size {size} exceeds the {limit} limit.","forgot_password_link":"Forgot password?","full_name_prompt":"Full name, e.g. John Doe","granted_permissions":"Granted","group_has_no_members":"No members","group_user_id_prompt":"Group or User ID","image_caption_prompt":"Image caption","invalid_content":"invalid content","invalid_security_token":"Invalid security token","label_client":"Client:","label_content_type":"Content type:","label_default_access_mode":"Default access mode:","label_file_name":"File name:","label_group_members":"Group members:","label_incognito_mode":"Incognito mode:","label_message_sound":"Message sound:","label_muting_topic":"Muted:","label_other_user":"Other","label_password":"Password","label_permissions":"Permissions:","label_private":"Private comment","label_push_notifications":"Notification alerts:","label_push_notifications_disabled":"Notification alerts (requires HTTPS):","label_reset_password":"Send a password reset email:","label_sdk":"SDK:","label_server":"Server:","label_server_address":"Server address:","label_server_to_use":"Server to use:","label_size":"Size:","label_topic_name":"Name","label_user_contacts":"Contacts:","label_user_id":"ID:","label_wire_transport":"Wire transport:","label_you":"You:","label_your_name":"Your name","label_your_permissions":"Your permissions:","last_seen_timestamp":"Last seen","leave_chat_warning":"Are you sure you want to leave this conversation?","link_contact_us":"Contact Us","link_privacy_policy":"Privacy Policy","link_terms_of_service":"Terms of Service","login_prompt":"Login","menu_item_archive_topic":"Archive","menu_item_block":"Block","menu_item_clear_messages":"Clear messages","menu_item_clear_messages_for_all":"Clear for All","menu_item_delete":"Delete","menu_item_delete_for_all":"Delete for All","menu_item_delete_topic":"Delete","menu_item_edit_permissions":"Edit permissions","menu_item_info":"Info","menu_item_member_delete":"Remove","menu_item_mute":"Mute","menu_item_reply":"Reply","menu_item_restore_topic":"Restore","menu_item_send_retry":"Retry","menu_item_unblock":"Unblock","menu_item_unmute":"Unmute","message_sending":"sending...","message_sending_failed":"failed","messages_not_readable":"no access to messages","messaging_disabled_prompt":"Messaging disabled","more_online_members":"+{overflow} more","new_message_prompt":"New message","new_password_placeholder":"Enter new password","no_connection":"No connection","no_contacts":"You have no contacts :-(","numeric_confirmation_code_prompt":"Numbers only","online_now":"online now","password_prompt":"Password","password_unchanged_prompt":"Unchanged","peers_messaging_disabled":"Peer\'s messaging is disabled.","permission_admin":"Approve ({val})","permission_delete":"Delete ({val})","permission_join":"Join ({val})","permission_owner":"Owner ({val})","permission_pres":"Get notified ({val})","permission_read":"Read ({val})","permission_share":"Share ({val})","permission_write":"Write ({val})","phone_dative":"phone","private_editing_placeholder":"Visible to you only","push_init_failed":"Failed to initialize push notifications","reconnect_countdown":"Disconnected. Reconnecting in {seconds}…","reconnect_now":"Try now","reload_update":"Reload","report_chat_warning":"Are you sure you want to block and report this conversation?","requested_permissions":"Requested","save_attachment":"save","search_for_contacts":"Use search to find contacts","search_no_results":"Search returned no results","search_placeholder":"List like email:alice@example.com, tel:17025550003...","sidepanel_title_acc_notifications":"Notifications","sidepanel_title_acc_support":"Support","sidepanel_title_account_settings":"Account Settings","sidepanel_title_archive":"Archived Chats","sidepanel_title_blocked":"Blocked Chats","sidepanel_title_cred":"Confirm Credentials","sidepanel_title_login":"Sign In","sidepanel_title_newtpk":"Start New Chat","sidepanel_title_register":"Create Account","sidepanel_title_reset":"Reset Password","sidepanel_title_settings":"Settings","stay_logged_in":"Stay logged in","tabtitle_find_user":"find","tabtitle_group_by_id":"by id","tabtitle_new_group":"new group","tags_editor_no_tags":"Add some tags","tags_not_found":"No tags defined. Add some.","title_all_contacts":"All Contacts","title_group_members":"Group Members","title_manage_tags":"Manage","title_not_found":"Not found","title_permissions":"Permissions","title_tag_manager":"Tags (search & discovery)","topic_block_warning":"Are you sure you want to block this conversation?","topic_delete_warning":"Are you sure you want to delete this conversation?","topic_name_editing_placeholder":"Freeform name of the group","unnamed_topic":"Unnamed","update_available":"Update available.","upload_finishing":"finishing...","user_not_found":"Not found","validate_credential_action":"confirm","description_editing_placeholder":"Optional description","label_description":"Description","button_security":"Security","panel_title_crop":"Drag to Adjust","panel_title_general":"General","panel_title_members":"Members","panel_title_security":"Security","panel_title_info":"Info","permissions_anonymous":"Anonymous","permissions_authenticated":"Authenticated","topic_delete":"Delete Conversation","permissions_user":"User\'s Permissions","password_reset_email_sent":"An email has been sent to {email}. Follow the directions in the email to reset your password.","label_unarchive_topic":"Archived:","menu_item_forward":"Forward","forward_to":"Forward to","forward_to_search_placeholder":"Search contacts","label_new_password":"New password","drafty_unknown":"Unsupported","calls_incoming":"Incoming call","calls_outgoing":"Outgoing call","calls_you_label":"You","menu_item_video_call":"Video call","already_in_call":"You already in an ongoing call!","call_cancelled":"cancelled","call_missed":"missed","call_declined":"declined","call_disconnected":"disconnected","label_use_secure_connection":"Use secure connection","phone_or_email_prompt":"Phone number or email","cred_confirmed_successfully":"Confirmed successfully"},"es":{"action_block_contact":"Bloquear contacto","action_cancel":"cancelar","action_clear_messages":"Borrar mensajes","action_delete_messages":"Borrar mensajes para todos","action_leave_chat":"Dejar conversación","action_report_chat":"Reportar conversación","archived_contacts":"Contactos archivados ({count})","badge_danger":"Suspicaz","badge_owner":"propietario","badge_staff":"Administración","badge_verified":"Verificado","badge_you":"tú","block_contact_warning":"¿Estás seguro de que quieres bloquear a este contacto?","blocked_contacts_link":"Contactos bloqueados ({count})","button_add_another":"Añadir contacto","button_add_members":"Añadir miembros","button_cancel":"Cancelar","button_confirm":"Confirmar","button_create":"Crear","button_delete_account":"Eliminar cuenta","button_edit":"Editar","button_logout":"Cerrar sesión","button_ok":"OK","button_reset":"Restablecer","button_send_request":"Enviar petición","button_sign_in":"Entrar","button_sign_up":"Regístrate","button_subscribe":"Suscribirse","button_update":"Actualizar","cannot_initiate_file_upload":"No se pudo iniciar la carga del archivo.","channel":"canal","channel_prompt":"Este es un canal","chat_invitation":"Estás invitado a participar en un nuevo chat. ¿Qué te gustaría hacer?","chat_invitation_accept":"Aceptar","chat_invitation_block":"Bloquear","chat_invitation_ignore":"Ignorar","clear_messages_warning":"¿Estás seguro de que quieres eliminar todos los mensajes? Esta acción es irreversible.","code_doesnot_match":"El código no coincide","contacts_not_found":"No tienes chats<br />¯∖_(ツ)_/¯","contacts_not_found_short":"Ningún contacto coincide con \'\'{query}\'\'","credential_email_prompt":"Tu correo electrónico de registro","delete_account":"Eliminar cuenta","delete_account_warning":"¿Estás seguro de que deseas eliminar permanentemente tu cuenta? Esta acción es irreversible.","delete_messages_warning":"¿Estás seguro de que quieres eliminar todos los mensajes para todos? Esta acción es irreversible.","deleted_content":"este mensaje fue eliminado","download_action":"descargar","drafty_attachment":"Archivo","drafty_form":"Formulario:","drafty_image":"Imagen","email_dative":"correo electrónico","email_prompt":"Correo electrónico, p.ej. juan@example.com","enable_peers_messaging":"Habilitar","enter_confirmation_code_prompt":"Introduzca el código de confirmación enviado a tu {method}:","error_invalid_id":"ID inválido","file_attachment_too_large":"El tamaño del archivo {size} excede el límite de {limit}.","forgot_password_link":"¿Olvidaste tu contraseña?","full_name_prompt":"Nombre completo, p.ej. Juan González Hernández","granted_permissions":"Otorgados","group_has_no_members":"No hay miembros","group_user_id_prompt":"ID del grupo o usuario","image_caption_prompt":"Añade un comentario","invalid_content":"contenido inválido","invalid_security_token":"Token de seguridad inválido","label_client":"Cliente:","label_content_type":"Tipo de contenido:","label_default_access_mode":"Modo de acceso predeterminado:","label_file_name":"Nombre del archivo:","label_group_members":"Miembros del grupo:","label_incognito_mode":"Modo incógnito:","label_message_sound":"Sonido de mensaje:","label_muting_topic":"Silenciado:","label_other_user":"Otros","label_password":"Contraseña","label_permissions":"Permisos:","label_private":"Comentario privado","label_push_notifications":"Alertas de notificaciones:","label_push_notifications_disabled":"Alertas de notificaciones (requiere HTTPS):","label_reset_password":"Enviar un correo electrónico de restablecimiento de contraseña:","label_sdk":"SDK:","label_server":"Servidor:","label_server_address":"Dirección del servidor:","label_server_to_use":"Servidor para usar:","label_size":"Tamaño:","label_topic_name":"Nombre del tema","label_user_contacts":"Contactos:","label_user_id":"ID:","label_wire_transport":"Transporte de alambre:","label_you":"Tú:","label_your_name":"Tu nombre","label_your_permissions":"Tus permisos:","last_seen_timestamp":"Últ. vez","leave_chat_warning":"¿Estás seguro de que quieres dejar esta conversación?","link_contact_us":"Contáctanos","link_privacy_policy":"Política de privacidad","link_terms_of_service":"Términos de uso","login_prompt":"Nombre de usuario","menu_item_archive_topic":"Archivar","menu_item_block":"Bloquear","menu_item_clear_messages":"Borrar mensajes","menu_item_clear_messages_for_all":"Borrar para todos","menu_item_delete":"Eliminar","menu_item_delete_for_all":"Eliminar para todos","menu_item_delete_topic":"Eliminar","menu_item_edit_permissions":"Editar permisos","menu_item_info":"Información","menu_item_member_delete":"Eliminar","menu_item_mute":"Silenciar","menu_item_restore_topic":"Restaurar","menu_item_send_retry":"Inténtalo de nuevo","menu_item_unblock":"Desbloquear","menu_item_unmute":"Anular el silencio","message_sending":"enviando...","message_sending_failed":"no se pudo enviar el mensaje","messages_not_readable":"sin acceso a mensajes","messaging_disabled_prompt":"El envío de mensajes está deshabilitado","more_online_members":"+{overflow} más","new_message_prompt":"Nuevo mensaje","new_password_placeholder":"Introduzca una nueva contraseña","no_connection":"Sin conexión","no_contacts":"No tienes contactos :-(","numeric_confirmation_code_prompt":"Sólo números","online_now":"en línea","password_prompt":"Contraseña","password_unchanged_prompt":"Sin cambios","peers_messaging_disabled":"La mensajería Peer está deshabilitada.","permission_admin":"Approbar ({val})","permission_delete":"Eliminar ({val})","permission_join":"Unirse ({val})","permission_owner":"Propietario ({val})","permission_pres":"Ser notificado ({val})","permission_read":"Leer ({val})","permission_share":"Compartir ({val})","permission_write":"Escribir ({val})","phone_dative":"teléfono","private_editing_placeholder":"Sólo visible para tí","push_init_failed":"Error al inicializar las notificaciones push","reconnect_countdown":"Desconectado. Reconectando en {seconds}…","reconnect_now":"Reintentar","reload_update":"Recargar","report_chat_warning":"¿Estás seguro de que quieres bloquear y reportar a esta conversación?","requested_permissions":"Solicitados","save_attachment":"guardar","search_for_contacts":"Usa la búsqueda para encontrar contactos","search_no_results":"La búsqueda no arrojó resultados","search_placeholder":"Ej. email:alice@example.com, tel:17025550003...","sidepanel_title_acc_notifications":"Notificaciones","sidepanel_title_acc_support":"Soporte","sidepanel_title_account_settings":"Ajustes de la cuenta","sidepanel_title_archive":"Chats archivados","sidepanel_title_blocked":"Chats bloqueados","sidepanel_title_cred":"Confirmar credenciales","sidepanel_title_login":"Iniciar sesión","sidepanel_title_newtpk":"Iniciar un nuevo chat","sidepanel_title_register":"Crear cuenta","sidepanel_title_reset":"Restablecer contraseña","sidepanel_title_settings":"Ajustes","stay_logged_in":"Permanecer conectado","tabtitle_find_user":"encontrar","tabtitle_group_by_id":"por ID","tabtitle_new_group":"nuevo grupo","tags_editor_no_tags":"Añadir etiquetas","tags_not_found":"No hay etiquetas definidas. Añade unas.","title_all_contacts":"Todos los contactos","title_group_members":"Miembros del grupo","title_manage_tags":"Gestionar","title_not_found":"No encontrado","title_permissions":"Permisos","title_tag_manager":"Etiquetas (descubrimiento de usuarios)","topic_block_warning":"¿Estás seguro de que quieres bloquear esta conversación","topic_delete_warning":"¿Estás seguro de que quieres eliminar esta conversación?","topic_name_editing_placeholder":"Nombre del grupo","unnamed_topic":"Sin nombre","update_available":"Actualización disponible.","upload_finishing":"terminando...","user_not_found":"Usuario no encontrado","validate_credential_action":"confirmar","description_editing_placeholder":"Descripción (opcional)","label_description":"Descripción","button_security":"Seguridad","panel_title_crop":"Arrastra para ajustar","panel_title_general":"General","panel_title_members":"Miembros","panel_title_security":"Seguridad","panel_title_info":"Información","permissions_anonymous":"Anónimo","permissions_authenticated":"Autenticado","topic_delete":"Eliminar chat","permissions_user":"Permisos del usuario","password_reset_email_sent":"Se ha enviado un correo electrónico a {email}. Siga las instrucciones del correo electrónico para restablecer su contraseña.","label_unarchive_topic":"Archivado:","menu_item_reply":"Respuesta","menu_item_forward":"Reenviar","forward_to":"Reenviar a","forward_to_search_placeholder":"Buscar contactos","label_new_password":"Nueva contraseña","drafty_unknown":"No soportado","calls_incoming":"Llamada entrante","calls_outgoing":"Llamada saliente","calls_you_label":"Tú","menu_item_video_call":"Videollamada","already_in_call":"¡Ya estás hablando!","call_cancelled":"cancelada","call_missed":"perdida","call_declined":"rechazada","call_disconnected":"desconectada","label_use_secure_connection":"Usar conexión segura","phone_or_email_prompt":"Número de teléfono o correo electrónico","cred_confirmed_successfully":"Confirmado con éxito"},"fr":{"action_block_contact":"Bloquer le Contact","action_cancel":"annuler","action_clear_messages":"Effacer les Messages","action_delete_messages":"Effacer les Messages pour Tous","action_leave_chat":"Quitter la Conversation","action_report_chat":"Signaler la Conversation","archived_contacts":"Contacts archivés ({count})","badge_danger":"Non fiable","badge_owner":"propriétaire","badge_staff":"Géré par le Staff","badge_verified":"Vérifié / Officiel","badge_you":"vous","block_contact_warning":"Êtes-vous sûr de bloquer le contact ?","blocked_contacts_link":"Contacts bloqués ({count})","button_add_another":"Ajouter un autre","button_add_members":"Ajouter des membres","button_cancel":"Annuler","button_confirm":"Confirmer","button_create":"Créer","button_delete_account":"Supprimer le compte","button_edit":"Modifier","button_logout":"Déconnexion","button_ok":"OK","button_reset":"Remettre à Zéro","button_send_request":"Envoyer une demande","button_sign_in":"Connexion","button_sign_up":"Créer un compte","button_subscribe":"S\'abonner","button_update":"Mettre à jour","cannot_initiate_file_upload":"Impossible de démarrer l\'envoi.","channel":"canal","channel_prompt":"C\'est un canal","chat_invitation":"Vous êtes invité à démarrer une conversation. Que voulez vous faire ?","chat_invitation_accept":"Accepter","chat_invitation_block":"Bloquer","chat_invitation_ignore":"Ignorer","clear_messages_warning":"Êtes-vous sûr de vouloir effacer tous les messages ? Aucun retour possible.","code_doesnot_match":"Le code ne correspond pas","contacts_not_found":"Vous n\'avez aucune conversation<br />¯∖_(ツ)_/¯","contacts_not_found_short":"Aucun contact ne correspond à \'\'{query}\'\'","credential_email_prompt":"Votre email d\'enregistrement","delete_account":"Supprimer le compte","delete_account_warning":"Êtes-vous sûr de vouloir supprimer votre compte ? Aucun retour possible.","delete_messages_warning":"Êtes-vous sûr de vouloir supprimer tous les messages pour tous ? Aucun retour possible.","deleted_content":"contenu supprimé","download_action":"télécharger","drafty_attachment":"Pièce(s) jointe(s)","drafty_form":"Formulaire:","drafty_image":"Image","email_dative":"email","email_prompt":"Email, par exemple jdoe@exemple.com","enable_peers_messaging":"Activer","enter_confirmation_code_prompt":"Entrez le code de confirmation envoyé par {method}:","error_invalid_id":"Identifiant invalide","file_attachment_too_large":"Le fichier de taille {size} dépasse la limite de {limit}.","forgot_password_link":"Mot de passe oublié ?","full_name_prompt":"Nom complet, par exemple John Doe","granted_permissions":"Accordé","group_has_no_members":"Aucun membre","group_user_id_prompt":"Identifiant d\'utilisateur ou de groupe","image_caption_prompt":"Description de l\'image","invalid_content":"contenu invalide","invalid_security_token":"Token de sécurité invalide","label_client":"Client :","label_content_type":"Type de contenu :","label_default_access_mode":"Mode d\'accès par défaut :","label_file_name":"Nom du fichier :","label_group_members":"Membres du groupe :","label_incognito_mode":"Mode incognito :","label_message_sound":"Son du message :","label_muting_topic":"Mué :","label_other_user":"Autre","label_password":"Mot de passe","label_permissions":"Permissions :","label_private":"Commentaire privé","label_push_notifications":"Notifications :","label_push_notifications_disabled":"Notifications (requière HTTPS):","label_reset_password":"Envoyer un mail de remise à zéro de mot de passe :","label_sdk":"SDK :","label_server":"Serveur :","label_server_address":"Adresse du serveur :","label_server_to_use":"Serveur à utiliser :","label_size":"Taille :","label_topic_name":"Nom","label_user_contacts":"Contacts :","label_user_id":"ID :","label_wire_transport":"Transport par cable :","label_you":"Vous :","label_your_name":"Votre nom","label_your_permissions":"Vos permissions :","last_seen_timestamp":"Vu pour la dernière fois","leave_chat_warning":"Êtes-vous sûr de vouloir quitter cette conversation ?","link_contact_us":"Contactez Nous","link_privacy_policy":"Politique de confidentialité","link_terms_of_service":"Conditions d\'utilisation","login_prompt":"Connexion","menu_item_archive_topic":"Archiver","menu_item_block":"Bloquer","menu_item_clear_messages":"Effacer les messages","menu_item_clear_messages_for_all":"Effacer pour Tous","menu_item_delete":"Supprimer","menu_item_delete_for_all":"Supprimer pour Tous","menu_item_delete_topic":"Supprimer","menu_item_edit_permissions":"Modifier les permissions","menu_item_info":"Informations","menu_item_member_delete":"Supprimer","menu_item_mute":"Rendre muer","menu_item_reply":"Répondre","menu_item_restore_topic":"Restorer","menu_item_send_retry":"Réessayer","menu_item_unblock":"Débloquer","menu_item_unmute":"Recevoir à nouveau","message_sending":"envoi en cours...","message_sending_failed":"échoué","messages_not_readable":"aucun accès aux messages","messaging_disabled_prompt":"Discussion désactivée","more_online_members":"+{overflow} de plus","new_message_prompt":"Nouveau message","new_password_placeholder":"Entrez un nouveau mot de passe","no_connection":"Aucune connexion","no_contacts":"Vous n\'avez pas de contacts :-(","numeric_confirmation_code_prompt":"Nombres seulement","online_now":"en ligne","password_prompt":"Mot de passe","password_unchanged_prompt":"Non changé","peers_messaging_disabled":"La messagerie point à point est désactivée.","permission_admin":"Approver ({val})","permission_delete":"Supprimer ({val})","permission_join":"Rejoindre ({val})","permission_owner":"Propriétaire ({val})","permission_pres":"Recevoir une notification ({val})","permission_read":"Lire ({val})","permission_share":"Partager ({val})","permission_write":"Ecrire ({val})","phone_dative":"téléphone","private_editing_placeholder":"Visible par vous seulement","push_init_failed":"Impossible d\'initialiser les notifications push","reconnect_countdown":"Déconnecté. Reconnexion dans {seconds}…","reconnect_now":"Essayer maintenant","reload_update":"Recharger","report_chat_warning":"Êtes-vous sûr de vouloir bloquer et signaler cette conversation ?","requested_permissions":"Demandé","save_attachment":"sauvegarder","search_for_contacts":"Utilisez la recherche pour trouver des contacts","search_no_results":"La recherche n\'a donné aucun résultat","search_placeholder":"Liste comme email:alice@exemple.com, tel:17025550003...","sidepanel_title_acc_notifications":"Notifications","sidepanel_title_acc_support":"Support","sidepanel_title_account_settings":"Paramètres du compte","sidepanel_title_archive":"Conversations Archivées","sidepanel_title_blocked":"Conversations Bloquées","sidepanel_title_cred":"Confirmer les identifiants","sidepanel_title_login":"Se Connecter","sidepanel_title_newtpk":"Démarrer une nouvelle Conversation","sidepanel_title_register":"Créer un compte","sidepanel_title_reset":"Remettre à Zéro le Mot de Passe","sidepanel_title_settings":"Paramètres","stay_logged_in":"Rester connecté","tabtitle_find_user":"trouver","tabtitle_group_by_id":"par identifiant","tabtitle_new_group":"nouveau groupe","tags_editor_no_tags":"Ajouter des étiquettes","tags_not_found":"Aucune étiquette définie. Ajoutez en.","title_all_contacts":"Tous les Contacts","title_group_members":"Membres du Groupe","title_manage_tags":"Gérer","title_not_found":"Pas trouvé","title_permissions":"Permissions","title_tag_manager":"Etiquettes (recherche & découverte)","topic_block_warning":"Êtes-vous sûr de vouloir bloquer cette conversation ?","topic_delete_warning":"Êtes-vous sûr de vouloir supprimer cette conversation ?","topic_name_editing_placeholder":"Nom libre du groupe","unnamed_topic":"Non nommé","update_available":"Mise à jour disponible.","upload_finishing":"fin...","user_not_found":"Pas trouvé","validate_credential_action":"confirmer","description_editing_placeholder":"Description facultative","label_description":"Description","button_security":"Sécurité","panel_title_crop":"Déplacez pour ajuster","panel_title_general":"Général","panel_title_members":"Membres","panel_title_security":"Sécurité","panel_title_info":"Informations","permissions_anonymous":"Anonyme","permissions_authenticated":"Authentifié","topic_delete":"Supprimer la Conversation","permissions_user":"Permissions d\'Utilisateur","password_reset_email_sent":"Un email a été envoyé à {email}. Suivez les instructions du mail pour remettre à zéro votre mot de passe.","label_unarchive_topic":"Archivé:","menu_item_forward":"Transférer","forward_to":"Transférer à","forward_to_search_placeholder":"Rechercher des contacts","label_new_password":"Nouveau mot de passe","drafty_unknown":"Non supporté","already_in_call":"Vous êtes déjà dans un appel en cours!","call_cancelled":"annulé","call_declined":"refusé","call_missed":"manqué","calls_incoming":"Appel entrant","calls_outgoing":"Appel sortant","calls_you_label":"Tu","menu_item_video_call":"Appel vidéo","call_disconnected":"débranché","label_use_secure_connection":"Utiliser une connexion sécurisée","phone_or_email_prompt":"Numéro de téléphone ou email","cred_confirmed_successfully":"Confirmé avec succès"},"ko":{"action_block_contact":"연락차단","action_cancel":"취소","action_clear_messages":"메시지지우기","action_delete_messages":"모든메시지지우기","action_leave_chat":"대화나누기","action_report_chat":"대화기록","archived_contacts":"보관된연락처({수})","badge_danger":"의심 많은","badge_owner":"소유자","badge_staff":"직원 관리하에","badge_verified":"확인 됨","badge_you":"당신","block_contact_warning":"이연락처를차단하시겠습니까?","blocked_contacts_link":"차단된연락처({수})","button_add_another":"다른항목추가","button_add_members":"회원추가","button_cancel":"취소","button_confirm":"확인","button_create":"작성","button_delete_account":"계정삭제","button_edit":"편집","button_logout":"로그아웃","button_ok":"OK","button_reset":"재설정","button_send_request":"요청보내기","button_sign_in":"로그인","button_sign_up":"가입","button_subscribe":"구독","button_update":"업데이트","cannot_initiate_file_upload":"파일업로드를시작할수없습니다.","channel":"채널","channel_prompt":"이 채널입니다","chat_invitation":"새로운대화를시작하도록초대되었습니다.무엇을하시겠습니까?","chat_invitation_accept":"수락","chat_invitation_block":"차단","chat_invitation_ignore":"무시","clear_messages_warning":"모든메시지를지우시겠습니까?실행취소할수없습니다.","code_doesnot_match":"코드가일치하지않습니다","contacts_not_found":"채팅이없습니다<br/>¯∖_(ツ)_/¯","contacts_not_found_short":"\'{문의}\'와일치하는연락처가없습니다.","credential_email_prompt":"등록이메일","delete_account":"계정삭제","delete_account_warning":"계정을삭제하시겠습니까?실행취소할수없습니다.","delete_messages_warning":"모든사람의모든메시지를삭제하시겠습니까?실행취소할수없습니다.","deleted_content":"내용이 삭제되었습니다","download_action":"다운로드","drafty_attachment":"부착","drafty_form":"형태:","drafty_image":"이미지","email_dative":"이메일","email_prompt":"이메일(예:hong@example.com)","enable_peers_messaging":"활성화","enter_confirmation_code_prompt":"{방법}으로보낸확인코드를입력하십시오:","error_invalid_id":"잘못된ID","file_attachment_too_large":"파일크기{크기}이(가){제한}제한을초과합니다.","forgot_password_link":"비밀번호를잊으셨습니까?","full_name_prompt":"전체이름(예:홍길동)","granted_permissions":"승낙하다","group_has_no_members":"회원없음","group_user_id_prompt":"그룹또는사용자ID","image_caption_prompt":"이미지설명","invalid_content":"잘못된내용","invalid_security_token":"유효하지않은보안토큰","label_client":"클라이언트: ","label_content_type":"컨텐츠유형: ","label_default_access_mode":"기본액세스모드: ","label_file_name":"파일이름: ","label_group_members":"그룹회원: ","label_incognito_mode":"시크릿모드: ","label_message_sound":"메시지소리: ","label_muting_topic":"음소거: ","label_other_user":"기타","label_password":"비밀번호","label_permissions":"권한: ","label_private":"개인코멘트","label_push_notifications":"통지경보: ","label_push_notifications_disabled":"통지경보(HTTPS필요): ","label_reset_password":"비밀번호재설정이메일보내기: ","label_sdk":"SDK:","label_server":"서버: ","label_server_address":"서버주소: ","label_server_to_use":"사용할서버:","label_size":"크기: ","label_topic_name":"이름","label_user_contacts":"연락처: ","label_user_id":"ID:","label_wire_transport":"와이어수송:","label_you":"당신: ","label_your_name":"이름","label_your_permissions":"권한: ","last_seen_timestamp":"마지막으로본","leave_chat_warning":"이대화를나가시겠습니까?","link_contact_us":"문의처","link_privacy_policy":"개인정보보호정책","link_terms_of_service":"서비스약관","login_prompt":"로그인","menu_item_archive_topic":"보관","menu_item_block":"차단","menu_item_clear_messages":"메시지지우기","menu_item_clear_messages_for_all":"모두지우기","menu_item_delete":"삭제","menu_item_delete_for_all":"모두삭제","menu_item_delete_topic":"삭제","menu_item_edit_permissions":"편집권한","menu_item_info":"정보","menu_item_member_delete":"제거","menu_item_mute":"음소거","menu_item_restore_topic":"복원","menu_item_send_retry":"다시시도","menu_item_unblock":"차단해제","menu_item_unmute":"음소거해제","message_sending":"보내기...","message_sending_failed":"실패","messages_not_readable":"메시지에 액세스 할 수 없습니다","messaging_disabled_prompt":"메시지비활성화","more_online_members":"+{넘침}더보기","new_message_prompt":"새메시지","new_password_placeholder":"새비밀번호입력","no_connection":"연결없음","no_contacts":"연락처가없습니다 (._.)","numeric_confirmation_code_prompt":"숫자만","online_now":"현재접속중","password_prompt":"비밀번호","password_unchanged_prompt":"변경되지않음","peers_messaging_disabled":"동료의메시지가비활성화되었습니다.","permission_admin":"승인({val})","permission_delete":"삭제({val})","permission_join":"참여({val})","permission_owner":"소유자({val})","permission_pres":"알림받기({val})","permission_read":"읽기({val})","permission_share":"공유({val})","permission_write":"쓰기({val})","phone_dative":"전화","private_editing_placeholder":"나만볼수있습니다","push_init_failed":"푸시알림을초기화하지못했습니다","reconnect_countdown":"연결이끊어졌습니다.다시연결하는중{초}…","reconnect_now":"지금시도","reload_update":"재로드","report_chat_warning":"이대화를차단하고기록하시겠습니까?","requested_permissions":"요청","save_attachment":"저장","search_for_contacts":"검색을사용하여연락처찾기","search_no_results":"검색결과가없습니다","search_placeholder":"email:alice@example.com,tel:17025550003...와같은목록","sidepanel_title_acc_notifications":"알림","sidepanel_title_acc_support":"지원","sidepanel_title_account_settings":"계정설정","sidepanel_title_archive":"보관된채팅","sidepanel_title_blocked":"차단된채팅","sidepanel_title_cred":"자격증명확인","sidepanel_title_login":"로그인","sidepanel_title_newtpk":"새채팅시작","sidepanel_title_register":"계정만들기","sidepanel_title_reset":"비밀번호재설정","sidepanel_title_settings":"설정","stay_logged_in":"로그인상태유지","tabtitle_find_user":"찾기","tabtitle_group_by_id":"id로","tabtitle_new_group":"새그룹","tags_editor_no_tags":"일부태그추가","tags_not_found":"태그가정의되지않았습니다.일부를추가하십시오.","title_all_contacts":"모든연락처","title_group_members":"그룹구성원","title_manage_tags":"관리","title_not_found":"찾을수없음","title_permissions":"권한","title_tag_manager":"태그(사용자검색)","topic_block_warning":"이대화를차단하시겠습니까?","topic_delete_warning":"이대화를삭제하시겠습니까?","topic_name_editing_placeholder":"그룹의자유형이름","unnamed_topic":"이름없는","update_available":"업데이트가능.","upload_finishing":"마무리...","user_not_found":"찾을수없음","validate_credential_action":"확인","description_editing_placeholder":"설명(선택 사항)","label_description":"설명","button_security":"보안","panel_title_crop":"드래그하여 조정","panel_title_general":"일반","panel_title_members":"구성원","panel_title_security":"보안","panel_title_info":"정보","permissions_anonymous":"익명","permissions_authenticated":"인증됨","topic_delete":"채팅 삭제","permissions_user":"사용자 권한","password_reset_email_sent":"이메일이 {email}(으)로 전송되었습니다. 이메일의 지침에 따라 비밀번호를 재설정하세요.","label_unarchive_topic":"보관됨:","menu_item_reply":"회신하다","menu_item_forward":"리디렉션","forward_to":"메시지를 리디렉션","forward_to_search_placeholder":"연락처 검색","label_new_password":"새 비밀번호","drafty_unknown":"지원되지 않음","calls_incoming":"수신 전화","calls_outgoing":"발신 전화","calls_you_label":"너","menu_item_video_call":"영상 통화","already_in_call":"당신은 이미 말하고 있습니다!","call_cancelled":"취소 된","call_missed":"부재중","call_declined":"통화 거부","call_disconnected":"연결 끊김","label_use_secure_connection":"보안 연결 사용","phone_or_email_prompt":"전화번호 또는 이메일","cred_confirmed_successfully":"성공적으로 확인됨"},"ro":{"action_block_contact":"Blochează contact","action_cancel":"anulează","action_clear_messages":"Șterge mesajele","action_delete_messages":"Șterge toate mesajele","action_leave_chat":"Ieși din conversație","action_report_chat":"Raportează conversația","archived_contacts":"Contacte arhivate ({count})","badge_danger":"Suspicios","badge_owner":"owner","badge_staff":"Administrare","badge_verified":"Verificat","badge_you":"tu","block_contact_warning":"Ești sigur că dorești să blochezi acest contact?","blocked_contacts_link":"Contact blocate ({count})","button_add_another":"Adaugă","button_add_members":"Adaugă persoane","button_cancel":"Anulează","button_confirm":"Confirmă","button_create":"Creează","button_delete_account":"Șterge cont","button_edit":"Editează","button_logout":"Deconectare","button_ok":"OK","button_reset":"Resetează","button_send_request":"Trimite cerere","button_sign_in":"Conectează-te","button_sign_up":"Creează cont","button_subscribe":"Subscribe","button_update":"Actualizează","cannot_initiate_file_upload":"Nu se poate face încărcarea.","channel":"canal","channel_prompt":"Acesta este un canal","chat_invitation":"Ai primit invitație într-o conversație. Accepți?","chat_invitation_accept":"Da, accept","chat_invitation_block":"Blochează","chat_invitation_ignore":"Ignoră","clear_messages_warning":"Ești sigur că dorești să ștergi mesajele? Acestea nu pot fi recuperate.","code_doesnot_match":"Codul furnizat nu este valid","contacts_not_found":"Nu ai contacte salvate<br />¯∖_(ツ)_/¯","contacts_not_found_short":"Niciun contact găsit după criteriile \'\'{query}\'\'","credential_email_prompt":"Adresa de e-mail","delete_account":"Șterge contul","delete_account_warning":"Ești sigur că dorești să ștergi contul? Acesta nu va putea fi recuperat.","delete_messages_warning":"Ești sigur că dorești să șterge mesajele din toate conversațiile? Acestea nu pot fi recuperate.","deleted_content":"conținut șters","download_action":"download","drafty_attachment":"Atasament","drafty_form":"Formă:","drafty_image":"Imagine","email_dative":"email","email_prompt":"Adresa de e-mail","enable_peers_messaging":"Activează","enter_confirmation_code_prompt":"Introu codul de confirmare trimis pe {method}:","error_invalid_id":"ID Invalid","file_attachment_too_large":"Dimensiunea fișiterului {size} depășește limita de {limit}.","forgot_password_link":"Ți-ai uitat parola?","full_name_prompt":"Numele tău","granted_permissions":"Oferite","group_has_no_members":"În acest grup nu se află persoane","group_user_id_prompt":"Grup sau user ID","image_caption_prompt":"Titlul imaginii","invalid_content":"conținut invalid","invalid_security_token":"Codul de securitate este invalid","label_client":"Client:","label_content_type":"Tip conținut:","label_default_access_mode":"Default access mode:","label_file_name":"Nume fișier:","label_group_members":"Membrii grupului:","label_incognito_mode":"Mod incognito:","label_message_sound":"Sunet de mesaj:","label_muting_topic":"Mod silențios (muted):","label_other_user":"Altele","label_password":"Parola","label_permissions":"Permisiuni:","label_private":"Comentariu privat","label_push_notifications":"Alerte de notificare:","label_push_notifications_disabled":"Alerte de notificare (necesită HTTPS):","label_reset_password":"Resetează parola:","label_sdk":"SDK:","label_server":"Server:","label_server_address":"Adresa serverului:","label_server_to_use":"Server de utilizat:","label_size":"Size:","label_topic_name":"Nume","label_user_contacts":"Contacte:","label_user_id":"ID:","label_wire_transport":"Transportul legat:","label_you":"Tu:","label_your_name":"Numele tău","label_your_permissions":"Permisiuniile tale:","last_seen_timestamp":"Văzut ultima dată","leave_chat_warning":"Ești sigur că dorești să ieși din conersație?","link_contact_us":"Contactează-ne","link_privacy_policy":"Politica de Confidențialitate","link_terms_of_service":"Termenii Serviciului","login_prompt":"Conectează-te","menu_item_archive_topic":"Arhivează","menu_item_block":"Blochează","menu_item_clear_messages":"Șterge mesajele","menu_item_clear_messages_for_all":"Ștergele pe toate","menu_item_delete":"Șterge","menu_item_delete_for_all":"Ștergele pe toate","menu_item_delete_topic":"Șterge","menu_item_edit_permissions":"Editează permisiuni","menu_item_info":"Info","menu_item_member_delete":"Șterge persoană","menu_item_mute":"Mute","menu_item_restore_topic":"Restabili","menu_item_send_retry":"Reîncearcă","menu_item_unblock":"Deblochează","menu_item_unmute":"Unmute","message_sending":"se trimite...","message_sending_failed":"eroare","messages_not_readable":"Mesajele nu pot fi citite","messaging_disabled_prompt":"Mesageria este dezactivată","more_online_members":"+{overflow} mai mult","new_message_prompt":"Mesaj nou","new_password_placeholder":"Introdu parolă","no_connection":"Nu există conexiune","no_contacts":"Nu ai contacte adăugate :-(","numeric_confirmation_code_prompt":"Doar cifre","online_now":"online acum","password_prompt":"Parola","password_unchanged_prompt":"Neschimbată","peers_messaging_disabled":"Mesageria de tip Peer este dezactivată.","permission_admin":"Aprobare ({val})","permission_delete":"Ștergere ({val})","permission_join":"Participare ({val})","permission_owner":"Deținător ({val})","permission_pres":"Notificare ({val})","permission_read":"Citire ({val})","permission_share":"Distribuire ({val})","permission_write":"Scriere ({val})","phone_dative":"telefon","private_editing_placeholder":"Vizibil doar ție","push_init_failed":"Nu s-a reușit inițializarea tip push notifications","reconnect_countdown":"Deconectat. Se încearcă conectarea în {seconds}…","reconnect_now":"Încearcă din nou","reload_update":"Reîncarcă","report_chat_warning":"Ești sigur că dorești să blochezi și să raportezi această conversație?","requested_permissions":"Necesare","save_attachment":"salvează","search_for_contacts":"Caută în contacte","search_no_results":"Nu s-au găsit rezultate","search_placeholder":"Caută după e-mail sau număr telefon...","sidepanel_title_acc_notifications":"Notificări","sidepanel_title_acc_support":"Ajutor","sidepanel_title_account_settings":"Setările Contului","sidepanel_title_archive":"Conversații Arhivate","sidepanel_title_blocked":"Conversații Blocate","sidepanel_title_cred":"Confirmă credențiale","sidepanel_title_login":"Conectează-te","sidepanel_title_newtpk":"Creeză un nou Chat","sidepanel_title_register":"Creează Cont","sidepanel_title_reset":"Resetează Parola","sidepanel_title_settings":"Setări","stay_logged_in":"Rămâi conectat","tabtitle_find_user":"caută","tabtitle_group_by_id":"după id","tabtitle_new_group":"grup nou","tags_editor_no_tags":"Adaugă tag-uri","tags_not_found":"Niciun tag definit. Adaugă.","title_all_contacts":"Toate Contactele","title_group_members":"Persoanele din grup","title_manage_tags":"Administrează","title_not_found":"Nu a fost găsit","title_permissions":"Permisiuni","title_tag_manager":"Tag-uri (user discovery)","topic_block_warning":"Ești sigur că dorești să blochezi această conversație?","topic_delete_warning":"Ești sigur că dorești să șterge această conversație?","topic_name_editing_placeholder":"Numele grupului","unnamed_topic":"Nedenumit","update_available":"Actualizare disponibilă.","upload_finishing":"se încarcă...","user_not_found":"Utilizatorul nu a fost găsit","validate_credential_action":"confirmă","description_editing_placeholder":"Descriere (opțional)","label_description":"Descriere","button_security":"Securitate","panel_title_crop":"Trageți pentru a ajusta","panel_title_general":"Generale","panel_title_members":"Membri","panel_title_security":"Securitate","panel_title_info":"Info","permissions_anonymous":"Anonim","permissions_authenticated":"Autentificat","topic_delete":"Ștergeți Chat","permissions_user":"Permisiunile utilizatorului","password_reset_email_sent":"Un e-mail a fost trimis către {email}. Urmați instrucțiunile din e-mail pentru a vă reseta parola.","label_unarchive_topic":"Arhivat:","menu_item_reply":"A raspunde","menu_item_forward":"Redirecţiona","forward_to":"Redirecționați către","forward_to_search_placeholder":"Căutați contacte","label_new_password":"Parolă Nouă","drafty_unknown":"Neacceptat","calls_incoming":"Apel primit","calls_outgoing":"Apel efectuat","calls_you_label":"Tu","menu_item_video_call":"Apel video","already_in_call":"Deja vorbesti!","call_cancelled":"anulat","call_missed":"pierdut","call_declined":"refuzat","call_disconnected":"deconectat","label_use_secure_connection":"Utilizați conexiune securizată","phone_or_email_prompt":"Număr de telefon sau e-mail","cred_confirmed_successfully":"Confirmat cu succes"},"ru":{"action_block_contact":"Заблокировать контакт","action_cancel":"отменить","action_clear_messages":"Удалить сообщения","action_delete_messages":"Удалить сообщения","action_leave_chat":"Уйти из чата","action_report_chat":"Сообщить о нарушении","archived_contacts":"Чаты в архиве ({count})","badge_danger":"Подозрительный","badge_owner":"влад.","badge_staff":"Администрация","badge_verified":"Верифицированный","badge_you":"вы","block_contact_warning":"Вы действительно заблокировать этот контакт?","blocked_contacts_link":"Заблокированные ({count})","button_add_another":"Добавить","button_add_members":"Добавить","button_cancel":"Отменить","button_confirm":"Подтвердить","button_create":"Создать","button_delete_account":"Удалить аккаунт","button_edit":"Изменить","button_logout":"Выйти","button_ok":"OK","button_reset":"Изменить","button_send_request":"Отправить","button_sign_in":"Войти","button_sign_up":"Создать аккаунт","button_subscribe":"Подписаться","button_update":"Применить","cannot_initiate_file_upload":"Ошибка загрузки файла.","channel":"канал","channel_prompt":"Создать канал","chat_invitation":"Вас пригласили начать новый чат. Как вы хотите поступить?","chat_invitation_accept":"Принять","chat_invitation_block":"Заблокировать","chat_invitation_ignore":"Игнорировать","clear_messages_warning":"Вы действительно хотите удалить все сообщения в чате? Их будет невозможно восстановить.","code_doesnot_match":"Код не совпадает","contacts_not_found":"Чатов нет<br />¯∖_(ツ)_/¯","contacts_not_found_short":"Нет контактов для запроса \'\'{query}\'\'","credential_email_prompt":"Регистрационный емейл","delete_account":"Удалить аккаунт","delete_account_warning":"Вы уверены, что ходите удалить свой аккаунт? Его невозможно будет восстановить.","delete_messages_warning":"Вы действительно хотите удалить все сообщения?","deleted_content":"удалено","download_action":"скачать","drafty_attachment":"Аттачмент","drafty_form":"Форма:","drafty_image":"Картинка","email_dative":"емейлу","email_prompt":"Email, напр. ivan@example.com","enable_peers_messaging":"Разблокировать.","enter_confirmation_code_prompt":"Код подтверждения, полученный по {method}:","error_invalid_id":"Неверный ID","file_attachment_too_large":"Размер файла {size} превышает {limit} лимит.","forgot_password_link":"Напомнить пароль","full_name_prompt":"Полное имя, напр. Иван Петров","granted_permissions":"Получены","group_has_no_members":"Нет участников","group_user_id_prompt":"ID чата или пользователя","image_caption_prompt":"Подпись к фото","invalid_content":"сообщение не читается","invalid_security_token":"Токен некорректен","label_client":"Клиент:","label_content_type":"Тип:","label_default_access_mode":"Доступ по умолчанию:","label_file_name":"Имя файла:","label_group_members":"Участники чата:","label_incognito_mode":"Режим инкогнито:","label_message_sound":"Звук нового сообщения:","label_muting_topic":"Без уведомлений","label_other_user":"Второй","label_password":"Пароль","label_permissions":"Права доступа:","label_private":"Комментарий","label_push_notifications":"Уведомления:","label_push_notifications_disabled":"Уведомления (требуют HTTPS):","label_reset_password":"Отправить емейл для смены пароля:","label_sdk":"SDK:","label_server":"Сервер:","label_server_address":"Адрес сервера:","label_server_to_use":"Использовать сервер:","label_size":"Размер:","label_topic_name":"Название","label_user_contacts":"Конакты:","label_user_id":"ID:","label_wire_transport":"Соединение:","label_you":"Вы:","label_your_name":"Ваше имя","label_your_permissions":"Ваши права доступа:","last_seen_timestamp":"Был активен","leave_chat_warning":"Вы действительно хотите покинуть этот чат?","link_contact_us":"Связаться с нами","link_privacy_policy":"Политика конфиденциальности","link_terms_of_service":"Условия сервиса","login_prompt":"Логин","menu_item_archive_topic":"В архив","menu_item_block":"Заблокировать","menu_item_clear_messages":"Удалить сообщения","menu_item_clear_messages_for_all":"Удалить для всех","menu_item_delete":"Удалить","menu_item_delete_for_all":"Удалить для всех","menu_item_delete_topic":"Удалить чат","menu_item_edit_permissions":"Права доступа","menu_item_info":"Информация","menu_item_member_delete":"Отписать","menu_item_mute":"Не уведомлять","menu_item_restore_topic":"Разархивировать","menu_item_send_retry":"Отправить заново","menu_item_unblock":"Разблокировать","menu_item_unmute":"Уведомлять","message_sending":"в пути...","message_sending_failed":"ошибка","messages_not_readable":"нет доступа к сообщениям","messaging_disabled_prompt":"Отправка недоступна","more_online_members":"+еще {overflow}","new_message_prompt":"Новое сообщение","new_password_placeholder":"Введите новый пароль","no_connection":"Нет связи","no_contacts":"Ничего нет :-(","numeric_confirmation_code_prompt":"Только цифры","online_now":"онлайн","password_prompt":"Пароль","password_unchanged_prompt":"Не изменен","peers_messaging_disabled":"Чат заблокирован у корреспондента.","permission_admin":"Подтверждать ({val})","permission_delete":"Удалять ({val})","permission_join":"Подписываться ({val})","permission_owner":"Владелец ({val})","permission_pres":"Уведомлять ({val})","permission_read":"Читать ({val})","permission_share":"Приглашать ({val})","permission_write":"Писать ({val})","phone_dative":"телефону","private_editing_placeholder":"Виден только вам","push_init_failed":"Ошибка инициализации пуш уведомлений","reconnect_countdown":"Нет связи. Подключение через {seconds}…","reconnect_now":"Подключить сейчас.","reload_update":"Обновить","report_chat_warning":"Вы действительно хотите сообщить о нарушении и заблокировать этот чат?","requested_permissions":"Требуются","save_attachment":"сохранить","search_for_contacts":"Поиск контактов","search_no_results":"Ничего не найдено","search_placeholder":"Список, напр. email:alice@example.com, tel:+17025550003...","sidepanel_title_acc_notifications":"Уведомления","sidepanel_title_acc_support":"Поддержка","sidepanel_title_account_settings":"Настройки аккаунта","sidepanel_title_archive":"Архив чатов","sidepanel_title_blocked":"Заблокированные чаты","sidepanel_title_cred":"Подтвердить","sidepanel_title_login":"Авторизация","sidepanel_title_newtpk":"Новый чат","sidepanel_title_register":"Зарегистрироваться","sidepanel_title_reset":"Сменить пароль","sidepanel_title_settings":"Настройки","stay_logged_in":"Запомнить","tabtitle_find_user":"найти","tabtitle_group_by_id":"по id","tabtitle_new_group":"создать","tags_editor_no_tags":"Добавьте теги","tags_not_found":"Тегов нет. Добавьте","title_all_contacts":"Все контакты","title_group_members":"Участники","title_manage_tags":"Редактировать","title_not_found":"Не найден","title_permissions":"Права доступа","title_tag_manager":"Теги для поиска","topic_block_warning":"Вы действительно хотите заблокировать этот чат?","topic_delete_warning":"Вы действительно хотите удалить этот чат?","topic_name_editing_placeholder":"Название чата","unnamed_topic":"Без названия","update_available":"Есть новая версия приложения.","upload_finishing":"завершение...","user_not_found":"Не найден","validate_credential_action":"подтвердить","description_editing_placeholder":"Описание (не обязательно)","label_description":"Описание","button_security":"Безопасность","panel_title_crop":"Обрезать картинку","panel_title_general":"Общие настройки","panel_title_members":"Участники","panel_title_security":"Безопасность","panel_title_info":"Подробности","permissions_anonymous":"Анонимный","permissions_authenticated":"Авторизованный","topic_delete":"Удалить чат","permissions_user":"Права доступа","password_reset_email_sent":"Сообщение было отправлено на адрес {email}. Следуйте инструкциям в сообщении, чтобы изменить пароль.","label_unarchive_topic":"Архивирован:","menu_item_reply":"Ответить","menu_item_forward":"Переслать","forward_to":"Переслать","forward_to_search_placeholder":"Поиск контактов","label_new_password":"Новый пароль","drafty_unknown":"Не поддерживается","calls_incoming":"Входящий звонок","calls_outgoing":"Исходящий звонок","calls_you_label":"Вы","menu_item_video_call":"Видеозвонок","already_in_call":"Вы уже звоните кому-то!","call_cancelled":"отменен","call_missed":"пропущен","call_declined":"отклонен","call_disconnected":"разъединен","label_use_secure_connection":"Безопасное соединение","phone_or_email_prompt":"Телефон или емейл","cred_confirmed_successfully":"Подтверждено успешно"},"zh-TW":{"action_block_contact":"封鎖聯絡人","action_cancel":"取消","action_clear_messages":"清除訊息","action_delete_messages":"為所有人清除訊息","action_leave_chat":"離開對話","action_report_chat":"檢舉對話","archived_contacts":"已封存的聯絡人 ({count})","badge_danger":"不可信","badge_owner":"擁有者","badge_staff":"員工管理","badge_verified":"已驗證/官方","badge_you":"您","block_contact_warning":"您確定要封鎖此聯絡人嗎？","blocked_contacts_link":"已封鎖的聯絡人 ({count})","button_add_another":"新增其他人","button_add_members":"新增成員","button_cancel":"取消","button_confirm":"確認","button_create":"建立","button_delete_account":"刪除帳號","button_edit":"編輯","button_logout":"登出","button_ok":"OK","button_reset":"重設","button_send_request":"傳送要求","button_sign_in":"登入","button_sign_up":"註冊","button_subscribe":"訂閱","button_update":"更新","cannot_initiate_file_upload":"無法為檔案上傳初始化。","channel":"頻道","channel_prompt":"這是頻道","chat_invitation":"您已被邀請開始新對話。您接下來要做什麼呢？","chat_invitation_accept":"接受","chat_invitation_block":"封鎖","chat_invitation_ignore":"忽略","clear_messages_warning":"您確定要清除所有訊息嗎？此操作無法復原。","code_doesnot_match":"代碼不相符","contacts_not_found":"您沒有任何對話<br />¯∖_(ツ)_/¯","contacts_not_found_short":"沒有符合 \'\'{query}\'\' 的聯絡人","credential_email_prompt":"您的註冊電子郵件地址","delete_account":"刪除帳號","delete_account_warning":"您確定要刪除您的帳戶嗎？此操作無法撤消。","delete_messages_warning":"您確定要為所有人刪除所有訊息嗎？此操作無法復原。","deleted_content":"內容已被刪除","download_action":"下載","drafty_attachment":"附加檔案","drafty_form":"表單：","drafty_image":"圖片","email_dative":"電子郵件地址","email_prompt":"電子郵件地址，例如：jdoe@example.com","enable_peers_messaging":"啟用","enter_confirmation_code_prompt":"輸入透過 {method} 傳送給您的確認碼：","error_invalid_id":"ID 無效","file_attachment_too_large":"檔案大小 {size} 超出 {limit} 限制。","forgot_password_link":"忘記密碼？","full_name_prompt":"全名，例如：王小明","granted_permissions":"已授權","group_has_no_members":"無成員","group_user_id_prompt":"群組或使用者 ID","image_caption_prompt":"圖片說明","invalid_content":"內容無效","invalid_security_token":"安全權杖無效","label_client":"客戶端：","label_content_type":"類型：","label_default_access_mode":"預設存取模式：","label_file_name":"檔名：","label_group_members":"群組成員：","label_incognito_mode":"無痕模式：","label_message_sound":"訊息提示聲：","label_muting_topic":"靜音：","label_other_user":"其他","label_password":"密碼","label_permissions":"權限：","label_private":"私人留言","label_push_notifications":"通知：","label_push_notifications_disabled":"通知 (需要 HTTPS)：","label_reset_password":"傳送重設密碼郵件：","label_sdk":"SDK：","label_server":"伺服器：","label_server_address":"伺服器位址：","label_server_to_use":"使用的伺服器：","label_size":"大小：","label_topic_name":"名稱","label_user_contacts":"聯絡人：","label_user_id":"ID：","label_wire_transport":"Wire transport：","label_you":"您：","label_your_name":"您的名字","label_your_permissions":"您的權限：","last_seen_timestamp":"最後上線","leave_chat_warning":"您確定要離開此對話嗎？","link_contact_us":"聯絡我們","link_privacy_policy":"隱私權政策","link_terms_of_service":"服務條款","login_prompt":"登入","menu_item_archive_topic":"封存","menu_item_block":"封鎖","menu_item_clear_messages":"清除訊息","menu_item_clear_messages_for_all":"為所有人清除訊息","menu_item_delete":"刪除","menu_item_delete_for_all":"為所有人刪除","menu_item_delete_topic":"刪除","menu_item_edit_permissions":"編輯權限","menu_item_info":"Info","menu_item_member_delete":"移除","menu_item_mute":"靜音","menu_item_restore_topic":"恢復","menu_item_send_retry":"重試","menu_item_unblock":"解除封鎖","menu_item_unmute":"解除靜音","message_sending":"正在傳送...","message_sending_failed":"失敗","messages_not_readable":"沒有存取訊息的權限","messaging_disabled_prompt":"停用訊息","more_online_members":"+{overflow}","new_message_prompt":"新訊息","new_password_placeholder":"輸入新的密碼","no_connection":"無連線","no_contacts":"您沒有任何聯絡人 :-(","numeric_confirmation_code_prompt":"僅數字","online_now":"上線中","password_prompt":"密碼","password_unchanged_prompt":"未修改","peers_messaging_disabled":"Peer 已停用訊息。","permission_admin":"核可 ({val})","permission_delete":"刪除 ({val})","permission_join":"加入 ({val})","permission_owner":"擁有者 ({val})","permission_pres":"收到通知 ({val})","permission_read":"讀取 ({val})","permission_share":"分享 ({val})","permission_write":"撰寫 ({val})","phone_dative":"phone","private_editing_placeholder":"僅您可見","push_init_failed":"初始化通知失敗。","reconnect_countdown":"已斷線。將在 {seconds} 秒後重新連線…","reconnect_now":"現在重試","reload_update":"重新載入","report_chat_warning":"您確定要封鎖並檢舉此對話嗎？","requested_permissions":"重新請求","save_attachment":"儲存","search_for_contacts":"使用搜尋來尋找聯絡人","search_no_results":"搜尋無結果","search_placeholder":"例如 email:alice@example.com, tel:17025550003... 的清單","sidepanel_title_acc_notifications":"通知","sidepanel_title_acc_support":"支援","sidepanel_title_account_settings":"帳號設定","sidepanel_title_archive":"已封存的對話","sidepanel_title_blocked":"已封鎖的對話","sidepanel_title_cred":"確認認證","sidepanel_title_login":"登入","sidepanel_title_newtpk":"開始新對話","sidepanel_title_register":"建立帳號","sidepanel_title_reset":"重設密碼","sidepanel_title_settings":"設定","stay_logged_in":"保持登入","tabtitle_find_user":"尋找","tabtitle_group_by_id":"以 id","tabtitle_new_group":"新群組","tags_editor_no_tags":"新增一些標籤","tags_not_found":"未定義任何標籤。請新增一些標籤。","title_all_contacts":"所有聯絡人","title_group_members":"群組成員","title_manage_tags":"管理","title_not_found":"找不到","title_permissions":"權限","title_tag_manager":"標籤 (使用者探索)","topic_block_warning":"您確定要封鎖此對話嗎？","topic_delete_warning":"您確定要刪除此對話嗎？","topic_name_editing_placeholder":"群組的任意名稱","unnamed_topic":"未命名","update_available":"有可用的更新。","upload_finishing":"正在完成...","user_not_found":"找不到","validate_credential_action":"確認","description_editing_placeholder":"說明（可選）","label_description":"說明","button_security":"安全性","panel_title_crop":"拖動調整","panel_title_general":"一般","panel_title_members":"成員","panel_title_security":"安全性","panel_title_info":"資訊","permissions_anonymous":"匿名","permissions_authenticated":"已認證","topic_delete":"刪除聊天","permissions_user":"用戶權限","password_reset_email_sent":"一封電子郵件已發送至 {email}。按照電子郵件中的說明重置密碼。","label_unarchive_topic":"存檔聊天：","menu_item_reply":"回答","menu_item_forward":"重定向","forward_to":"重定向消息","forward_to_search_placeholder":"搜索聯繫人","label_new_password":"新密碼","drafty_unknown":"不支持","calls_incoming":"來電","calls_outgoing":"撥出電話","calls_you_label":"你","menu_item_video_call":"視頻電話","already_in_call":"你已經在說話了！","call_cancelled":"取消","call_missed":"未接","call_declined":"被拒","call_disconnected":"斷開連接","label_use_secure_connection":"使用安全連接","phone_or_email_prompt":"電話號碼或電子郵件","cred_confirmed_successfully":"確認成功"},"zh":{"action_block_contact":"屏蔽联系人","action_cancel":"取消","action_clear_messages":"删除讯息","action_delete_messages":"删除所有帖子","action_leave_chat":"离开","action_report_chat":"检举垃圾邮件","archived_contacts":"已归档联系人 ({count})","badge_danger":"可疑的","badge_owner":"所有者","badge_staff":"在员工管理下","badge_verified":"值得信赖","badge_you":"你","block_contact_warning":"您确定要阻止此联系人吗？","blocked_contacts_link":"封锁的联络人 ({count})","button_add_another":"加上另一个","button_add_members":"添加成员","button_cancel":"取消","button_confirm":"确认","button_create":"创建","button_delete_account":"删除帐户","button_edit":"编辑","button_logout":"登出","button_ok":"好","button_reset":"重置","button_send_request":"发送请求","button_sign_in":"登录","button_sign_up":"注册","button_subscribe":"订阅","button_update":"更新","cannot_initiate_file_upload":"无法初始化文件上传。","channel":"频道","channel_prompt":"这是一个频道","chat_invitation":"你受邀开始新会话。你想怎么做？","chat_invitation_accept":"接受","chat_invitation_block":"屏蔽","chat_invitation_ignore":"忽略","clear_messages_warning":"您确定要清除所有消息吗？无法撤消。","code_doesnot_match":"代码不匹配","contacts_not_found":"你尚无会话<br />¯∖_(ツ)_/¯","contacts_not_found_short":"无联系人匹配\'\'{query}\'\'","credential_email_prompt":"你的注册邮箱","delete_account":"删除帐户","delete_account_warning":"您确定要删除您的帐户吗？无法撤消。","delete_messages_warning":"您确定要删除所有消息吗？无法撤消。","deleted_content":"内容已删除","download_action":"下载","drafty_attachment":"附件","drafty_form":"形式：","drafty_image":"图像","email_dative":"电子邮件","email_prompt":"电子邮件，例如 zhang@example.com","enable_peers_messaging":"启用","enter_confirmation_code_prompt":"输入通过{method}发送的验证码：","error_invalid_id":"无效 ID","file_attachment_too_large":"文件大小 {size} 超过 {limit} 限制。","forgot_password_link":"忘记密码？","full_name_prompt":"全名，例如张伟","granted_permissions":"已授予","group_has_no_members":"无成员","group_user_id_prompt":"群组或用户 ID","image_caption_prompt":"图片标题","invalid_content":"无效内容","invalid_security_token":"无效的安全令牌","label_client":"客户端：","label_content_type":"内容类型：","label_default_access_mode":"蓦然访问模式：","label_file_name":"文件名：","label_group_members":"群组成员：","label_incognito_mode":"无痕模式：","label_message_sound":"消息提示音：","label_muting_topic":"已静音：","label_other_user":"其他","label_password":"密码","label_permissions":"权限：","label_private":"私人评论","label_push_notifications":"通知提醒：","label_push_notifications_disabled":"通知提醒（需要 HTTPS）：","label_reset_password":"发送密码重置邮件：","label_sdk":"开发包：","label_server":"服务器：","label_server_address":"服务器地址：","label_server_to_use":"使用的服务器：","label_size":"大小：","label_topic_name":"名称","label_user_contacts":"往来：","label_user_id":"地址：","label_wire_transport":"线路传输：","label_you":"你：","label_your_name":"你的姓名","label_your_permissions":"你的权限：","last_seen_timestamp":"最后可见","leave_chat_warning":"您确定要退出此对话吗？","link_contact_us":"联系我们","link_privacy_policy":"隐私政策","link_terms_of_service":"条款和条件","login_prompt":"登录","menu_item_archive_topic":"归档","menu_item_block":"屏蔽","menu_item_clear_messages":"清空消息","menu_item_clear_messages_for_all":"全部清除","menu_item_delete":"删除","menu_item_delete_for_all":"全部删除","menu_item_delete_topic":"删除","menu_item_edit_permissions":"编辑权限","menu_item_info":"信息","menu_item_member_delete":"移除","menu_item_mute":"静音","menu_item_restore_topic":"从存档中恢复","menu_item_send_retry":"重试","menu_item_unblock":"取消屏蔽","menu_item_unmute":"取消静音","message_sending":"正在发送...","message_sending_failed":"发送失败","messages_not_readable":"无消息访问权限","messaging_disabled_prompt":"消息已禁用","more_online_members":"还有{overflow}个","new_message_prompt":"新消息","new_password_placeholder":"输入新密码","no_connection":"无连接","no_contacts":"你尚无联系人 (._.)","numeric_confirmation_code_prompt":"仅数字","online_now":"在线","password_prompt":"密码","password_unchanged_prompt":"未改变","peers_messaging_disabled":"成员间消息已禁用。","permission_admin":"批准 ({val})","permission_delete":"删除 ({val})","permission_join":"加入 ({val})","permission_owner":"所有者 ({val})","permission_pres":"获取通知 ({val})","permission_read":"读取 ({val})","permission_share":"分享 ({val})","permission_write":"写入 ({val})","phone_dative":"电话","private_editing_placeholder":"仅自己可见","push_init_failed":"初始化推送通知失败","reconnect_countdown":"连接已断开。{seconds} 秒后重新连接…","reconnect_now":"立即尝试","reload_update":"重新载入","report_chat_warning":"您确定要停止并报告此对话吗？","requested_permissions":"已请求","save_attachment":"保存","search_for_contacts":"使用搜索寻找联系人","search_no_results":"搜索返回任何结果","search_placeholder":"列表如 email:alice@example.com, tel:+17025550003...","sidepanel_title_acc_notifications":"通知","sidepanel_title_acc_support":"支持","sidepanel_title_account_settings":"帐号设定","sidepanel_title_archive":"已存档会话","sidepanel_title_blocked":"被阻止的聊天","sidepanel_title_cred":"确认凭据","sidepanel_title_login":"登录","sidepanel_title_newtpk":"开始新会话","sidepanel_title_register":"创建账户","sidepanel_title_reset":"重置密码","sidepanel_title_settings":"设置","stay_logged_in":"保持登录","tabtitle_find_user":"搜索","tabtitle_group_by_id":"通过 id","tabtitle_new_group":"新群组","tags_editor_no_tags":"添加一些标签","tags_not_found":"尚未定义标签。添加一些。","title_all_contacts":"全部联系人","title_group_members":"群组成员","title_manage_tags":"管理标签","title_not_found":"无法找到","title_permissions":"权限","title_tag_manager":"标签（用户发现）","topic_block_warning":"您确定要阻止此对话吗？","topic_delete_warning":"您确定要删除此对话吗？","topic_name_editing_placeholder":"群组自由格式名称","unnamed_topic":"未命名","update_available":"更新可用。","upload_finishing":"正在结束...","user_not_found":"未找到","validate_credential_action":"确认","description_editing_placeholder":"说明（可选）","label_description":"说明","button_security":"安全","panel_title_crop":"拖动调整","panel_title_general":"常用设定","panel_title_members":"成员","panel_title_security":"安全","panel_title_info":"信息","permissions_anonymous":"匿名","permissions_authenticated":"已认证","topic_delete":"删除聊天","permissions_user":"用户权限","password_reset_email_sent":"一封电子邮件已发送至 {email}。按照电子邮件中的说明重置密码。","label_unarchive_topic":"存档：","menu_item_reply":"回复","menu_item_forward":"重定向","forward_to":"重定向消息","forward_to_search_placeholder":"搜索联系人","label_new_password":"新密码","drafty_unknown":"不支持","calls_incoming":"来电","calls_outgoing":"拨出电话","calls_you_label":"你","menu_item_video_call":"视频电话","already_in_call":"你已经在说话了！","call_cancelled":"取消","call_missed":"未接","call_declined":"被拒","call_disconnected":"断开连接","label_use_secure_connection":"使用安全连接","phone_or_email_prompt":"电话号码或电子邮件","cred_confirmed_successfully":"确认成功"}}');
 
 /***/ })
@@ -21938,9 +21014,8 @@ module.exports = JSON.parse('{"de":{"action_block_contact":"Kontakt blockieren",
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-"use strict";
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
@@ -21960,19 +21035,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
 const {
   params
 } = _lib_navigation_js__WEBPACK_IMPORTED_MODULE_5__["default"].parseUrlHash(window.location.hash);
 const language = params && params.hl || navigator.languages && navigator.languages[0] || navigator.language || navigator.userLanguage || 'en';
-
 const baseLanguage = language.toLowerCase().split(/[-_]/)[0];
-
 const htmlLang = _messages_json__WEBPACK_IMPORTED_MODULE_3__[language] ? language : _messages_json__WEBPACK_IMPORTED_MODULE_3__[baseLanguage] ? baseLanguage : 'en';
 const messages = _messages_json__WEBPACK_IMPORTED_MODULE_3__[htmlLang];
-
 document.getElementsByTagName('html')[0].setAttribute('lang', htmlLang);
 react_dom__WEBPACK_IMPORTED_MODULE_1___default().render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().StrictMode), null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_2__.IntlProvider, {
   locale: language,
