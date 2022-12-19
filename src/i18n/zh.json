@@ -726,7 +726,7 @@
     "obsolete": false
   },
   "menu_item_info": {
-    "translation": "信息",
+    "translation": "资料",
     "defaultMessage": "Info",
     "description": "Show extended topic information",
     "missing": false,
@@ -1279,7 +1279,7 @@
     "obsolete": false
   },
   "panel_title_info": {
-    "translation": "信息",
+    "translation": "资料",
     "defaultMessage": "Info",
     "description": "Title for InfoView",
     "missing": false,
