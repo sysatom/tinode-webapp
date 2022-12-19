@@ -1027,7 +1027,7 @@
     "obsolete": false
   },
   "sidepanel_title_account_settings": {
-    "translation": "帐号设定",
+    "translation": "帐号设置",
     "defaultMessage": "Account Settings",
     "description": "Sidepanel title for AccountSettingsView.",
     "missing": false,
@@ -1258,7 +1258,7 @@
     "obsolete": false
   },
   "panel_title_general": {
-    "translation": "常用设定",
+    "translation": "常规设置",
     "defaultMessage": "General",
     "description": "Title for TopicCommon.",
     "missing": false,
