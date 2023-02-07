@@ -59,15 +59,15 @@ module.exports = (env, argv) => {
       new CopyPlugin({
         patterns: [
           { from: `node_modules/tinode-sdk/umd/tinode.${mode}.js`, to: `tinode.${mode}.js` },
+          { from: `node_modules/tinode-sdk/umd/tinode.${mode}.js.map`, to: `tinode.${mode}.js.map` },
         ],
       }),
     ],
     externals: {
-      // 'fix-webm-duration': 'fixWebmDuration',
       'react': 'React',
       'react-dom': 'ReactDOM',
       'react-intl': 'ReactIntl',
-      'tinode-sdk': 'Tinode',
+      'tinode-sdk': 'tinode',
     },
   };
 }

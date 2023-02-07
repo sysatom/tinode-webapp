@@ -410,11 +410,10 @@ class InfoView extends React.Component {
     }
 
     const isMe = this.props.tinode.isMe(params.topicName);
-    const menuItems = [
-      {title: formatMessage(messages.edit_permissions), handler: () => {
-        this.handleLaunchPermissionsEditor(isMe ? 'want' : 'user', params.topicName);
-      }}
-    ];
+    const menuItems = [{
+      title: formatMessage(messages.edit_permissions),
+      handler: _ => this.handleLaunchPermissionsEditor(isMe ? 'want' : 'user', params.topicName)
+    }];
     if (!isMe) {
       menuItems.push('member_delete');
     }
@@ -481,7 +480,7 @@ class InfoView extends React.Component {
             tinode={this.props.tinode}
             topic={this.props.topic}
             onCredAdd={this.props.onCredAdd}
-            onTopicTagsUpdateRequest={this.props.onTopicTagsUpdateRequest}
+            onUpdateTagsRequest={this.props.onTopicTagsUpdateRequest}
             onCredConfirm={this.props.onCredConfirm}
             onCredDelete={this.props.onCredDelete}
             onUpdateTopicDesc={this.props.onTopicDescUpdateRequest}

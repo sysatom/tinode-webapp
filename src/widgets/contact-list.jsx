@@ -60,6 +60,7 @@ class ContactList extends React.Component {
           }
 
           const isChannel = Tinode.isChannelTopicName(key);
+          const isGroup = !isChannel && Tinode.isGroupTopicName(key);
           const selected = showCheckmark ?
             (this.props.topicSelected.indexOf(key) > -1) :
             (this.props.topicSelected === key);
@@ -80,7 +81,7 @@ class ContactList extends React.Component {
           let previewIsResponse;
           let deliveryStatus;
           if (!this.props.showMode && c.latestMessage) {
-            const msg = c.latestMessage(true);
+            const msg = c.latestMessage();
             if (msg) {
               forwarded = msg.head ? msg.head.forwarded : null;
               deliveryStatus = msg._status || c.msgStatus(msg, true);
@@ -112,6 +113,7 @@ class ContactList extends React.Component {
               selected={selected}
               showOnline={this.props.showOnline && !isChannel}
               isChannel={isChannel}
+              isGroup={isGroup}
               showContextMenu={this.props.showContextMenu}
               isVerified={c.trusted && c.trusted.verified}
               isStaff={c.trusted && c.trusted.staff}
