@@ -1,10 +1,11 @@
 // Account registration.
-import React from 'react';
+import React, { Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import AvatarCrop from '../widgets/avatar-crop.jsx';
 import AvatarUpload from '../widgets/avatar-upload.jsx';
 import CheckBox from '../widgets/checkbox.jsx';
+import PhoneEdit from '../widgets/phone-edit.jsx';
 import VisiblePassword from '../widgets/visible-password.jsx';
 
 import LocalStorageUtil from '../lib/local-storage.js';
@@ -21,13 +22,14 @@ export default class CreateAccountView extends React.PureComponent {
     this.state = {
       login: '',
       password: '',
+      meth: '',
       email: '',
+      tel: '',
       fn: '', // full/formatted name
       imageUrl: null,
       uploadUrl: null,
       newAvatar: null,
       newAvatarMime: null,
-      errorCleared: false,
       buttonDisabled: false,
       saveToken: LocalStorageUtil.getObject('keep-logged-in')
     };
@@ -35,6 +37,7 @@ export default class CreateAccountView extends React.PureComponent {
     this.handleLoginChange = this.handleLoginChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handlePhoneChange = this.handlePhoneChange.bind(this);
     this.handleFnChange = this.handleFnChange.bind(this);
     this.handleImageChanged = this.handleImageChanged.bind(this);
     this.handleToggleSaveToken = this.handleToggleSaveToken.bind(this);
@@ -42,6 +45,12 @@ export default class CreateAccountView extends React.PureComponent {
     this.handleAvatarCropCancel = this.handleAvatarCropCancel.bind(this);
     this.uploadAvatar = this.uploadAvatar.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    // Connection will trigger change by changing the this.props.serverVersion.
+    props.tinode.connect()
+      .catch(err => {
+        this.props.onError(err.message, 'err');
+      });
   }
 
   handleLoginChange(e) {
@@ -53,7 +62,11 @@ export default class CreateAccountView extends React.PureComponent {
   }
 
   handleEmailChange(e) {
-    this.setState({email: e.target.value})
+    this.setState({meth: 'email', email: e.target.value});
+  }
+
+  handlePhoneChange(number) {
+    this.setState({meth: 'tel', tel: number});
   }
 
   handleFnChange(e) {
@@ -71,12 +84,17 @@ export default class CreateAccountView extends React.PureComponent {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({errorCleared: false});
     this.props.onCreateAccount(
       this.state.login.trim(),
       this.state.password.trim(),
       theCard(this.state.fn.trim().substring(0, MAX_TITLE_LENGTH), this.state.uploadUrl),
-      {'meth': 'email', 'val': this.state.email});
+      {
+        'meth': this.state.meth,
+        'val': this.state.meth == 'email' ?
+          this.state.email :
+            this.state.meth == 'tel' ? this.state.tel : null
+      }
+    );
   }
 
   // AvatarCropView calls this method when the user has cropped the image.
@@ -143,7 +161,7 @@ export default class CreateAccountView extends React.PureComponent {
     return (
       <form className="panel-form-column" onSubmit={this.handleSubmit}>
         <div className="panel-form-row">
-          <div className="panel-form-column">
+          <div className="umn">
             <FormattedMessage id="login_prompt" defaultMessage="Login"
               description="Placeholer for username/login">{
               (login_prompt) => <input type="text" placeholder={login_prompt} autoComplete="user-name"
@@ -169,13 +187,27 @@ export default class CreateAccountView extends React.PureComponent {
               value={this.state.fn} onChange={this.handleFnChange} required/>
           }</FormattedMessage>
         </div>
-        <div className="panel-form-row">
-          <FormattedMessage id="email_prompt" defaultMessage="Email, e.g. jdoe@example.com"
-            description="Input placeholder for email entry">{
-            (email_prompt) => <input type="email" placeholder={email_prompt} autoComplete="email"
-              value={this.state.email} onChange={this.handleEmailChange} required/>
-          }</FormattedMessage>
-        </div>
+        {this.props.reqCredMethod == 'email' ?
+          <div className="panel-form-row">
+            <FormattedMessage id="email_prompt" defaultMessage="Email, e.g. jdoe@example.com"
+              description="Input placeholder for email entry">{
+              (email_prompt) => <input type="email" placeholder={email_prompt} autoComplete="email"
+                value={this.state.email} onChange={this.handleEmailChange} required/>
+            }</FormattedMessage>
+          </div>
+          : this.props.reqCredMethod == 'tel' ?
+          <><div className="panel-form-row">
+            <label className="small gray"><FormattedMessage id="mobile_phone_number" defaultMessage="Mobile phone number"
+              description="Prompt for entering a mobile phone number" /></label>
+          </div>
+          <div className="panel-form-row">
+            <PhoneEdit
+              autoFocus={false}
+              onShowCountrySelector={this.props.onShowCountrySelector}
+              onSubmit={this.handlePhoneChange} />
+          </div></>
+          : null
+        }
         <div className="panel-form-row">
           <CheckBox id="save-token" name="save-token" checked={this.state.saveToken}
             onChange={this.handleToggleSaveToken} />

@@ -59,10 +59,6 @@
     "defaultMessage": "Blocked contacts ({count})",
     "description": "Blocked contacts link"
   },
-  "button_add_another": {
-    "defaultMessage": "Add another",
-    "description": "Call to action [+ add another]"
-  },
   "button_add_members": {
     "defaultMessage": "Add members",
     "description": "Flat button [Add members] (to topic)"
@@ -163,6 +159,14 @@
     "defaultMessage": "Cannot initiate file upload.",
     "description": "Generic error messagewhen attachment fails"
   },
+  "change_email": {
+    "defaultMessage": "Change email",
+    "description": "Prompt to change current email"
+  },
+  "change_phone": {
+    "defaultMessage": "Change phone number",
+    "description": "Prompt to change current phone number"
+  },
   "channel": {
     "defaultMessage": "channel",
     "description": "Subtitle shown for channels in MessagesView instead of last seen"
@@ -210,6 +214,14 @@
   "credential_email_prompt": {
     "defaultMessage": "Your registration email",
     "description": "Placeholder for entering email"
+  },
+  "current_email": {
+    "defaultMessage": "Current email",
+    "description": "Label for old email"
+  },
+  "current_phone": {
+    "defaultMessage": "Current phone number",
+    "description": "Label for old phone"
   },
   "delete_account": {
     "defaultMessage": "Delete account",
@@ -272,7 +284,7 @@
     "description": "Call to action to enable peer's messaging"
   },
   "enter_confirmation_code_prompt": {
-    "defaultMessage": "Enter confirmation code sent to you by {method}:",
+    "defaultMessage": "Confirmation code",
     "description": "Request to enter confirmation code"
   },
   "error_invalid_id": {
@@ -419,8 +431,12 @@
     "description": "Label for push notifications switch"
   },
   "label_reset_password": {
-    "defaultMessage": "Send a password reset email:",
+    "defaultMessage": "Send a password reset email",
     "description": "Label for password reset field"
+  },
+  "label_reset_password_tel": {
+    "defaultMessage": "Send SMS to reset password",
+    "description": "Label for password reset field by phone"
   },
   "label_sdk": {
     "defaultMessage": "SDK:"
@@ -453,7 +469,7 @@
     "description": "Label for WS/WSS connection type in SettingsView"
   },
   "label_user_contacts": {
-    "defaultMessage": "Contacts:",
+    "defaultMessage": "Contacts",
     "description": "Label for user contacts"
   },
   "label_user_id": {
@@ -495,6 +511,10 @@
   "link_terms_of_service": {
     "defaultMessage": "Terms of Service",
     "description": "Ancor text for terms of service link"
+  },
+  "loading_note": {
+    "defaultMessage": "Loading...",
+    "description": "Message shown when component is loading"
   },
   "login_prompt": {
     "defaultMessage": "Login",
@@ -600,9 +620,21 @@
     "defaultMessage": "Messaging disabled",
     "description": "Prompt in SendMessage in read-only topic"
   },
+  "mobile_number_required": {
+    "defaultMessage": "Mobile phone number required",
+    "description": "Error message"
+  },
+  "mobile_phone_number": {
+    "defaultMessage": "Mobile phone number",
+    "description": "Prompt for entering a mobile phone number"
+  },
   "more_online_members": {
     "defaultMessage": "+{overflow} more",
     "description": "Shown in MessagesView title bar when the number of online subscribers exceeds MAX_ONLINE_IN_TOPIC"
+  },
+  "new_email": {
+    "defaultMessage": "New email",
+    "description": "Prompt for entering a new email"
   },
   "new_message_prompt": {
     "defaultMessage": "New message",
@@ -611,6 +643,10 @@
   "new_password_placeholder": {
     "defaultMessage": "Enter new password",
     "description": "Placeholder for entering new password"
+  },
+  "new_phone_number": {
+    "defaultMessage": "New phone number",
+    "description": "Prompt for entering a new telephone number"
   },
   "no_connection": {
     "defaultMessage": "No connection",
@@ -648,13 +684,21 @@
     "defaultMessage": "Security",
     "description": "Title for TopicSecirity and AccSecurity."
   },
+  "password_i_have_code": {
+    "defaultMessage": "I have code",
+    "description": "Call to open field to enter password reset code"
+  },
   "password_prompt": {
     "defaultMessage": "Password",
     "description": "Placeholder/prompt for entering password"
   },
   "password_reset_email_sent": {
-    "defaultMessage": "An email has been sent to {email}. Follow the directions in the email to reset your password.",
+    "defaultMessage": "An email with security code has been sent.",
     "description": "Notification that the email with password reset instructions has been sent"
+  },
+  "password_reset_sms_sent": {
+    "defaultMessage": "A text message with security code has been sent.",
+    "description": "Notification that the SMS with password reset instructions has been sent"
   },
   "password_unchanged_prompt": {
     "defaultMessage": "Unchanged",
@@ -711,10 +755,6 @@
   "phone_dative": {
     "defaultMessage": "phone",
     "description": "Dative case of 'phone', i.e. 'phone' in 'by phone'"
-  },
-  "phone_or_email_prompt": {
-    "defaultMessage": "Phone number or email",
-    "description": "Placeholer for phone or email"
   },
   "private_editing_placeholder": {
     "defaultMessage": "Visible to you only",
@@ -887,9 +927,5 @@
   "user_not_found": {
     "defaultMessage": "Not found",
     "description": "In place of a user's full name when the user is not found."
-  },
-  "validate_credential_action": {
-    "defaultMessage": "confirm",
-    "description": "Validate credentail call to action"
   }
 }

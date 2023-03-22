@@ -1,6 +1,6 @@
 // Send message form.
 import React, { Suspense } from 'react';
-import { defineMessages, injectIntl } from 'react-intl';
+import { FormattedMessage, defineMessages, injectIntl } from 'react-intl';
 import { Drafty } from 'tinode-sdk';
 
 // Lazy-loading AudioRecorder because it's quite large due to
@@ -111,6 +111,10 @@ class SendMessage extends React.PureComponent {
         // Set focus on desktop, but not on mobile: focus causes soft keyboard to pop up.
         this.messageEditArea.focus();
       }
+
+      // Adjust height of the message area for the amount of text.
+      this.messageEditArea.style.height = '0px';
+      this.messageEditArea.style.height = this.messageEditArea.scrollHeight + 'px';
     }
 
     if (prevProps.topicName != this.props.topicName) {
@@ -267,7 +271,8 @@ class SendMessage extends React.PureComponent {
               {this.props.noInput ?
                 (quote || <div className="hr thin" />) :
                 (this.state.audioRec ?
-                  (<Suspense fallback={<div>Loading...</div>}>
+                  (<Suspense fallback={<div><FormattedMessage id="loading_note" defaultMessage="Loading..."
+                  description="Message shown when component is loading"/></div>}>
                     <AudioRecorder
                       onRecordingProgress={_ => this.props.onKeyPress(true)}
                       onDeleted={_ => this.setState({audioRec: false})}
@@ -275,7 +280,7 @@ class SendMessage extends React.PureComponent {
                   </Suspense>) :
                   <textarea id="send-message-input" placeholder={prompt}
                     value={this.state.message} onChange={this.handleMessageTyping}
-                    onKeyPress={this.handleKeyPress}
+                    onKeyDown={this.handleKeyPress}
                     ref={ref => {this.messageEditArea = ref;}} />)}
               {this.state.message || !audioEnabled ?
                 <a href="#" onClick={this.handleSend} title={formatMessage(messages.icon_title_send)}>

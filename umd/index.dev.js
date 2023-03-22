@@ -11,6 +11,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CONSTANTS": () => (/* binding */ CONSTANTS),
+/* harmony export */   "DecodeBase64StringError": () => (/* binding */ DecodeBase64StringError),
 /* harmony export */   "Deferred": () => (/* binding */ Deferred),
 /* harmony export */   "ErrorFactory": () => (/* binding */ ErrorFactory),
 /* harmony export */   "FirebaseError": () => (/* binding */ FirebaseError),
@@ -38,6 +39,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getDefaultAppConfig": () => (/* binding */ getDefaultAppConfig),
 /* harmony export */   "getDefaultEmulatorHost": () => (/* binding */ getDefaultEmulatorHost),
 /* harmony export */   "getDefaultEmulatorHostnameAndPort": () => (/* binding */ getDefaultEmulatorHostnameAndPort),
+/* harmony export */   "getDefaults": () => (/* binding */ getDefaults),
 /* harmony export */   "getExperimentalSetting": () => (/* binding */ getExperimentalSetting),
 /* harmony export */   "getGlobal": () => (/* binding */ getGlobal),
 /* harmony export */   "getModularInstance": () => (/* binding */ getModularInstance),
@@ -377,7 +379,7 @@ const base64 = {
             const byte4 = haveByte4 ? charToByteMap[input.charAt(i)] : 64;
             ++i;
             if (byte1 == null || byte2 == null || byte3 == null || byte4 == null) {
-                throw Error();
+                throw new DecodeBase64StringError();
             }
             const outByte1 = (byte1 << 2) | (byte2 >> 4);
             output.push(outByte1);
@@ -418,6 +420,15 @@ const base64 = {
         }
     }
 };
+/**
+ * An error encountered while decoding base64 string.
+ */
+class DecodeBase64StringError extends Error {
+    constructor() {
+        super(...arguments);
+        this.name = 'DecodeBase64StringError';
+    }
+}
 /**
  * URL-safe base64 encoding
  */
@@ -526,7 +537,7 @@ function isValidKey(key) {
 
 /**
  * @license
- * Copyright 2017 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -541,150 +552,9 @@ function isValidKey(key) {
  * limitations under the License.
  */
 /**
- * Returns navigator.userAgent string or '' if it's not defined.
- * @return user agent string
- */
-function getUA() {
-    if (typeof navigator !== 'undefined' &&
-        typeof navigator['userAgent'] === 'string') {
-        return navigator['userAgent'];
-    }
-    else {
-        return '';
-    }
-}
-/**
- * Detect Cordova / PhoneGap / Ionic frameworks on a mobile device.
- *
- * Deliberately does not rely on checking `file://` URLs (as this fails PhoneGap
- * in the Ripple emulator) nor Cordova `onDeviceReady`, which would normally
- * wait for a callback.
- */
-function isMobileCordova() {
-    return (typeof window !== 'undefined' &&
-        // @ts-ignore Setting up an broadly applicable index signature for Window
-        // just to deal with this case would probably be a bad idea.
-        !!(window['cordova'] || window['phonegap'] || window['PhoneGap']) &&
-        /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA()));
-}
-/**
- * Detect Node.js.
- *
- * @return true if Node.js environment is detected.
- */
-// Node detection logic from: https://github.com/iliakan/detect-node/
-function isNode() {
-    try {
-        return (Object.prototype.toString.call(__webpack_require__.g.process) === '[object process]');
-    }
-    catch (e) {
-        return false;
-    }
-}
-/**
- * Detect Browser Environment
- */
-function isBrowser() {
-    return typeof self === 'object' && self.self === self;
-}
-function isBrowserExtension() {
-    const runtime = typeof chrome === 'object'
-        ? chrome.runtime
-        : typeof browser === 'object'
-            ? browser.runtime
-            : undefined;
-    return typeof runtime === 'object' && runtime.id !== undefined;
-}
-/**
- * Detect React Native.
- *
- * @return true if ReactNative environment is detected.
- */
-function isReactNative() {
-    return (typeof navigator === 'object' && navigator['product'] === 'ReactNative');
-}
-/** Detects Electron apps. */
-function isElectron() {
-    return getUA().indexOf('Electron/') >= 0;
-}
-/** Detects Internet Explorer. */
-function isIE() {
-    const ua = getUA();
-    return ua.indexOf('MSIE ') >= 0 || ua.indexOf('Trident/') >= 0;
-}
-/** Detects Universal Windows Platform apps. */
-function isUWP() {
-    return getUA().indexOf('MSAppHost/') >= 0;
-}
-/**
- * Detect whether the current SDK build is the Node version.
- *
- * @return true if it's the Node SDK build.
- */
-function isNodeSdk() {
-    return CONSTANTS.NODE_CLIENT === true || CONSTANTS.NODE_ADMIN === true;
-}
-/** Returns true if we are running in Safari. */
-function isSafari() {
-    return (!isNode() &&
-        navigator.userAgent.includes('Safari') &&
-        !navigator.userAgent.includes('Chrome'));
-}
-/**
- * This method checks if indexedDB is supported by current browser/service worker context
- * @return true if indexedDB is supported by current browser/service worker context
- */
-function isIndexedDBAvailable() {
-    return typeof indexedDB === 'object';
-}
-/**
- * This method validates browser/sw context for indexedDB by opening a dummy indexedDB database and reject
- * if errors occur during the database open operation.
- *
- * @throws exception if current browser/sw context can't run idb.open (ex: Safari iframe, Firefox
- * private browsing)
- */
-function validateIndexedDBOpenable() {
-    return new Promise((resolve, reject) => {
-        try {
-            let preExist = true;
-            const DB_CHECK_NAME = 'validate-browser-context-for-indexeddb-analytics-module';
-            const request = self.indexedDB.open(DB_CHECK_NAME);
-            request.onsuccess = () => {
-                request.result.close();
-                // delete database only when it doesn't pre-exist
-                if (!preExist) {
-                    self.indexedDB.deleteDatabase(DB_CHECK_NAME);
-                }
-                resolve(true);
-            };
-            request.onupgradeneeded = () => {
-                preExist = false;
-            };
-            request.onerror = () => {
-                var _a;
-                reject(((_a = request.error) === null || _a === void 0 ? void 0 : _a.message) || '');
-            };
-        }
-        catch (error) {
-            reject(error);
-        }
-    });
-}
-/**
- *
- * This method checks whether cookie is enabled within current browser
- * @return true if cookie is enabled within current browser
- */
-function areCookiesEnabled() {
-    if (typeof navigator === 'undefined' || !navigator.cookieEnabled) {
-        return false;
-    }
-    return true;
-}
-/**
  * Polyfill for `globalThis` object.
  * @returns the `globalThis` object for the given environment.
+ * @public
  */
 function getGlobal() {
     if (typeof self !== 'undefined') {
@@ -718,8 +588,11 @@ function getGlobal() {
 const getDefaultsFromGlobal = () => getGlobal().__FIREBASE_DEFAULTS__;
 /**
  * Attempt to read defaults from a JSON string provided to
- * process.env.__FIREBASE_DEFAULTS__ or a JSON file whose path is in
- * process.env.__FIREBASE_DEFAULTS_PATH__
+ * process(.)env(.)__FIREBASE_DEFAULTS__ or a JSON file whose path is in
+ * process(.)env(.)__FIREBASE_DEFAULTS_PATH__
+ * The dots are in parens because certain compilers (Vite?) cannot
+ * handle seeing that variable in comments.
+ * See https://github.com/firebase/firebase-js-sdk/issues/6838
  */
 const getDefaultsFromEnvVariable = () => {
     if (typeof process === 'undefined' || typeof process.env === 'undefined') {
@@ -751,6 +624,7 @@ const getDefaultsFromCookie = () => {
  * (1) if such an object exists as a property of `globalThis`
  * (2) if such an object was provided on a shell environment variable
  * (3) if such an object exists in a cookie
+ * @public
  */
 const getDefaults = () => {
     try {
@@ -912,6 +786,178 @@ function createMockUserToken(token, projectId) {
         base64urlEncodeWithoutPadding(JSON.stringify(payload)),
         signature
     ].join('.');
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Returns navigator.userAgent string or '' if it's not defined.
+ * @return user agent string
+ */
+function getUA() {
+    if (typeof navigator !== 'undefined' &&
+        typeof navigator['userAgent'] === 'string') {
+        return navigator['userAgent'];
+    }
+    else {
+        return '';
+    }
+}
+/**
+ * Detect Cordova / PhoneGap / Ionic frameworks on a mobile device.
+ *
+ * Deliberately does not rely on checking `file://` URLs (as this fails PhoneGap
+ * in the Ripple emulator) nor Cordova `onDeviceReady`, which would normally
+ * wait for a callback.
+ */
+function isMobileCordova() {
+    return (typeof window !== 'undefined' &&
+        // @ts-ignore Setting up an broadly applicable index signature for Window
+        // just to deal with this case would probably be a bad idea.
+        !!(window['cordova'] || window['phonegap'] || window['PhoneGap']) &&
+        /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA()));
+}
+/**
+ * Detect Node.js.
+ *
+ * @return true if Node.js environment is detected or specified.
+ */
+// Node detection logic from: https://github.com/iliakan/detect-node/
+function isNode() {
+    var _a;
+    const forceEnvironment = (_a = getDefaults()) === null || _a === void 0 ? void 0 : _a.forceEnvironment;
+    if (forceEnvironment === 'node') {
+        return true;
+    }
+    else if (forceEnvironment === 'browser') {
+        return false;
+    }
+    try {
+        return (Object.prototype.toString.call(__webpack_require__.g.process) === '[object process]');
+    }
+    catch (e) {
+        return false;
+    }
+}
+/**
+ * Detect Browser Environment
+ */
+function isBrowser() {
+    return typeof self === 'object' && self.self === self;
+}
+function isBrowserExtension() {
+    const runtime = typeof chrome === 'object'
+        ? chrome.runtime
+        : typeof browser === 'object'
+            ? browser.runtime
+            : undefined;
+    return typeof runtime === 'object' && runtime.id !== undefined;
+}
+/**
+ * Detect React Native.
+ *
+ * @return true if ReactNative environment is detected.
+ */
+function isReactNative() {
+    return (typeof navigator === 'object' && navigator['product'] === 'ReactNative');
+}
+/** Detects Electron apps. */
+function isElectron() {
+    return getUA().indexOf('Electron/') >= 0;
+}
+/** Detects Internet Explorer. */
+function isIE() {
+    const ua = getUA();
+    return ua.indexOf('MSIE ') >= 0 || ua.indexOf('Trident/') >= 0;
+}
+/** Detects Universal Windows Platform apps. */
+function isUWP() {
+    return getUA().indexOf('MSAppHost/') >= 0;
+}
+/**
+ * Detect whether the current SDK build is the Node version.
+ *
+ * @return true if it's the Node SDK build.
+ */
+function isNodeSdk() {
+    return CONSTANTS.NODE_CLIENT === true || CONSTANTS.NODE_ADMIN === true;
+}
+/** Returns true if we are running in Safari. */
+function isSafari() {
+    return (!isNode() &&
+        navigator.userAgent.includes('Safari') &&
+        !navigator.userAgent.includes('Chrome'));
+}
+/**
+ * This method checks if indexedDB is supported by current browser/service worker context
+ * @return true if indexedDB is supported by current browser/service worker context
+ */
+function isIndexedDBAvailable() {
+    try {
+        return typeof indexedDB === 'object';
+    }
+    catch (e) {
+        return false;
+    }
+}
+/**
+ * This method validates browser/sw context for indexedDB by opening a dummy indexedDB database and reject
+ * if errors occur during the database open operation.
+ *
+ * @throws exception if current browser/sw context can't run idb.open (ex: Safari iframe, Firefox
+ * private browsing)
+ */
+function validateIndexedDBOpenable() {
+    return new Promise((resolve, reject) => {
+        try {
+            let preExist = true;
+            const DB_CHECK_NAME = 'validate-browser-context-for-indexeddb-analytics-module';
+            const request = self.indexedDB.open(DB_CHECK_NAME);
+            request.onsuccess = () => {
+                request.result.close();
+                // delete database only when it doesn't pre-exist
+                if (!preExist) {
+                    self.indexedDB.deleteDatabase(DB_CHECK_NAME);
+                }
+                resolve(true);
+            };
+            request.onupgradeneeded = () => {
+                preExist = false;
+            };
+            request.onerror = () => {
+                var _a;
+                reject(((_a = request.error) === null || _a === void 0 ? void 0 : _a.message) || '');
+            };
+        }
+        catch (error) {
+            reject(error);
+        }
+    });
+}
+/**
+ *
+ * This method checks whether cookie is enabled within current browser
+ * @return true if cookie is enabled within current browser
+ */
+function areCookiesEnabled() {
+    if (typeof navigator === 'undefined' || !navigator.cookieEnabled) {
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -3244,6 +3290,7 @@ class HashNavigation {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "bytesToHumanSize": () => (/* binding */ bytesToHumanSize),
+/* harmony export */   "flagEmoji": () => (/* binding */ flagEmoji),
 /* harmony export */   "idToColorClass": () => (/* binding */ idToColorClass),
 /* harmony export */   "letterTileColorId": () => (/* binding */ letterTileColorId),
 /* harmony export */   "relativeDateFormat": () => (/* binding */ relativeDateFormat),
@@ -3335,6 +3382,10 @@ function letterTileColorId(userId) {
 }
 function idToColorClass(id, light, fg) {
   return (light ? 'lt-' : 'dk-') + (fg ? 'fg-' : 'bg-') + letterTileColorId(id);
+}
+function flagEmoji(countryCode) {
+  const codePoints = countryCode.toUpperCase().split('').map(char => 0x1F1A5 + char.charCodeAt());
+  return String.fromCodePoint(...codePoints);
 }
 
 /***/ }),
@@ -3538,7 +3589,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "PACKAGE_VERSION": () => (/* binding */ PACKAGE_VERSION)
 /* harmony export */ });
-const PACKAGE_VERSION = "0.21.3";
+const PACKAGE_VERSION = "0.22.0";
 
 /***/ }),
 
@@ -3959,161 +4010,6 @@ class AccSupportView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
 
 /***/ }),
 
-/***/ "./src/views/account-settings-view.jsx":
-/*!*********************************************!*\
-  !*** ./src/views/account-settings-view.jsx ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ AccountSettingsView)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
-/* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _widgets_avatar_upload_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/avatar-upload.jsx */ "./src/widgets/avatar-upload.jsx");
-/* harmony import */ var _widgets_badge_list_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/badge-list.jsx */ "./src/widgets/badge-list.jsx");
-/* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
-/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
-
-
-
-
-
-function _clip(str, length) {
-  return str && str.substring(0, length);
-}
-class AccountSettingsView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
-  constructor(props) {
-    super(props);
-    const me = this.props.tinode.getMeTopic();
-    this.state = {
-      fullName: _clip(me.public ? me.public.fn : undefined, _config_js__WEBPACK_IMPORTED_MODULE_5__.MAX_TITLE_LENGTH),
-      description: _clip(me.public ? me.public.note : undefined, _config_js__WEBPACK_IMPORTED_MODULE_5__.MAX_TOPIC_DESCRIPTION_LENGTH),
-      avatar: (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_4__.makeImageUrl)(me.public ? me.public.photo : null)
-    };
-  }
-  render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "scrollable-panel"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "panel-form-column"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: "#",
-      className: "flat-button float-right",
-      onClick: e => {
-        e.preventDefault();
-        this.props.onNavigate('general');
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-      className: "material-icons"
-    }, "edit"), "\xA0", react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "button_edit",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Edit"
-      }]
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("center", null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_avatar_upload_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      tinode: this.props.tinode,
-      avatar: this.state.avatar,
-      readOnly: true,
-      uid: this.props.myUserId,
-      title: this.state.fullName
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "group"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      className: "small"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "label_your_name",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Your name"
-      }]
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "large ellipsized"
-    }, this.state.fullName)), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "group"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      className: "small"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "label_user_id",
-      defaultMessage: [{
-        "type": 0,
-        "value": "ID:"
-      }]
-    })), "\xA0", react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tt", null, this.props.myUserId)), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "group"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_badge_list_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      trustedBadges: this.props.trustedBadges
-    })), this.state.description ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "group"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      className: "small"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "label_description",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Description"
-      }]
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, this.state.description)) : null), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "hr"
-    }), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "panel-form-column"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: "#",
-      className: "flat-button",
-      onClick: e => {
-        e.preventDefault();
-        this.props.onNavigate('notif');
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-      className: "material-icons"
-    }, "notifications"), "\xA0", react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "sidepanel_title_acc_notifications",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Notifications"
-      }]
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: "#",
-      className: "flat-button",
-      onClick: e => {
-        e.preventDefault();
-        this.props.onNavigate('security');
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-      className: "material-icons"
-    }, "security"), "\xA0", react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "button_security",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Security"
-      }]
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: "#",
-      className: "flat-button",
-      onClick: e => {
-        e.preventDefault();
-        this.props.onNavigate('support');
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-      className: "material-icons"
-    }, "contact_support"), "\xA0", react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "sidepanel_title_acc_support",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Support"
-      }]
-    }))));
-  }
-}
-;
-
-/***/ }),
-
 /***/ "./src/views/contacts-view.jsx":
 /*!*************************************!*\
   !*** ./src/views/contacts-view.jsx ***!
@@ -4239,279 +4135,6 @@ class ContactsView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
 
 /***/ }),
 
-/***/ "./src/views/create-account-view.jsx":
-/*!*******************************************!*\
-  !*** ./src/views/create-account-view.jsx ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ CreateAccountView)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
-/* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _widgets_avatar_crop_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/avatar-crop.jsx */ "./src/widgets/avatar-crop.jsx");
-/* harmony import */ var _widgets_avatar_upload_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/avatar-upload.jsx */ "./src/widgets/avatar-upload.jsx");
-/* harmony import */ var _widgets_checkbox_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/checkbox.jsx */ "./src/widgets/checkbox.jsx");
-/* harmony import */ var _widgets_visible_password_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../widgets/visible-password.jsx */ "./src/widgets/visible-password.jsx");
-/* harmony import */ var _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../lib/local-storage.js */ "./src/lib/local-storage.js");
-/* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
-/* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
-
-
-
-
-
-
-
-
-
-class CreateAccountView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
-  constructor(props) {
-    super(props);
-    this.state = {
-      login: '',
-      password: '',
-      email: '',
-      fn: '',
-      imageUrl: null,
-      uploadUrl: null,
-      newAvatar: null,
-      newAvatarMime: null,
-      errorCleared: false,
-      buttonDisabled: false,
-      saveToken: _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_6__["default"].getObject('keep-logged-in')
-    };
-    this.handleLoginChange = this.handleLoginChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handleFnChange = this.handleFnChange.bind(this);
-    this.handleImageChanged = this.handleImageChanged.bind(this);
-    this.handleToggleSaveToken = this.handleToggleSaveToken.bind(this);
-    this.handleAvatarCropped = this.handleAvatarCropped.bind(this);
-    this.handleAvatarCropCancel = this.handleAvatarCropCancel.bind(this);
-    this.uploadAvatar = this.uploadAvatar.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleLoginChange(e) {
-    this.setState({
-      login: e.target.value
-    });
-  }
-  handlePasswordChange(password) {
-    this.setState({
-      password: password
-    });
-  }
-  handleEmailChange(e) {
-    this.setState({
-      email: e.target.value
-    });
-  }
-  handleFnChange(e) {
-    this.setState({
-      fn: e.target.value
-    });
-  }
-  handleImageChanged(mime, img) {
-    this.setState({
-      newAvatar: img,
-      newAvatarMime: mime
-    });
-  }
-  handleToggleSaveToken() {
-    _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_6__["default"].setObject('keep-logged-in', !this.state.saveToken);
-    this.setState({
-      saveToken: !this.state.saveToken
-    });
-  }
-  handleSubmit(e) {
-    e.preventDefault();
-    this.setState({
-      errorCleared: false
-    });
-    this.props.onCreateAccount(this.state.login.trim(), this.state.password.trim(), (0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_8__.theCard)(this.state.fn.trim().substring(0, _config_js__WEBPACK_IMPORTED_MODULE_9__.MAX_TITLE_LENGTH), this.state.uploadUrl), {
-      'meth': 'email',
-      'val': this.state.email
-    });
-  }
-  handleAvatarCropped(mime, blob, width, height) {
-    const url = blob ? URL.createObjectURL(blob) : null;
-    this.setState({
-      avatar: url,
-      newAvatar: null,
-      newAvatarMime: null
-    });
-    if (blob) {
-      this.uploadAvatar(mime, blob, width, height);
-    }
-  }
-  handleAvatarCropCancel() {
-    this.setState({
-      newAvatar: null,
-      newAvatarMime: null
-    });
-  }
-  uploadAvatar(mime, blob, width, height) {
-    const readyToUpload = image => {
-      let {
-        mime,
-        blob
-      } = image;
-      this.setState({
-        imageUrl: URL.createObjectURL(blob),
-        buttonDisabled: true
-      });
-      if (blob.size > _config_js__WEBPACK_IMPORTED_MODULE_9__.MAX_AVATAR_BYTES) {
-        const uploader = this.props.tinode.getLargeFileHelper();
-        uploader.upload(blob, 'newacc').then(url => this.setState({
-          uploadUrl: url
-        })).catch(err => this.props.onError(err.message, 'err')).finally(_ => this.setState({
-          buttonDisabled: false
-        }));
-      } else {
-        (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__.blobToBase64)(blob).then(b64 => this.setState({
-          uploadUrl: (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__.makeImageUrl)({
-            data: b64.bits,
-            type: mime
-          })
-        })).finally(_ => this.setState({
-          buttonDisabled: false
-        }));
-      }
-    };
-    if (width > _config_js__WEBPACK_IMPORTED_MODULE_9__.AVATAR_SIZE || height > _config_js__WEBPACK_IMPORTED_MODULE_9__.AVATAR_SIZE || width != height) {
-      (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_7__.imageScaled)(blob, _config_js__WEBPACK_IMPORTED_MODULE_9__.AVATAR_SIZE, _config_js__WEBPACK_IMPORTED_MODULE_9__.AVATAR_SIZE, _config_js__WEBPACK_IMPORTED_MODULE_9__.MAX_EXTERN_ATTACHMENT_SIZE, true).then(scaled => readyToUpload(scaled)).catch(err => this.props.onError(err.message, 'err'));
-    } else {
-      readyToUpload({
-        mime: mime,
-        blob: blob,
-        width: width,
-        height: height
-      });
-    }
-  }
-  render() {
-    if (this.state.newAvatar) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_avatar_crop_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        avatar: this.state.newAvatar,
-        mime: this.state.newAvatarMime,
-        onSubmit: this.handleAvatarCropped,
-        onCancel: this.handleAvatarCropCancel,
-        onError: this.props.onError
-      });
-    }
-    let submitClasses = 'primary';
-    if (this.props.disabled) {
-      submitClasses += ' disabled';
-    }
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
-      className: "panel-form-column",
-      onSubmit: this.handleSubmit
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "panel-form-row"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "panel-form-column"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "login_prompt",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Login"
-      }]
-    }, login_prompt => react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-      type: "text",
-      placeholder: login_prompt,
-      autoComplete: "user-name",
-      value: this.state.login,
-      onChange: this.handleLoginChange,
-      required: true,
-      autoFocus: true
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "password_prompt",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Password"
-      }]
-    }, password_prompt => react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_visible_password_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      placeholder: password_prompt,
-      autoComplete: "new-password",
-      value: this.state.password,
-      onFinished: this.handlePasswordChange,
-      required: true
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_avatar_upload_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      tinode: this.props.tinode,
-      avatar: this.state.imageUrl,
-      onImageUpdated: this.handleImageChanged,
-      onError: this.props.onError
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "panel-form-row"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "full_name_prompt",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Full name, e.g. John Doe"
-      }]
-    }, full_name_prompt => react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-      type: "text",
-      placeholder: full_name_prompt,
-      autoComplete: "name",
-      value: this.state.fn,
-      onChange: this.handleFnChange,
-      required: true
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "panel-form-row"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "email_prompt",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Email, e.g. jdoe@example.com"
-      }]
-    }, email_prompt => react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-      type: "email",
-      placeholder: email_prompt,
-      autoComplete: "email",
-      value: this.state.email,
-      onChange: this.handleEmailChange,
-      required: true
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "panel-form-row"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_checkbox_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      id: "save-token",
-      name: "save-token",
-      checked: this.state.saveToken,
-      onChange: this.handleToggleSaveToken
-    }), react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "stay_logged_in",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Stay logged in"
-      }]
-    }, stay_logged_in => react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      htmlFor: "save-token"
-    }, "\xA0", stay_logged_in))), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "dialog-buttons"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-      className: submitClasses,
-      type: "submit",
-      disabled: this.state.buttonDisabled
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "button_sign_up",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Sign up"
-      }]
-    }))));
-  }
-}
-;
-
-/***/ }),
-
 /***/ "./src/views/info-view.jsx":
 /*!*********************************!*\
   !*** ./src/views/info-view.jsx ***!
@@ -4536,7 +4159,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _widgets_group_manager_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../widgets/group-manager.jsx */ "./src/widgets/group-manager.jsx");
 /* harmony import */ var _widgets_menu_cancel_jsx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../widgets/menu-cancel.jsx */ "./src/widgets/menu-cancel.jsx");
 /* harmony import */ var _widgets_permissions_editor_jsx__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../widgets/permissions-editor.jsx */ "./src/widgets/permissions-editor.jsx");
-/* harmony import */ var _widgets_topic_common_jsx__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../widgets/topic-common.jsx */ "./src/widgets/topic-common.jsx");
+/* harmony import */ var _topic_common_view_jsx__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./topic-common-view.jsx */ "./src/views/topic-common-view.jsx");
 /* harmony import */ var _widgets_topic_security_jsx__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../widgets/topic-security.jsx */ "./src/widgets/topic-security.jsx");
 /* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
 /* harmony import */ var _lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../lib/blob-helpers.js */ "./src/lib/blob-helpers.js");
@@ -5012,9 +4635,10 @@ class InfoView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) 
       userAvatar: this.state.userPermissionsAvatar,
       onSubmit: mode => this.handlePermissionsChanged(args[0], mode),
       onCancel: this.handleBackNavigate
-    }) : view == 'general' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_topic_common_jsx__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    }) : view == 'general' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_topic_common_view_jsx__WEBPACK_IMPORTED_MODULE_11__["default"], {
       tinode: this.props.tinode,
       topic: this.props.topic,
+      reqCredMethod: this.props.reqCredMethod,
       onCredAdd: this.props.onCredAdd,
       onUpdateTagsRequest: this.props.onTopicTagsUpdateRequest,
       onCredConfirm: this.props.onCredConfirm,
@@ -5591,6 +5215,7 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     this.handleQuoteClick = this.handleQuoteClick.bind(this);
     this.handleCallHangup = this.handleCallHangup.bind(this);
     this.isDragEnabled = this.isDragEnabled.bind(this);
+    this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDragIn = this.handleDragIn.bind(this);
     this.handleDragOut = this.handleDragOut.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
@@ -5616,6 +5241,7 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       this.messagesScroller.addEventListener('scroll', this.handleScrollEvent);
     }
     if (this.dndRef) {
+      this.dndRef.addEventListener('dragstart', this.handleDragStart);
       this.dndRef.addEventListener('dragenter', this.handleDragIn);
       this.dndRef.addEventListener('dragleave', this.handleDragOut);
       this.dndRef.addEventListener('dragover', this.handleDrag);
@@ -5628,6 +5254,7 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     }
     this.clearNotificationQueue();
     if (this.dndRef) {
+      this.dndRef.removeEventListener('dragstart', this.handleDragStart);
       this.dndRef.removeEventListener('dragenter', this.handleDragIn);
       this.dndRef.removeEventListener('dragleave', this.handleDragOut);
       this.dndRef.removeEventListener('dragover', this.handleDrag);
@@ -5919,6 +5546,7 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
   }
   mountDnDEvents(dnd) {
     if (dnd) {
+      dnd.addEventListener('dragstart', this.handleDragStart);
       dnd.addEventListener('dragenter', this.handleDragIn);
       dnd.addEventListener('dragleave', this.handleDragOut);
       dnd.addEventListener('dragover', this.handleDrag);
@@ -6537,9 +6165,10 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
   isDragEnabled() {
     return this.state.isWriter && !this.state.unconfirmed && !this.props.forwardMessage && !this.state.peerMessagingDisabled;
   }
-  handleDrag(e) {
+  handleDragStart(e) {
     e.preventDefault();
     e.stopPropagation();
+    e.dataTransfer.clearData();
   }
   handleDragIn(e) {
     e.preventDefault();
@@ -6561,6 +6190,10 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       });
     }
   }
+  handleDrag(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   handleDrop(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -6569,7 +6202,6 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
     });
     if (this.isDragEnabled() && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       this.handleFileDrop(e.dataTransfer.files);
-      e.dataTransfer.clearData();
       this.dragCounter = 0;
     }
   }
@@ -6578,9 +6210,7 @@ class MessagesView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
       formatMessage
     } = this.props.intl;
     let component;
-    if (this.props.hideSelf) {
-      component = null;
-    } else if (!this.state.topic) {
+    if (!this.state.topic) {
       component = react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_logo_view_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
         serverVersion: this.props.serverVersion,
         serverAddress: this.props.serverAddress
@@ -7072,166 +6702,6 @@ class NewTopicView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Compone
 
 /***/ }),
 
-/***/ "./src/views/password-reset-view.jsx":
-/*!*******************************************!*\
-  !*** ./src/views/password-reset-view.jsx ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PasswordResetView)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
-/* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _widgets_visible_password_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/visible-password.jsx */ "./src/widgets/visible-password.jsx");
-/* harmony import */ var _lib_navigation_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/navigation.js */ "./src/lib/navigation.js");
-
-
-
-
-class PasswordResetView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent) {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      sent: false
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-  }
-  componentDidMount() {
-    const parsed = _lib_navigation_js__WEBPACK_IMPORTED_MODULE_3__["default"].parseUrlHash(window.location.hash);
-    this.setState({
-      token: parsed.params.token,
-      scheme: parsed.params.scheme
-    });
-  }
-  handleSubmit(e) {
-    e.preventDefault();
-    if (this.state.token) {
-      this.props.onReset(this.state.scheme, this.state.password.trim(), this.state.token);
-    } else if (this.state.sent) {
-      this.props.onCancel();
-    } else {
-      const email = this.state.email.trim();
-      this.setState({
-        email: email
-      });
-      this.props.onRequest('email', email).then(_ => this.setState({
-        sent: true
-      }));
-    }
-  }
-  handleEmailChange(e) {
-    this.setState({
-      email: e.target.value
-    });
-  }
-  handlePasswordChange(e) {
-    this.setState({
-      password: e.target.value
-    });
-  }
-  render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("form", {
-      id: "password-reset-form",
-      onSubmit: this.handleSubmit
-    }, this.state.token && this.state.scheme ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      htmlFor: "new-password"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "label_new_password",
-      defaultMessage: [{
-        "type": 0,
-        "value": "New password"
-      }]
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "new_password_placeholder",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Enter new password"
-      }]
-    }, placeholder => react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_visible_password_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      id: "new-password",
-      placeholder: placeholder,
-      autoComplete: "new-password",
-      value: this.state.password,
-      required: true,
-      autoFocus: true,
-      onChange: this.handlePasswordChange
-    }))) : this.state.sent ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("center", null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-      className: "material-icons huge green"
-    }, "task_alt")), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("center", null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "password_reset_email_sent",
-      defaultMessage: [{
-        "type": 0,
-        "value": "An email has been sent to "
-      }, {
-        "type": 1,
-        "value": "email"
-      }, {
-        "type": 0,
-        "value": ". Follow the directions in the email to reset your password."
-      }],
-      values: {
-        email: react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tt", null, this.state.email)
-      }
-    }))) : react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      htmlFor: "inputEmail"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "label_reset_password",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Send a password reset email:"
-      }]
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "credential_email_prompt",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Your registration email"
-      }]
-    }, placeholder => react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-      type: "email",
-      id: "inputEmail",
-      placeholder: placeholder,
-      autoComplete: "email",
-      value: this.state.email,
-      onChange: this.handleEmailChange,
-      required: true,
-      autoFocus: true
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "dialog-buttons"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
-      className: "primary",
-      type: "submit"
-    }, this.state.token && this.state.scheme ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "button_reset",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Reset"
-      }]
-    }) : this.state.sent ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "button_ok",
-      defaultMessage: [{
-        "type": 0,
-        "value": "OK"
-      }]
-    }) : react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "button_send_request",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Send request"
-      }]
-    }))));
-  }
-}
-
-/***/ }),
-
 /***/ "./src/views/settings-view.jsx":
 /*!*************************************!*\
   !*** ./src/views/settings-view.jsx ***!
@@ -7393,33 +6863,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _widgets_error_panel_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/error-panel.jsx */ "./src/widgets/error-panel.jsx");
 /* harmony import */ var _widgets_load_spinner_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../widgets/load-spinner.jsx */ "./src/widgets/load-spinner.jsx");
 /* harmony import */ var _widgets_side_navbar_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../widgets/side-navbar.jsx */ "./src/widgets/side-navbar.jsx");
-/* harmony import */ var _widgets_topic_common_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../widgets/topic-common.jsx */ "./src/widgets/topic-common.jsx");
-/* harmony import */ var _account_settings_view_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./account-settings-view.jsx */ "./src/views/account-settings-view.jsx");
-/* harmony import */ var _contacts_view_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./contacts-view.jsx */ "./src/views/contacts-view.jsx");
-/* harmony import */ var _create_account_view_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./create-account-view.jsx */ "./src/views/create-account-view.jsx");
-/* harmony import */ var _acc_notifications_view_jsx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./acc-notifications-view.jsx */ "./src/views/acc-notifications-view.jsx");
-/* harmony import */ var _acc_security_view_jsx__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./acc-security-view.jsx */ "./src/views/acc-security-view.jsx");
-/* harmony import */ var _acc_support_view_jsx__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./acc-support-view.jsx */ "./src/views/acc-support-view.jsx");
-/* harmony import */ var _login_view_jsx__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./login-view.jsx */ "./src/views/login-view.jsx");
-/* harmony import */ var _new_topic_view_jsx__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./new-topic-view.jsx */ "./src/views/new-topic-view.jsx");
-/* harmony import */ var _password_reset_view_jsx__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./password-reset-view.jsx */ "./src/views/password-reset-view.jsx");
-/* harmony import */ var _settings_view_jsx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./settings-view.jsx */ "./src/views/settings-view.jsx");
-/* harmony import */ var _validation_view_jsx__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./validation-view.jsx */ "./src/views/validation-view.jsx");
+/* harmony import */ var _topic_common_view_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./topic-common-view.jsx */ "./src/views/topic-common-view.jsx");
+/* harmony import */ var _contacts_view_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./contacts-view.jsx */ "./src/views/contacts-view.jsx");
+/* harmony import */ var _acc_notifications_view_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./acc-notifications-view.jsx */ "./src/views/acc-notifications-view.jsx");
+/* harmony import */ var _acc_security_view_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./acc-security-view.jsx */ "./src/views/acc-security-view.jsx");
+/* harmony import */ var _acc_support_view_jsx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./acc-support-view.jsx */ "./src/views/acc-support-view.jsx");
+/* harmony import */ var _login_view_jsx__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./login-view.jsx */ "./src/views/login-view.jsx");
+/* harmony import */ var _new_topic_view_jsx__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./new-topic-view.jsx */ "./src/views/new-topic-view.jsx");
+/* harmony import */ var _settings_view_jsx__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./settings-view.jsx */ "./src/views/settings-view.jsx");
+/* harmony import */ var _validation_view_jsx__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./validation-view.jsx */ "./src/views/validation-view.jsx");
 
 
 
 
 
 
+const AccountSettingsView = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(_ => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_libphonenumber-js_examples_mobile_json_js-node_modules_libphonenumber-js-7e28c7"), __webpack_require__.e("src_views_account-settings-view_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./account-settings-view.jsx */ "./src/views/account-settings-view.jsx")));
+
+const CreateAccountView = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(_ => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_libphonenumber-js_examples_mobile_json_js-node_modules_libphonenumber-js-7e28c7"), __webpack_require__.e("src_views_create-account-view_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./create-account-view.jsx */ "./src/views/create-account-view.jsx")));
 
 
 
 
 
-
-
-
-
+const PasswordResetView = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(_ => Promise.all(/*! import() */[__webpack_require__.e("vendors-node_modules_libphonenumber-js_examples_mobile_json_js-node_modules_libphonenumber-js-7e28c7"), __webpack_require__.e("src_views_password-reset-view_jsx")]).then(__webpack_require__.bind(__webpack_require__, /*! ./password-reset-view.jsx */ "./src/views/password-reset-view.jsx")));
 
 
 const messages = (0,react_intl__WEBPACK_IMPORTED_MODULE_1__.defineMessages)({
@@ -7550,8 +7017,7 @@ class SidepanelView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       onCancel = this.props.onCancel;
     }
     return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      id: "sidepanel",
-      className: this.props.hideSelf ? 'nodisplay' : null
+      id: "sidepanel"
     }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_side_navbar_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
       state: view,
       title: title,
@@ -7571,39 +7037,64 @@ class SidepanelView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       onClearError: this.props.onError
     }), react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_load_spinner_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
       show: this.props.loadSpinnerVisible
-    }), view === 'login' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_login_view_jsx__WEBPACK_IMPORTED_MODULE_12__["default"], {
+    }), view === 'login' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_login_view_jsx__WEBPACK_IMPORTED_MODULE_10__["default"], {
       login: this.props.login,
       disabled: this.props.loginDisabled,
       persist: this.props.persist,
       onLogin: this.props.onLoginRequest,
       onPersistenceChange: this.props.onPersistenceChange
-    }) : view === 'register' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_create_account_view_jsx__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    }) : view === 'register' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
+      fallback: react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        className: "panel-form-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
+        id: "loading_note",
+        defaultMessage: [{
+          "type": 0,
+          "value": "Loading..."
+        }]
+      }))
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(CreateAccountView, {
       tinode: this.props.tinode,
+      reqCredMethod: this.props.reqCredMethod,
+      onShowCountrySelector: this.props.onShowCountrySelector,
       onCreateAccount: this.props.onCreateAccount,
       onCancel: this.props.onCancel,
       onError: this.props.onError
-    }) : view === 'settings' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_settings_view_jsx__WEBPACK_IMPORTED_MODULE_15__["default"], {
+    })) : view === 'settings' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_settings_view_jsx__WEBPACK_IMPORTED_MODULE_12__["default"], {
       transport: this.props.transport,
       serverAddress: this.props.serverAddress,
       secureConnection: this.props.secureConnection,
       onCancel: this.props.onCancel,
       onUpdate: this.props.onGlobalSettings
-    }) : view === 'edit' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_account_settings_view_jsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    }) : view === 'edit' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
+      fallback: react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        className: "panel-form-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
+        id: "loading_note",
+        defaultMessage: [{
+          "type": 0,
+          "value": "Loading..."
+        }]
+      }))
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(AccountSettingsView, {
       tinode: this.props.tinode,
       myUserId: this.props.myUserId,
       trustedBadges: this.props.trustedBadges,
-      onNavigate: this.props.onNavigate
-    }) : view === 'general' || view === 'crop' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_topic_common_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      topic: "me",
-      tinode: this.props.tinode,
-      myUserId: this.props.myUserId,
-      onUpdateTopicDesc: this.props.onUpdateAccountDesc,
-      onUpdateTagsRequest: this.props.onUpdateAccountTags,
+      onShowCountrySelector: this.props.onShowCountrySelector,
+      onNavigate: this.props.onNavigate,
       onCredAdd: this.props.onCredAdd,
       onCredDelete: this.props.onCredDelete,
       onCredConfirm: this.props.onCredConfirm,
       onError: this.props.onError
-    }) : view === 'notif' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_acc_notifications_view_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    })) : view === 'general' || view === 'crop' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_topic_common_view_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      topic: "me",
+      tinode: this.props.tinode,
+      myUserId: this.props.myUserId,
+      reqCredMethod: this.props.reqCredMethod,
+      onUpdateTopicDesc: this.props.onUpdateAccountDesc,
+      onUpdateTagsRequest: this.props.onUpdateAccountTags,
+      onError: this.props.onError
+    }) : view === 'notif' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_acc_notifications_view_jsx__WEBPACK_IMPORTED_MODULE_7__["default"], {
       messageSounds: this.props.messageSounds,
       desktopAlerts: this.props.desktopAlerts,
       desktopAlertsEnabled: this.props.desktopAlertsEnabled,
@@ -7611,7 +7102,7 @@ class SidepanelView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       onTogglePushNotifications: this.props.onTogglePushNotifications,
       onToggleMessageSounds: this.props.onToggleMessageSounds,
       onToggleIncognitoMode: this.props.onToggleIncognitoMode
-    }) : view === 'security' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_acc_security_view_jsx__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    }) : view === 'security' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_acc_security_view_jsx__WEBPACK_IMPORTED_MODULE_8__["default"], {
       tinode: this.props.tinode,
       onUpdateAccountDesc: this.props.onUpdateAccountDesc,
       onUpdatePassword: this.props.onUpdatePassword,
@@ -7619,10 +7110,10 @@ class SidepanelView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       onDeleteAccount: this.props.onDeleteAccount,
       onShowAlert: this.props.onShowAlert,
       onShowBlocked: this.props.onShowBlocked
-    }) : view === 'support' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_acc_support_view_jsx__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    }) : view === 'support' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_acc_support_view_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
       serverAddress: this.props.serverAddress,
       serverVersion: this.props.serverVersion
-    }) : view === 'contacts' || view == 'archive' || view == 'blocked' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_contacts_view_jsx__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }) : view === 'contacts' || view == 'archive' || view == 'blocked' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_contacts_view_jsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
       tinode: this.props.tinode,
       myUserId: this.props.myUserId,
       connected: this.props.connected,
@@ -7633,24 +7124,38 @@ class SidepanelView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCo
       showContextMenu: this.props.showContextMenu,
       onTopicSelected: this.props.onTopicSelected,
       onShowArchive: this.props.onShowArchive
-    }) : view === 'newtpk' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_new_topic_view_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    }) : view === 'newtpk' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_new_topic_view_jsx__WEBPACK_IMPORTED_MODULE_11__["default"], {
       tinode: this.props.tinode,
       searchResults: this.props.searchResults,
       onInitFind: this.props.onInitFind,
       onSearchContacts: this.props.onSearchContacts,
       onCreateTopic: this.props.onCreateTopic,
       onError: this.props.onError
-    }) : view === 'cred' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_validation_view_jsx__WEBPACK_IMPORTED_MODULE_16__["default"], {
+    }) : view === 'cred' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_validation_view_jsx__WEBPACK_IMPORTED_MODULE_13__["default"], {
       credCode: this.props.credCode,
       credMethod: this.props.credMethod,
       credToken: this.props.credToken,
       onSubmit: this.props.onValidateCredentials,
       onCancel: this.props.onCancel
-    }) : view === 'reset' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_password_reset_view_jsx__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    }) : view === 'reset' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
+      fallback: react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+        className: "panel-form-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
+        id: "loading_note",
+        defaultMessage: [{
+          "type": 0,
+          "value": "Loading..."
+        }]
+      }))
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(PasswordResetView, {
+      tinode: this.props.tinode,
+      reqCredMethod: this.props.reqCredMethod,
+      onShowCountrySelector: this.props.onShowCountrySelector,
       onRequest: this.props.onPasswordResetRequest,
       onReset: this.props.onResetPassword,
-      onCancel: this.props.onCancel
-    }) : null);
+      onCancel: this.props.onCancel,
+      onError: this.props.onError
+    })) : null);
   }
 }
 ;
@@ -7672,8 +7177,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var firebase_app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/app */ "./node_modules/firebase/app/dist/index.esm.js");
-/* harmony import */ var firebase_messaging__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! firebase/messaging */ "./node_modules/firebase/messaging/dist/index.esm.js");
+/* harmony import */ var firebase_app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! firebase/app */ "./node_modules/firebase/app/dist/esm/index.esm.js");
+/* harmony import */ var firebase_messaging__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! firebase/messaging */ "./node_modules/firebase/messaging/dist/esm/index.esm.js");
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tinode-sdk */ "tinode-sdk");
 /* harmony import */ var tinode_sdk__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(tinode_sdk__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _widgets_alert_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../widgets/alert.jsx */ "./src/widgets/alert.jsx");
@@ -7701,6 +7206,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const PhoneCountrySelector = react__WEBPACK_IMPORTED_MODULE_0___default().lazy(_ => __webpack_require__.e(/*! import() */ "src_widgets_phone-country-selector_jsx").then(__webpack_require__.bind(__webpack_require__, /*! ../widgets/phone-country-selector.jsx */ "./src/widgets/phone-country-selector.jsx")));
 
 
 
@@ -7861,6 +7367,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     this.handlePasswordResetRequest = this.handlePasswordResetRequest.bind(this);
     this.handleResetPassword = this.handleResetPassword.bind(this);
     this.handleContextMenuAction = this.handleContextMenuAction.bind(this);
+    this.handleShowCountrySelector = this.handleShowCountrySelector.bind(this);
     this.handleShowForwardDialog = this.handleShowForwardDialog.bind(this);
     this.handleHideForwardDialog = this.handleHideForwardDialog.bind(this);
     this.handleStartVideoCall = this.handleStartVideoCall.bind(this);
@@ -7933,6 +7440,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       chatList: [],
       searchResults: [],
       searchableContacts: [],
+      reqCredMethod: undefined,
       credMethod: undefined,
       credCode: undefined,
       credToken: undefined,
@@ -7941,12 +7449,14 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   }
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
-    window.addEventListener('online', e => {
+    this.handleOnlineOn = _ => {
       this.handleOnline(true);
-    });
-    window.addEventListener('offline', e => {
+    };
+    window.addEventListener('online', this.handleOnlineOn);
+    this.handleOnlineOff = _ => {
       this.handleOnline(false);
-    });
+    };
+    window.addEventListener('offline', this.handleOnlineOff);
     window.addEventListener('hashchange', this.handleHashRoute);
     if (typeof BroadcastChannel == 'function') {
       const serviceWorkerChannel = new BroadcastChannel('tinode-sw');
@@ -7970,7 +7480,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       if (this.state.desktopAlertsEnabled) {
         this.initFCMessaging().catch(_ => {});
       }
-      const parsedNav = _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].parseUrlHash(window.location.hash);
       this.resetContactList();
       const token = this.state.persist ? _lib_local_storage_js__WEBPACK_IMPORTED_MODULE_17__["default"].getObject('auth-token') : undefined;
       if (token) {
@@ -7985,6 +7494,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       }
       this.readTimer = null;
       this.readTimerCallback = null;
+      const parsedNav = _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].parseUrlHash(window.location.hash);
       if (!['cred', 'reset', 'register'].includes(parsedNav.path[0])) {
         this.setState({
           requestedTopic: parsedNav.path[1]
@@ -7999,6 +7509,8 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
     window.removeEventListener('hashchange', this.handleHashRoute);
+    window.removeEventListener('online', this.handleOnlineOn);
+    window.removeEventListener('offline', this.handleOnlineOff);
     document.removeEventListener('visibilitychange', this.handleVisibilityEvent);
   }
   static tnSetup(serverAddress, secureConnection, transport, locale, persistentCache, onSetupCompleted) {
@@ -8154,6 +7666,9 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       if (topicName != this.state.topicSelected) {
         if (!tinode_sdk__WEBPACK_IMPORTED_MODULE_4__.Tinode.topicType(topicName)) {
           topicName = null;
+          newState.mobilePanel = 'sidepanel';
+        } else {
+          newState.mobilePanel = 'topic-view';
         }
         Object.assign(newState, {
           topicSelected: topicName,
@@ -8259,7 +7774,8 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
     this.handleError();
     const params = this.tinode.getServerInfo();
     this.setState({
-      serverVersion: params.ver + ' ' + (params.build ? params.build : 'none')
+      serverVersion: params.ver + ' ' + (params.build ? params.build : 'none'),
+      reqCredMethod: ((params.reqCred || {}).auth || [])[0] || 'email'
     });
     if (this.state.autoLogin) {
       this.doLogin(this.state.login, this.state.password, null, {
@@ -9211,17 +8727,37 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       this.handleError(err.message, 'err');
     });
   }
-  handleResetPassword(scheme, newPassword, token) {
-    token = (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_15__.base64ReEncode)(token);
-    if (!token) {
+  handleResetPassword(newPassword, tempAuth) {
+    const secret = (0,_lib_blob_helpers_js__WEBPACK_IMPORTED_MODULE_15__.base64ReEncode)(tempAuth.secret);
+    if (!secret || !tempAuth.scheme) {
       this.handleError(this.props.intl.formatMessage(messages.invalid_security_token), 'err');
     } else {
       this.tinode.connect().then(_ => this.tinode.updateAccountBasic(null, null, newPassword, {
-        token: token
+        scheme: tempAuth.scheme,
+        secret: secret
       })).then(_ => _lib_navigation_js__WEBPACK_IMPORTED_MODULE_18__["default"].navigateTo('')).catch(err => {
         this.handleError(err.message, 'err');
       });
     }
+  }
+  handleShowCountrySelector(code, dial, selectedCallback) {
+    this.handleShowAlert("Select country", react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
+      fallback: react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
+        id: "loading_note",
+        defaultMessage: [{
+          "type": 0,
+          "value": "Loading..."
+        }]
+      }))
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(PhoneCountrySelector, {
+      selected: code,
+      onSubmit: (c, d) => {
+        this.setState({
+          alertVisible: false
+        });
+        selectedCallback(c, d);
+      }
+    })), null, null, _ => {}, "Cancel");
   }
   handleStartVideoCall() {
     this.setState({
@@ -9414,25 +8950,23 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       onAcceptCall: this.handleCallAccept,
       onReject: this.handleCallHangup
     }) : null, this.state.alertVisible ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_alert_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      visible: this.state.alertVisible,
       title: this.state.alertParams.title,
       content: this.state.alertParams.content,
       onReject: this.state.alertParams.onReject ? _ => this.setState({
         alertVisible: false
       }) : null,
       reject: this.state.alertParams.reject,
-      onConfirm: _ => {
+      onConfirm: this.state.alertParams.onConfirm ? _ => {
         this.setState({
           alertVisible: false
         });
         this.state.alertParams.onConfirm();
-      },
+      } : null,
       confirm: this.state.alertParams.confirm
-    }) : null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_sidepanel_view_jsx__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    }) : null, !this.state.displayMobile || this.state.mobilePanel == 'sidepanel' ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_sidepanel_view_jsx__WEBPACK_IMPORTED_MODULE_11__["default"], {
       tinode: this.tinode,
       connected: this.state.connected,
       displayMobile: this.state.displayMobile,
-      hideSelf: this.state.displayMobile && this.state.mobilePanel !== 'sidepanel',
       state: this.state.sidePanelSelected,
       title: this.state.sidePanelTitle,
       avatar: this.state.sidePanelAvatar,
@@ -9459,6 +8993,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       serverAddress: this.state.serverAddress,
       secureConnection: this.state.secureConnection,
       serverVersion: this.state.serverVersion,
+      reqCredMethod: this.state.reqCredMethod,
       onGlobalSettings: this.handleGlobalSettings,
       onSignUp: this.handleNewAccount,
       onSettings: this.handleSettings,
@@ -9487,11 +9022,12 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       onResetPassword: this.handleResetPassword,
       onShowArchive: this.handleShowArchive,
       onShowBlocked: this.handleShowBlocked,
+      onShowCountrySelector: this.handleShowCountrySelector,
       onInitFind: this.tnInitFind,
       searchResults: this.state.searchResults,
       onSearchContacts: this.handleSearchContacts,
       showContextMenu: this.handleShowContextMenu
-    }), react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_messages_view_jsx__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    }) : null, !this.state.displayMobile || this.state.mobilePanel == 'topic-view' && !this.state.infoPanel ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_messages_view_jsx__WEBPACK_IMPORTED_MODULE_10__["default"], {
       tinode: this.tinode,
       connected: this.state.connected,
       ready: this.state.ready,
@@ -9500,7 +9036,6 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       displayMobile: this.state.displayMobile,
       viewportWidth: this.state.viewportWidth,
       viewportHeight: this.state.viewportHeight,
-      hideSelf: this.state.displayMobile && (this.state.mobilePanel !== 'topic-view' || this.state.infoPanel),
       topic: this.state.topicSelected,
       myUserId: this.state.myUserId,
       myUserName: this.state.sidePanelTitle,
@@ -9531,7 +9066,7 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
       onNewChat: this.handleNewChatInvitation,
       sendMessage: this.handleSendMessage,
       onVideoCallClosed: this.handleCallClose
-    }), this.state.infoPanel ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_info_view_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    }) : null, this.state.infoPanel ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_info_view_jsx__WEBPACK_IMPORTED_MODULE_9__["default"], {
       tinode: this.tinode,
       connected: this.state.connected,
       displayMobile: this.state.displayMobile,
@@ -9564,6 +9099,87 @@ class TinodeWeb extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component)
 }
 ;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_intl__WEBPACK_IMPORTED_MODULE_1__.injectIntl)(TinodeWeb));
+
+/***/ }),
+
+/***/ "./src/views/topic-common-view.jsx":
+/*!*****************************************!*\
+  !*** ./src/views/topic-common-view.jsx ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TopicCommonView)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _widgets_topic_desc_edit_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../widgets/topic-desc-edit.jsx */ "./src/widgets/topic-desc-edit.jsx");
+/* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
+
+
+
+class TopicCommonView extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
+  constructor(props) {
+    super(props);
+    const topic = this.props.tinode.getTopic(this.props.topic);
+    const acs = topic.getAccessMode();
+    this.state = {
+      tags: []
+    };
+    this.previousTagsUpdated = undefined;
+    this.onTagsUpdated = this.onTagsUpdated.bind(this);
+    this.handleTagsUpdated = this.handleTagsUpdated.bind(this);
+  }
+  componentDidUpdate(props) {
+    const topic = this.props.tinode.getTopic(props.topic);
+    if (!topic) {
+      return;
+    }
+    if (topic.onTagsUpdated != this.onTagsUpdated) {
+      if (topic.getType() == 'grp') {
+        this.previousTagsUpdated = topic.onTagsUpdated;
+        topic.onTagsUpdated = this.onTagsUpdated;
+      } else {
+        this.previousTagsUpdated = undefined;
+      }
+    }
+    if (this.state.topic != props.topic) {
+      this.setState({
+        topic: props.topic
+      });
+    }
+  }
+  componentWillUnmount() {
+    const topic = this.props.tinode.getTopic(this.props.topic);
+    topic.onTagsUpdated = this.previousTagsUpdated;
+  }
+  onTagsUpdated(tags) {
+    this.setState({
+      tags: tags
+    });
+    if (this.previousTagsUpdated && this.previousTagsUpdated != this.onTagsUpdated) {
+      this.previousTagsUpdated(tags);
+    }
+  }
+  handleTagsUpdated(tags) {
+    if (!(0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_2__.arrayEqual)(this.state.tags.slice(0), tags.slice(0))) {
+      this.props.onUpdateTagsRequest(this.props.topic, tags);
+    }
+  }
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "scrollable-panel"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_topic_desc_edit_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      tinode: this.props.tinode,
+      topic: this.props.topic,
+      onUpdateTopicDesc: this.props.onUpdateTopicDesc,
+      onUpdateTags: this.handleTagsUpdated,
+      onError: this.props.onError
+    }));
+  }
+}
+;
 
 /***/ }),
 
@@ -9606,7 +9222,7 @@ class ValidationView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
       code: props.credCode || '',
       codeReceived: props.credCode
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleCodeChange = this.handleCodeChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -9630,9 +9246,9 @@ class ValidationView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
       this.props.onSubmit(this.props.credMethod, this.state.code, this.props.credToken);
     }
   }
-  handleChange(e) {
+  handleCodeChange(e) {
     this.setState({
-      code: e.target.value.trim()
+      code: e.target.value.replace(/[^\d]/g, '')
     });
   }
   handleKeyPress(e) {
@@ -9666,19 +9282,13 @@ class ValidationView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
     }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "panel-form-row"
     }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      className: "small",
+      className: "small gray",
       htmlFor: "enter-confirmation-code"
     }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
       id: "enter_confirmation_code_prompt",
       defaultMessage: [{
         "type": 0,
-        "value": "Enter confirmation code sent to you by "
-      }, {
-        "type": 1,
-        "value": "method"
-      }, {
-        "type": 0,
-        "value": ":"
+        "value": "Confirmation code"
       }],
       values: {
         method: method
@@ -9696,7 +9306,7 @@ class ValidationView extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
       id: "enter-confirmation-code",
       placeholder: numbers_only,
       value: this.state.code,
-      onChange: this.handleChange,
+      onChange: this.handleCodeChange,
       onKeyPress: this.handleKeyPress,
       required: true
     }))), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
@@ -9764,7 +9374,7 @@ class Alert extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent)
         "type": 0,
         "value": "Cancel"
       }]
-    })) : null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
+    })) : null, this.props.onConfirm ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", {
       className: "primary",
       onClick: this.props.onConfirm
     }, this.props.confirm || react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
@@ -9773,7 +9383,7 @@ class Alert extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComponent)
         "type": 0,
         "value": "OK"
       }]
-    })))));
+    })) : null)));
   }
 }
 ;
@@ -13041,6 +12651,19 @@ class DocPreview extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCompo
   constructor(props) {
     super(props);
     this.handleSendDoc = this.handleSendDoc.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+  handleKeyDown(e) {
+    e.preventDefault();
+    if (e.key === 'Escape') {
+      this.props.onClose();
+    }
   }
   handleSendDoc(caption) {
     this.props.onClose();
@@ -13751,6 +13374,22 @@ class ImagePreview extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
       height: 0
     };
     this.handleSendImage = this.handleSendImage.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+  handleKeyDown(e) {
+    if (this.props.onSendMessage) {
+      return;
+    }
+    e.preventDefault();
+    if (e.key === 'Escape') {
+      this.props.onClose();
+    }
   }
   assignWidth(node) {
     if (node && !this.state.width) {
@@ -15171,7 +14810,7 @@ class SearchContacts extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureC
   }
   handleSearch(e) {
     e.preventDefault();
-    var query = this.state.search.trim();
+    const query = this.state.search.trim();
     this.setState({
       edited: query.length > 0
     });
@@ -15369,6 +15008,8 @@ class SendMessage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
       if (window.getComputedStyle(this.messageEditArea).getPropertyValue('transition-property') == 'all') {
         this.messageEditArea.focus();
       }
+      this.messageEditArea.style.height = '0px';
+      this.messageEditArea.style.height = this.messageEditArea.scrollHeight + 'px';
     }
     if (prevProps.topicName != this.props.topicName) {
       this.setState({
@@ -15521,7 +15162,13 @@ class SendMessage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
     }, "attach_file"))) : null, this.props.noInput ? quote || react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: "hr thin"
     }) : this.state.audioRec ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
-      fallback: react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "Loading...")
+      fallback: react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
+        id: "loading_note",
+        defaultMessage: [{
+          "type": 0,
+          "value": "Loading..."
+        }]
+      }))
     }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(AudioRecorder, {
       onRecordingProgress: _ => this.props.onKeyPress(true),
       onDeleted: _ => this.setState({
@@ -15533,7 +15180,7 @@ class SendMessage extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureComp
       placeholder: prompt,
       value: this.state.message,
       onChange: this.handleMessageTyping,
-      onKeyPress: this.handleKeyPress,
+      onKeyDown: this.handleKeyPress,
       ref: ref => {
         this.messageEditArea = ref;
       }
@@ -15855,228 +15502,6 @@ class TagManager extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component
 
 /***/ }),
 
-/***/ "./src/widgets/topic-common.jsx":
-/*!**************************************!*\
-  !*** ./src/widgets/topic-common.jsx ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ TopicCommon)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
-/* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _widgets_topic_desc_edit_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../widgets/topic-desc-edit.jsx */ "./src/widgets/topic-desc-edit.jsx");
-/* harmony import */ var _lib_utils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/utils.js */ "./src/lib/utils.js");
-
-
-
-
-class TopicCommon extends (react__WEBPACK_IMPORTED_MODULE_0___default().Component) {
-  constructor(props) {
-    super(props);
-    const topic = this.props.tinode.getTopic(this.props.topic);
-    const acs = topic.getAccessMode();
-    this.state = {
-      isMe: this.props.topic == 'me',
-      owner: acs && acs.isOwner(),
-      credentials: (topic.getCredentials ? topic.getCredentials() : null) || [],
-      addCredActive: false,
-      addCredInvalid: false,
-      newCred: '',
-      tags: []
-    };
-    this.previousTagsUpdated = undefined;
-    this.onTagsUpdated = this.onTagsUpdated.bind(this);
-    this.handleTagsUpdated = this.handleTagsUpdated.bind(this);
-    this.tnCredsUpdated = this.tnCredsUpdated.bind(this);
-    this.handleCredChange = this.handleCredChange.bind(this);
-    this.handleCredKeyDown = this.handleCredKeyDown.bind(this);
-    this.handleCredEntered = this.handleCredEntered.bind(this);
-  }
-  componentDidUpdate(props) {
-    const topic = this.props.tinode.getTopic(props.topic);
-    if (!topic) {
-      return;
-    }
-    topic.onCredsUpdated = this.tnCredsUpdated;
-    if (topic.onTagsUpdated != this.onTagsUpdated) {
-      if (topic.getType() == 'grp') {
-        this.previousTagsUpdated = topic.onTagsUpdated;
-        topic.onTagsUpdated = this.onTagsUpdated;
-      } else {
-        this.previousTagsUpdated = undefined;
-      }
-    }
-    if (this.state.topic != props.topic) {
-      this.setState({
-        topic: props.topic
-      });
-    }
-  }
-  componentWillUnmount() {
-    const topic = this.props.tinode.getTopic(this.props.topic);
-    topic.onCredsUpdated = undefined;
-    topic.onTagsUpdated = this.previousTagsUpdated;
-  }
-  tnCredsUpdated(creds) {
-    this.setState({
-      credentials: creds || []
-    });
-  }
-  handleCredChange(e) {
-    this.setState({
-      newCred: e.target.value,
-      addCredInvalid: false
-    });
-  }
-  handleCredKeyDown(e) {
-    if (e.keyCode === 27) {
-      this.setState({
-        newCred: '',
-        addCredActive: false
-      });
-    } else if (e.keyCode === 13) {
-      this.handleCredEntered(e);
-    }
-  }
-  handleCredEntered(e) {
-    const value = this.state.newCred.trim();
-    if (!value) {
-      this.setState({
-        addCredActive: false,
-        addCredInvalid: false
-      });
-      return;
-    }
-    let val = (0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_3__.asPhone)(value);
-    let method;
-    if (val) {
-      method = 'tel';
-    } else {
-      val = (0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_3__.asEmail)(value);
-      if (val) {
-        method = 'email';
-      }
-    }
-    if (method) {
-      this.props.onCredAdd(method, val);
-      this.setState({
-        addCredActive: false,
-        newCred: ''
-      });
-    } else {
-      this.setState({
-        addCredInvalid: true
-      });
-    }
-  }
-  onTagsUpdated(tags) {
-    this.setState({
-      tags: tags
-    });
-    if (this.previousTagsUpdated && this.previousTagsUpdated != this.onTagsUpdated) {
-      this.previousTagsUpdated(tags);
-    }
-  }
-  handleTagsUpdated(tags) {
-    if (!(0,_lib_utils_js__WEBPACK_IMPORTED_MODULE_3__.arrayEqual)(this.state.tags.slice(0), tags.slice(0))) {
-      this.props.onUpdateTagsRequest(this.props.topic, tags);
-    }
-  }
-  render() {
-    const credentials = [];
-    if (this.state.isMe) {
-      this.state.credentials.map(cred => {
-        credentials.push(react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-          key: cred.meth + ":" + cred.val + ":" + cred.done
-        }, cred.meth, ": ", react__WEBPACK_IMPORTED_MODULE_0___default().createElement("tt", null, cred.val), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, " ", !cred.done ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-          href: "#",
-          onClick: e => {
-            e.preventDefault();
-            this.props.onCredConfirm(cred.meth, cred.val);
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-          id: "validate_credential_action",
-          defaultMessage: [{
-            "type": 0,
-            "value": "confirm"
-          }]
-        })) : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-          href: "#",
-          onClick: e => {
-            e.preventDefault();
-            this.props.onCredDelete(cred.meth, cred.val);
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-          className: "material-icons gray"
-        }, "delete_outline")))));
-      });
-    }
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "scrollable-panel"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_widgets_topic_desc_edit_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      tinode: this.props.tinode,
-      topic: this.props.topic,
-      onUpdateTopicDesc: this.props.onUpdateTopicDesc,
-      onUpdateTags: this.handleTagsUpdated,
-      onError: this.props.onError
-    }), this.state.isMe ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "hr"
-    }), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "panel-form-column"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", {
-      className: "small"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "label_user_contacts",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Contacts:"
-      }]
-    })), react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: "quoted"
-    }, credentials, this.state.addCredActive ? react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "phone_or_email_prompt",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Phone number or email"
-      }]
-    }, phone_or_email_prompt => react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
-      type: "text",
-      value: this.state.value,
-      className: this.state.addCredInvalid ? 'invalid' : null,
-      placeholder: phone_or_email_prompt,
-      required: "required",
-      autoFocus: true,
-      onChange: this.handleCredChange,
-      onKeyDown: this.handleCredKeyDown,
-      onBlur: this.handleCredEntered
-    })) : null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", {
-      href: "#",
-      onClick: e => {
-        e.preventDefault();
-        this.setState({
-          addCredActive: true
-        });
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default().createElement("i", {
-      className: "material-icons"
-    }, "add"), react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__.FormattedMessage, {
-      id: "button_add_another",
-      defaultMessage: [{
-        "type": 0,
-        "value": "Add another"
-      }]
-    })))))) : null);
-  }
-}
-;
-
-/***/ }),
-
 /***/ "./src/widgets/topic-desc-edit.jsx":
 /*!*****************************************!*\
   !*** ./src/widgets/topic-desc-edit.jsx ***!
@@ -16387,10 +15812,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-intl */ "react-intl");
 /* harmony import */ var react_intl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_intl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _in_place_edit_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./in-place-edit.jsx */ "./src/widgets/in-place-edit.jsx");
-/* harmony import */ var _config_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config.js */ "./src/config.js");
-
-
 
 
 const messages = (0,react_intl__WEBPACK_IMPORTED_MODULE_1__.defineMessages)({
@@ -16746,6 +16167,22 @@ class VideoPreview extends (react__WEBPACK_IMPORTED_MODULE_0___default().PureCom
     super(props);
     this.videoRef = react__WEBPACK_IMPORTED_MODULE_0___default().createRef();
     this.handleSendVideo = this.handleSendVideo.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+  handleKeyDown(e) {
+    if (this.props.onSendMessage) {
+      return;
+    }
+    e.preventDefault();
+    if (e.key === 'Escape') {
+      this.props.onClose();
+    }
   }
   handleSendVideo(caption) {
     this.props.onClose();
@@ -16935,83 +16372,6 @@ class VisiblePassword extends (react__WEBPACK_IMPORTED_MODULE_0___default().Pure
 
 /***/ }),
 
-/***/ "./node_modules/firebase/app/dist/index.esm.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/firebase/app/dist/index.esm.js ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FirebaseError": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.FirebaseError),
-/* harmony export */   "SDK_VERSION": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.SDK_VERSION),
-/* harmony export */   "_DEFAULT_ENTRY_NAME": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._DEFAULT_ENTRY_NAME),
-/* harmony export */   "_addComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addComponent),
-/* harmony export */   "_addOrOverwriteComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addOrOverwriteComponent),
-/* harmony export */   "_apps": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._apps),
-/* harmony export */   "_clearComponents": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._clearComponents),
-/* harmony export */   "_components": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._components),
-/* harmony export */   "_getProvider": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider),
-/* harmony export */   "_registerComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent),
-/* harmony export */   "_removeServiceInstance": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._removeServiceInstance),
-/* harmony export */   "deleteApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.deleteApp),
-/* harmony export */   "getApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApp),
-/* harmony export */   "getApps": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApps),
-/* harmony export */   "initializeApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp),
-/* harmony export */   "onLog": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.onLog),
-/* harmony export */   "registerVersion": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion),
-/* harmony export */   "setLogLevel": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.setLogLevel)
-/* harmony export */ });
-/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/app */ "./node_modules/@firebase/app/dist/esm/index.esm2017.js");
-
-
-
-var name = "firebase";
-var version = "9.14.0";
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-(0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version, 'app');
-//# sourceMappingURL=index.esm.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/firebase/messaging/dist/index.esm.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/firebase/messaging/dist/index.esm.js ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "deleteToken": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.deleteToken),
-/* harmony export */   "getMessaging": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.getMessaging),
-/* harmony export */   "getToken": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.getToken),
-/* harmony export */   "isSupported": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.isSupported),
-/* harmony export */   "onMessage": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.onMessage)
-/* harmony export */ });
-/* harmony import */ var _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/messaging */ "./node_modules/@firebase/messaging/dist/esm/index.esm2017.js");
-
-//# sourceMappingURL=index.esm.js.map
-
-
-/***/ }),
-
 /***/ "./node_modules/react-dom/client.js":
 /*!******************************************!*\
   !*** ./node_modules/react-dom/client.js ***!
@@ -17171,11 +16531,11 @@ class PlatformLoggerServiceImpl {
  */
 function isVersionServiceProvider(provider) {
     const component = provider.getComponent();
-    return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* VERSION */;
+    return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* ComponentType.VERSION */;
 }
 
 const name$o = "@firebase/app";
-const version$1 = "0.8.4";
+const version$1 = "0.9.4";
 
 /**
  * @license
@@ -17242,7 +16602,7 @@ const name$2 = "@firebase/firestore";
 const name$1 = "@firebase/firestore-compat";
 
 const name = "firebase";
-const version = "9.14.0";
+const version = "9.17.2";
 
 /**
  * @license
@@ -17417,19 +16777,19 @@ function _clearComponents() {
  * limitations under the License.
  */
 const ERRORS = {
-    ["no-app" /* NO_APP */]: "No Firebase App '{$appName}' has been created - " +
+    ["no-app" /* AppError.NO_APP */]: "No Firebase App '{$appName}' has been created - " +
         'call Firebase App.initializeApp()',
-    ["bad-app-name" /* BAD_APP_NAME */]: "Illegal App name: '{$appName}",
-    ["duplicate-app" /* DUPLICATE_APP */]: "Firebase App named '{$appName}' already exists with different options or config",
-    ["app-deleted" /* APP_DELETED */]: "Firebase App named '{$appName}' already deleted",
-    ["no-options" /* NO_OPTIONS */]: 'Need to provide options, when not being deployed to hosting via source.',
-    ["invalid-app-argument" /* INVALID_APP_ARGUMENT */]: 'firebase.{$appName}() takes either no argument or a ' +
+    ["bad-app-name" /* AppError.BAD_APP_NAME */]: "Illegal App name: '{$appName}",
+    ["duplicate-app" /* AppError.DUPLICATE_APP */]: "Firebase App named '{$appName}' already exists with different options or config",
+    ["app-deleted" /* AppError.APP_DELETED */]: "Firebase App named '{$appName}' already deleted",
+    ["no-options" /* AppError.NO_OPTIONS */]: 'Need to provide options, when not being deployed to hosting via source.',
+    ["invalid-app-argument" /* AppError.INVALID_APP_ARGUMENT */]: 'firebase.{$appName}() takes either no argument or a ' +
         'Firebase App instance.',
-    ["invalid-log-argument" /* INVALID_LOG_ARGUMENT */]: 'First argument to `onLog` must be null or a function.',
-    ["idb-open" /* IDB_OPEN */]: 'Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-get" /* IDB_GET */]: 'Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-set" /* IDB_WRITE */]: 'Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.',
-    ["idb-delete" /* IDB_DELETE */]: 'Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.'
+    ["invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */]: 'First argument to `onLog` must be null or a function.',
+    ["idb-open" /* AppError.IDB_OPEN */]: 'Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-get" /* AppError.IDB_GET */]: 'Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-set" /* AppError.IDB_WRITE */]: 'Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.',
+    ["idb-delete" /* AppError.IDB_DELETE */]: 'Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.'
 };
 const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.ErrorFactory('app', 'Firebase', ERRORS);
 
@@ -17458,7 +16818,7 @@ class FirebaseAppImpl {
         this._automaticDataCollectionEnabled =
             config.automaticDataCollectionEnabled;
         this._container = container;
-        this.container.addComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('app', () => this, "PUBLIC" /* PUBLIC */));
+        this.container.addComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('app', () => this, "PUBLIC" /* ComponentType.PUBLIC */));
     }
     get automaticDataCollectionEnabled() {
         this.checkDestroyed();
@@ -17495,7 +16855,7 @@ class FirebaseAppImpl {
      */
     checkDestroyed() {
         if (this.isDeleted) {
-            throw ERROR_FACTORY.create("app-deleted" /* APP_DELETED */, { appName: this._name });
+            throw ERROR_FACTORY.create("app-deleted" /* AppError.APP_DELETED */, { appName: this._name });
         }
     }
 }
@@ -17531,13 +16891,13 @@ function initializeApp(_options, rawConfig = {}) {
     const config = Object.assign({ name: DEFAULT_ENTRY_NAME, automaticDataCollectionEnabled: false }, rawConfig);
     const name = config.name;
     if (typeof name !== 'string' || !name) {
-        throw ERROR_FACTORY.create("bad-app-name" /* BAD_APP_NAME */, {
+        throw ERROR_FACTORY.create("bad-app-name" /* AppError.BAD_APP_NAME */, {
             appName: String(name)
         });
     }
     options || (options = (0,_firebase_util__WEBPACK_IMPORTED_MODULE_2__.getDefaultAppConfig)());
     if (!options) {
-        throw ERROR_FACTORY.create("no-options" /* NO_OPTIONS */);
+        throw ERROR_FACTORY.create("no-options" /* AppError.NO_OPTIONS */);
     }
     const existingApp = _apps.get(name);
     if (existingApp) {
@@ -17547,7 +16907,7 @@ function initializeApp(_options, rawConfig = {}) {
             return existingApp;
         }
         else {
-            throw ERROR_FACTORY.create("duplicate-app" /* DUPLICATE_APP */, { appName: name });
+            throw ERROR_FACTORY.create("duplicate-app" /* AppError.DUPLICATE_APP */, { appName: name });
         }
     }
     const container = new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.ComponentContainer(name);
@@ -17593,7 +16953,7 @@ function getApp(name = DEFAULT_ENTRY_NAME) {
         return initializeApp();
     }
     if (!app) {
-        throw ERROR_FACTORY.create("no-app" /* NO_APP */, { appName: name });
+        throw ERROR_FACTORY.create("no-app" /* AppError.NO_APP */, { appName: name });
     }
     return app;
 }
@@ -17665,7 +17025,7 @@ function registerVersion(libraryKeyOrName, version, variant) {
         logger.warn(warning.join(' '));
         return;
     }
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component(`${library}-version`, () => ({ library, version }), "VERSION" /* VERSION */));
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component(`${library}-version`, () => ({ library, version }), "VERSION" /* ComponentType.VERSION */));
 }
 /**
  * Sets log handler for all Firebase SDKs.
@@ -17676,7 +17036,7 @@ function registerVersion(libraryKeyOrName, version, variant) {
  */
 function onLog(logCallback, options) {
     if (logCallback !== null && typeof logCallback !== 'function') {
-        throw ERROR_FACTORY.create("invalid-log-argument" /* INVALID_LOG_ARGUMENT */);
+        throw ERROR_FACTORY.create("invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */);
     }
     (0,_firebase_logger__WEBPACK_IMPORTED_MODULE_1__.setUserLogHandler)(logCallback, options);
 }
@@ -17728,7 +17088,7 @@ function getDbPromise() {
                 }
             }
         }).catch(e => {
-            throw ERROR_FACTORY.create("idb-open" /* IDB_OPEN */, {
+            throw ERROR_FACTORY.create("idb-open" /* AppError.IDB_OPEN */, {
                 originalErrorMessage: e.message
             });
         });
@@ -17736,7 +17096,6 @@ function getDbPromise() {
     return dbPromise;
 }
 async function readHeartbeatsFromIndexedDB(app) {
-    var _a;
     try {
         const db = await getDbPromise();
         return db
@@ -17749,15 +17108,14 @@ async function readHeartbeatsFromIndexedDB(app) {
             logger.warn(e.message);
         }
         else {
-            const idbGetError = ERROR_FACTORY.create("idb-get" /* IDB_GET */, {
-                originalErrorMessage: (_a = e) === null || _a === void 0 ? void 0 : _a.message
+            const idbGetError = ERROR_FACTORY.create("idb-get" /* AppError.IDB_GET */, {
+                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
             });
             logger.warn(idbGetError.message);
         }
     }
 }
 async function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
-    var _a;
     try {
         const db = await getDbPromise();
         const tx = db.transaction(STORE_NAME, 'readwrite');
@@ -17770,8 +17128,8 @@ async function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
             logger.warn(e.message);
         }
         else {
-            const idbGetError = ERROR_FACTORY.create("idb-set" /* IDB_WRITE */, {
-                originalErrorMessage: (_a = e) === null || _a === void 0 ? void 0 : _a.message
+            const idbGetError = ERROR_FACTORY.create("idb-set" /* AppError.IDB_WRITE */, {
+                originalErrorMessage: e === null || e === void 0 ? void 0 : e.message
             });
             logger.warn(idbGetError.message);
         }
@@ -18030,8 +17388,8 @@ function countBytes(heartbeatsCache) {
  * limitations under the License.
  */
 function registerCoreComponents(variant) {
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('platform-logger', container => new PlatformLoggerServiceImpl(container), "PRIVATE" /* PRIVATE */));
-    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('heartbeat', container => new HeartbeatServiceImpl(container), "PRIVATE" /* PRIVATE */));
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('platform-logger', container => new PlatformLoggerServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
+    _registerComponent(new _firebase_component__WEBPACK_IMPORTED_MODULE_0__.Component('heartbeat', container => new HeartbeatServiceImpl(container), "PRIVATE" /* ComponentType.PRIVATE */));
     // Register `app` package.
     registerVersion(name$o, version$1, variant);
     // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
@@ -18088,7 +17446,7 @@ class Component {
          * Properties to be added to the service namespace
          */
         this.serviceProps = {};
-        this.instantiationMode = "LAZY" /* LAZY */;
+        this.instantiationMode = "LAZY" /* InstantiationMode.LAZY */;
         this.onInstanceCreated = null;
     }
     setInstantiationMode(mode) {
@@ -18394,7 +17752,7 @@ class Provider {
     }
     shouldAutoInitialize() {
         return (!!this.component &&
-            this.component.instantiationMode !== "EXPLICIT" /* EXPLICIT */);
+            this.component.instantiationMode !== "EXPLICIT" /* InstantiationMode.EXPLICIT */);
     }
 }
 // undefined should be passed to the service factory for the default instance
@@ -18402,7 +17760,7 @@ function normalizeIdentifierForFactory(identifier) {
     return identifier === DEFAULT_ENTRY_NAME ? undefined : identifier;
 }
 function isComponentEager(component) {
-    return component.instantiationMode === "EAGER" /* EAGER */;
+    return component.instantiationMode === "EAGER" /* InstantiationMode.EAGER */;
 }
 
 /**
@@ -18504,7 +17862,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const name = "@firebase/installations";
-const version = "0.5.16";
+const version = "0.6.4";
 
 /**
  * @license
@@ -18547,18 +17905,18 @@ const SERVICE_NAME = 'Installations';
  * limitations under the License.
  */
 const ERROR_DESCRIPTION_MAP = {
-    ["missing-app-config-values" /* MISSING_APP_CONFIG_VALUES */]: 'Missing App configuration value: "{$valueName}"',
-    ["not-registered" /* NOT_REGISTERED */]: 'Firebase Installation is not registered.',
-    ["installation-not-found" /* INSTALLATION_NOT_FOUND */]: 'Firebase Installation not found.',
-    ["request-failed" /* REQUEST_FAILED */]: '{$requestName} request failed with error "{$serverCode} {$serverStatus}: {$serverMessage}"',
-    ["app-offline" /* APP_OFFLINE */]: 'Could not process request. Application offline.',
-    ["delete-pending-registration" /* DELETE_PENDING_REGISTRATION */]: "Can't delete installation while there is a pending registration request."
+    ["missing-app-config-values" /* ErrorCode.MISSING_APP_CONFIG_VALUES */]: 'Missing App configuration value: "{$valueName}"',
+    ["not-registered" /* ErrorCode.NOT_REGISTERED */]: 'Firebase Installation is not registered.',
+    ["installation-not-found" /* ErrorCode.INSTALLATION_NOT_FOUND */]: 'Firebase Installation not found.',
+    ["request-failed" /* ErrorCode.REQUEST_FAILED */]: '{$requestName} request failed with error "{$serverCode} {$serverStatus}: {$serverMessage}"',
+    ["app-offline" /* ErrorCode.APP_OFFLINE */]: 'Could not process request. Application offline.',
+    ["delete-pending-registration" /* ErrorCode.DELETE_PENDING_REGISTRATION */]: "Can't delete installation while there is a pending registration request."
 };
 const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.ErrorFactory(SERVICE, SERVICE_NAME, ERROR_DESCRIPTION_MAP);
 /** Returns true if error is a FirebaseError that is based on an error from the server. */
 function isServerError(error) {
     return (error instanceof _firebase_util__WEBPACK_IMPORTED_MODULE_2__.FirebaseError &&
-        error.code.includes("request-failed" /* REQUEST_FAILED */));
+        error.code.includes("request-failed" /* ErrorCode.REQUEST_FAILED */));
 }
 
 /**
@@ -18583,7 +17941,7 @@ function getInstallationsEndpoint({ projectId }) {
 function extractAuthTokenInfoFromResponse(response) {
     return {
         token: response.token,
-        requestStatus: 2 /* COMPLETED */,
+        requestStatus: 2 /* RequestStatus.COMPLETED */,
         expiresIn: getExpiresInFromResponseExpiresIn(response.expiresIn),
         creationTime: Date.now()
     };
@@ -18591,7 +17949,7 @@ function extractAuthTokenInfoFromResponse(response) {
 async function getErrorFromResponse(requestName, response) {
     const responseJson = await response.json();
     const errorData = responseJson.error;
-    return ERROR_FACTORY.create("request-failed" /* REQUEST_FAILED */, {
+    return ERROR_FACTORY.create("request-failed" /* ErrorCode.REQUEST_FAILED */, {
         requestName,
         serverCode: errorData.code,
         serverMessage: errorData.message,
@@ -18676,7 +18034,7 @@ async function createInstallationRequest({ appConfig, heartbeatServiceProvider }
         const responseValue = await response.json();
         const registeredInstallationEntry = {
             fid: responseValue.fid || fid,
-            registrationStatus: 2 /* COMPLETED */,
+            registrationStatus: 2 /* RequestStatus.COMPLETED */,
             refreshToken: responseValue.refreshToken,
             authToken: extractAuthTokenInfoFromResponse(responseValue.authToken)
         };
@@ -19014,7 +18372,7 @@ async function getInstallationEntry(installations) {
 function updateOrCreateInstallationEntry(oldEntry) {
     const entry = oldEntry || {
         fid: generateFid(),
-        registrationStatus: 0 /* NOT_STARTED */
+        registrationStatus: 0 /* RequestStatus.NOT_STARTED */
     };
     return clearTimedOutRequest(entry);
 }
@@ -19026,10 +18384,10 @@ function updateOrCreateInstallationEntry(oldEntry) {
  * to be registered.
  */
 function triggerRegistrationIfNecessary(installations, installationEntry) {
-    if (installationEntry.registrationStatus === 0 /* NOT_STARTED */) {
+    if (installationEntry.registrationStatus === 0 /* RequestStatus.NOT_STARTED */) {
         if (!navigator.onLine) {
             // Registration required but app is offline.
-            const registrationPromiseWithError = Promise.reject(ERROR_FACTORY.create("app-offline" /* APP_OFFLINE */));
+            const registrationPromiseWithError = Promise.reject(ERROR_FACTORY.create("app-offline" /* ErrorCode.APP_OFFLINE */));
             return {
                 installationEntry,
                 registrationPromise: registrationPromiseWithError
@@ -19038,13 +18396,13 @@ function triggerRegistrationIfNecessary(installations, installationEntry) {
         // Try registering. Change status to IN_PROGRESS.
         const inProgressEntry = {
             fid: installationEntry.fid,
-            registrationStatus: 1 /* IN_PROGRESS */,
+            registrationStatus: 1 /* RequestStatus.IN_PROGRESS */,
             registrationTime: Date.now()
         };
         const registrationPromise = registerInstallation(installations, inProgressEntry);
         return { installationEntry: inProgressEntry, registrationPromise };
     }
-    else if (installationEntry.registrationStatus === 1 /* IN_PROGRESS */) {
+    else if (installationEntry.registrationStatus === 1 /* RequestStatus.IN_PROGRESS */) {
         return {
             installationEntry,
             registrationPromise: waitUntilFidRegistration(installations)
@@ -19070,7 +18428,7 @@ async function registerInstallation(installations, installationEntry) {
             // Registration failed. Set FID as not registered.
             await set(installations.appConfig, {
                 fid: installationEntry.fid,
-                registrationStatus: 0 /* NOT_STARTED */
+                registrationStatus: 0 /* RequestStatus.NOT_STARTED */
             });
         }
         throw e;
@@ -19082,12 +18440,12 @@ async function waitUntilFidRegistration(installations) {
     // IndexedDB changes (yet, see https://github.com/WICG/indexed-db-observers),
     // so we need to poll.
     let entry = await updateInstallationRequest(installations.appConfig);
-    while (entry.registrationStatus === 1 /* IN_PROGRESS */) {
+    while (entry.registrationStatus === 1 /* RequestStatus.IN_PROGRESS */) {
         // createInstallation request still in progress.
         await sleep(100);
         entry = await updateInstallationRequest(installations.appConfig);
     }
-    if (entry.registrationStatus === 0 /* NOT_STARTED */) {
+    if (entry.registrationStatus === 0 /* RequestStatus.NOT_STARTED */) {
         // The request timed out or failed in a different call. Try again.
         const { installationEntry, registrationPromise } = await getInstallationEntry(installations);
         if (registrationPromise) {
@@ -19111,7 +18469,7 @@ async function waitUntilFidRegistration(installations) {
 function updateInstallationRequest(appConfig) {
     return update(appConfig, oldEntry => {
         if (!oldEntry) {
-            throw ERROR_FACTORY.create("installation-not-found" /* INSTALLATION_NOT_FOUND */);
+            throw ERROR_FACTORY.create("installation-not-found" /* ErrorCode.INSTALLATION_NOT_FOUND */);
         }
         return clearTimedOutRequest(oldEntry);
     });
@@ -19120,13 +18478,13 @@ function clearTimedOutRequest(entry) {
     if (hasInstallationRequestTimedOut(entry)) {
         return {
             fid: entry.fid,
-            registrationStatus: 0 /* NOT_STARTED */
+            registrationStatus: 0 /* RequestStatus.NOT_STARTED */
         };
     }
     return entry;
 }
 function hasInstallationRequestTimedOut(installationEntry) {
-    return (installationEntry.registrationStatus === 1 /* IN_PROGRESS */ &&
+    return (installationEntry.registrationStatus === 1 /* RequestStatus.IN_PROGRESS */ &&
         installationEntry.registrationTime + PENDING_TIMEOUT_MS < Date.now());
 }
 
@@ -19210,14 +18568,14 @@ async function refreshAuthToken(installations, forceRefresh = false) {
     let tokenPromise;
     const entry = await update(installations.appConfig, oldEntry => {
         if (!isEntryRegistered(oldEntry)) {
-            throw ERROR_FACTORY.create("not-registered" /* NOT_REGISTERED */);
+            throw ERROR_FACTORY.create("not-registered" /* ErrorCode.NOT_REGISTERED */);
         }
         const oldAuthToken = oldEntry.authToken;
         if (!forceRefresh && isAuthTokenValid(oldAuthToken)) {
             // There is a valid token in the DB.
             return oldEntry;
         }
-        else if (oldAuthToken.requestStatus === 1 /* IN_PROGRESS */) {
+        else if (oldAuthToken.requestStatus === 1 /* RequestStatus.IN_PROGRESS */) {
             // There already is a token request in progress.
             tokenPromise = waitUntilAuthTokenRequest(installations, forceRefresh);
             return oldEntry;
@@ -19225,7 +18583,7 @@ async function refreshAuthToken(installations, forceRefresh = false) {
         else {
             // No token or token expired.
             if (!navigator.onLine) {
-                throw ERROR_FACTORY.create("app-offline" /* APP_OFFLINE */);
+                throw ERROR_FACTORY.create("app-offline" /* ErrorCode.APP_OFFLINE */);
             }
             const inProgressEntry = makeAuthTokenRequestInProgressEntry(oldEntry);
             tokenPromise = fetchAuthTokenFromServer(installations, inProgressEntry);
@@ -19248,13 +18606,13 @@ async function waitUntilAuthTokenRequest(installations, forceRefresh) {
     // IndexedDB changes (yet, see https://github.com/WICG/indexed-db-observers),
     // so we need to poll.
     let entry = await updateAuthTokenRequest(installations.appConfig);
-    while (entry.authToken.requestStatus === 1 /* IN_PROGRESS */) {
+    while (entry.authToken.requestStatus === 1 /* RequestStatus.IN_PROGRESS */) {
         // generateAuthToken still in progress.
         await sleep(100);
         entry = await updateAuthTokenRequest(installations.appConfig);
     }
     const authToken = entry.authToken;
-    if (authToken.requestStatus === 0 /* NOT_STARTED */) {
+    if (authToken.requestStatus === 0 /* RequestStatus.NOT_STARTED */) {
         // The request timed out or failed in a different call. Try again.
         return refreshAuthToken(installations, forceRefresh);
     }
@@ -19273,11 +18631,11 @@ async function waitUntilAuthTokenRequest(installations, forceRefresh) {
 function updateAuthTokenRequest(appConfig) {
     return update(appConfig, oldEntry => {
         if (!isEntryRegistered(oldEntry)) {
-            throw ERROR_FACTORY.create("not-registered" /* NOT_REGISTERED */);
+            throw ERROR_FACTORY.create("not-registered" /* ErrorCode.NOT_REGISTERED */);
         }
         const oldAuthToken = oldEntry.authToken;
         if (hasAuthTokenRequestTimedOut(oldAuthToken)) {
-            return Object.assign(Object.assign({}, oldEntry), { authToken: { requestStatus: 0 /* NOT_STARTED */ } });
+            return Object.assign(Object.assign({}, oldEntry), { authToken: { requestStatus: 0 /* RequestStatus.NOT_STARTED */ } });
         }
         return oldEntry;
     });
@@ -19297,7 +18655,7 @@ async function fetchAuthTokenFromServer(installations, installationEntry) {
             await remove(installations.appConfig);
         }
         else {
-            const updatedInstallationEntry = Object.assign(Object.assign({}, installationEntry), { authToken: { requestStatus: 0 /* NOT_STARTED */ } });
+            const updatedInstallationEntry = Object.assign(Object.assign({}, installationEntry), { authToken: { requestStatus: 0 /* RequestStatus.NOT_STARTED */ } });
             await set(installations.appConfig, updatedInstallationEntry);
         }
         throw e;
@@ -19305,10 +18663,10 @@ async function fetchAuthTokenFromServer(installations, installationEntry) {
 }
 function isEntryRegistered(installationEntry) {
     return (installationEntry !== undefined &&
-        installationEntry.registrationStatus === 2 /* COMPLETED */);
+        installationEntry.registrationStatus === 2 /* RequestStatus.COMPLETED */);
 }
 function isAuthTokenValid(authToken) {
-    return (authToken.requestStatus === 2 /* COMPLETED */ &&
+    return (authToken.requestStatus === 2 /* RequestStatus.COMPLETED */ &&
         !isAuthTokenExpired(authToken));
 }
 function isAuthTokenExpired(authToken) {
@@ -19319,13 +18677,13 @@ function isAuthTokenExpired(authToken) {
 /** Returns an updated InstallationEntry with an InProgressAuthToken. */
 function makeAuthTokenRequestInProgressEntry(oldEntry) {
     const inProgressAuthToken = {
-        requestStatus: 1 /* IN_PROGRESS */,
+        requestStatus: 1 /* RequestStatus.IN_PROGRESS */,
         requestTime: Date.now()
     };
     return Object.assign(Object.assign({}, oldEntry), { authToken: inProgressAuthToken });
 }
 function hasAuthTokenRequestTimedOut(authToken) {
-    return (authToken.requestStatus === 1 /* IN_PROGRESS */ &&
+    return (authToken.requestStatus === 1 /* RequestStatus.IN_PROGRESS */ &&
         authToken.requestTime + PENDING_TIMEOUT_MS < Date.now());
 }
 
@@ -19463,20 +18821,20 @@ function getDeleteEndpoint(appConfig, { fid }) {
 async function deleteInstallations(installations) {
     const { appConfig } = installations;
     const entry = await update(appConfig, oldEntry => {
-        if (oldEntry && oldEntry.registrationStatus === 0 /* NOT_STARTED */) {
+        if (oldEntry && oldEntry.registrationStatus === 0 /* RequestStatus.NOT_STARTED */) {
             // Delete the unregistered entry without sending a deleteInstallation request.
             return undefined;
         }
         return oldEntry;
     });
     if (entry) {
-        if (entry.registrationStatus === 1 /* IN_PROGRESS */) {
+        if (entry.registrationStatus === 1 /* RequestStatus.IN_PROGRESS */) {
             // Can't delete while trying to register.
-            throw ERROR_FACTORY.create("delete-pending-registration" /* DELETE_PENDING_REGISTRATION */);
+            throw ERROR_FACTORY.create("delete-pending-registration" /* ErrorCode.DELETE_PENDING_REGISTRATION */);
         }
-        else if (entry.registrationStatus === 2 /* COMPLETED */) {
+        else if (entry.registrationStatus === 2 /* RequestStatus.COMPLETED */) {
             if (!navigator.onLine) {
-                throw ERROR_FACTORY.create("app-offline" /* APP_OFFLINE */);
+                throw ERROR_FACTORY.create("app-offline" /* ErrorCode.APP_OFFLINE */);
             }
             else {
                 await deleteInstallationRequest(appConfig, entry);
@@ -19589,7 +18947,7 @@ function extractAppConfig(app) {
     };
 }
 function getMissingValueError(valueName) {
-    return ERROR_FACTORY.create("missing-app-config-values" /* MISSING_APP_CONFIG_VALUES */, {
+    return ERROR_FACTORY.create("missing-app-config-values" /* ErrorCode.MISSING_APP_CONFIG_VALUES */, {
         valueName
     });
 }
@@ -19636,8 +18994,8 @@ const internalFactory = (container) => {
     return installationsInternal;
 };
 function registerInstallations() {
-    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component(INSTALLATIONS_NAME, publicFactory, "PUBLIC" /* PUBLIC */));
-    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component(INSTALLATIONS_NAME_INTERNAL, internalFactory, "PRIVATE" /* PRIVATE */));
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component(INSTALLATIONS_NAME, publicFactory, "PUBLIC" /* ComponentType.PUBLIC */));
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component(INSTALLATIONS_NAME_INTERNAL, internalFactory, "PRIVATE" /* ComponentType.PRIVATE */));
 }
 
 /**
@@ -20228,26 +19586,26 @@ function getKey({ appConfig }) {
  * limitations under the License.
  */
 const ERROR_MAP = {
-    ["missing-app-config-values" /* MISSING_APP_CONFIG_VALUES */]: 'Missing App configuration value: "{$valueName}"',
-    ["only-available-in-window" /* AVAILABLE_IN_WINDOW */]: 'This method is available in a Window context.',
-    ["only-available-in-sw" /* AVAILABLE_IN_SW */]: 'This method is available in a service worker context.',
-    ["permission-default" /* PERMISSION_DEFAULT */]: 'The notification permission was not granted and dismissed instead.',
-    ["permission-blocked" /* PERMISSION_BLOCKED */]: 'The notification permission was not granted and blocked instead.',
-    ["unsupported-browser" /* UNSUPPORTED_BROWSER */]: "This browser doesn't support the API's required to use the Firebase SDK.",
-    ["indexed-db-unsupported" /* INDEXED_DB_UNSUPPORTED */]: "This browser doesn't support indexedDb.open() (ex. Safari iFrame, Firefox Private Browsing, etc)",
-    ["failed-service-worker-registration" /* FAILED_DEFAULT_REGISTRATION */]: 'We are unable to register the default service worker. {$browserErrorMessage}',
-    ["token-subscribe-failed" /* TOKEN_SUBSCRIBE_FAILED */]: 'A problem occurred while subscribing the user to FCM: {$errorInfo}',
-    ["token-subscribe-no-token" /* TOKEN_SUBSCRIBE_NO_TOKEN */]: 'FCM returned no token when subscribing the user to push.',
-    ["token-unsubscribe-failed" /* TOKEN_UNSUBSCRIBE_FAILED */]: 'A problem occurred while unsubscribing the ' +
+    ["missing-app-config-values" /* ErrorCode.MISSING_APP_CONFIG_VALUES */]: 'Missing App configuration value: "{$valueName}"',
+    ["only-available-in-window" /* ErrorCode.AVAILABLE_IN_WINDOW */]: 'This method is available in a Window context.',
+    ["only-available-in-sw" /* ErrorCode.AVAILABLE_IN_SW */]: 'This method is available in a service worker context.',
+    ["permission-default" /* ErrorCode.PERMISSION_DEFAULT */]: 'The notification permission was not granted and dismissed instead.',
+    ["permission-blocked" /* ErrorCode.PERMISSION_BLOCKED */]: 'The notification permission was not granted and blocked instead.',
+    ["unsupported-browser" /* ErrorCode.UNSUPPORTED_BROWSER */]: "This browser doesn't support the API's required to use the Firebase SDK.",
+    ["indexed-db-unsupported" /* ErrorCode.INDEXED_DB_UNSUPPORTED */]: "This browser doesn't support indexedDb.open() (ex. Safari iFrame, Firefox Private Browsing, etc)",
+    ["failed-service-worker-registration" /* ErrorCode.FAILED_DEFAULT_REGISTRATION */]: 'We are unable to register the default service worker. {$browserErrorMessage}',
+    ["token-subscribe-failed" /* ErrorCode.TOKEN_SUBSCRIBE_FAILED */]: 'A problem occurred while subscribing the user to FCM: {$errorInfo}',
+    ["token-subscribe-no-token" /* ErrorCode.TOKEN_SUBSCRIBE_NO_TOKEN */]: 'FCM returned no token when subscribing the user to push.',
+    ["token-unsubscribe-failed" /* ErrorCode.TOKEN_UNSUBSCRIBE_FAILED */]: 'A problem occurred while unsubscribing the ' +
         'user from FCM: {$errorInfo}',
-    ["token-update-failed" /* TOKEN_UPDATE_FAILED */]: 'A problem occurred while updating the user from FCM: {$errorInfo}',
-    ["token-update-no-token" /* TOKEN_UPDATE_NO_TOKEN */]: 'FCM returned no token when updating the user to push.',
-    ["use-sw-after-get-token" /* USE_SW_AFTER_GET_TOKEN */]: 'The useServiceWorker() method may only be called once and must be ' +
+    ["token-update-failed" /* ErrorCode.TOKEN_UPDATE_FAILED */]: 'A problem occurred while updating the user from FCM: {$errorInfo}',
+    ["token-update-no-token" /* ErrorCode.TOKEN_UPDATE_NO_TOKEN */]: 'FCM returned no token when updating the user to push.',
+    ["use-sw-after-get-token" /* ErrorCode.USE_SW_AFTER_GET_TOKEN */]: 'The useServiceWorker() method may only be called once and must be ' +
         'called before calling getToken() to ensure your service worker is used.',
-    ["invalid-sw-registration" /* INVALID_SW_REGISTRATION */]: 'The input to useServiceWorker() must be a ServiceWorkerRegistration.',
-    ["invalid-bg-handler" /* INVALID_BG_HANDLER */]: 'The input to setBackgroundMessageHandler() must be a function.',
-    ["invalid-vapid-key" /* INVALID_VAPID_KEY */]: 'The public VAPID key must be a string.',
-    ["use-vapid-key-after-get-token" /* USE_VAPID_KEY_AFTER_GET_TOKEN */]: 'The usePublicVapidKey() method may only be called once and must be ' +
+    ["invalid-sw-registration" /* ErrorCode.INVALID_SW_REGISTRATION */]: 'The input to useServiceWorker() must be a ServiceWorkerRegistration.',
+    ["invalid-bg-handler" /* ErrorCode.INVALID_BG_HANDLER */]: 'The input to setBackgroundMessageHandler() must be a function.',
+    ["invalid-vapid-key" /* ErrorCode.INVALID_VAPID_KEY */]: 'The public VAPID key must be a string.',
+    ["use-vapid-key-after-get-token" /* ErrorCode.USE_VAPID_KEY_AFTER_GET_TOKEN */]: 'The usePublicVapidKey() method may only be called once and must be ' +
         'called before calling getToken() to ensure your VAPID key is used.'
 };
 const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_3__.ErrorFactory('messaging', 'Messaging', ERROR_MAP);
@@ -20269,7 +19627,6 @@ const ERROR_FACTORY = new _firebase_util__WEBPACK_IMPORTED_MODULE_3__.ErrorFacto
  * limitations under the License.
  */
 async function requestGetToken(firebaseDependencies, subscriptionOptions) {
-    var _a;
     const headers = await getHeaders(firebaseDependencies);
     const body = getBody(subscriptionOptions);
     const subscribeOptions = {
@@ -20283,23 +19640,22 @@ async function requestGetToken(firebaseDependencies, subscriptionOptions) {
         responseData = await response.json();
     }
     catch (err) {
-        throw ERROR_FACTORY.create("token-subscribe-failed" /* TOKEN_SUBSCRIBE_FAILED */, {
-            errorInfo: (_a = err) === null || _a === void 0 ? void 0 : _a.toString()
+        throw ERROR_FACTORY.create("token-subscribe-failed" /* ErrorCode.TOKEN_SUBSCRIBE_FAILED */, {
+            errorInfo: err === null || err === void 0 ? void 0 : err.toString()
         });
     }
     if (responseData.error) {
         const message = responseData.error.message;
-        throw ERROR_FACTORY.create("token-subscribe-failed" /* TOKEN_SUBSCRIBE_FAILED */, {
+        throw ERROR_FACTORY.create("token-subscribe-failed" /* ErrorCode.TOKEN_SUBSCRIBE_FAILED */, {
             errorInfo: message
         });
     }
     if (!responseData.token) {
-        throw ERROR_FACTORY.create("token-subscribe-no-token" /* TOKEN_SUBSCRIBE_NO_TOKEN */);
+        throw ERROR_FACTORY.create("token-subscribe-no-token" /* ErrorCode.TOKEN_SUBSCRIBE_NO_TOKEN */);
     }
     return responseData.token;
 }
 async function requestUpdateToken(firebaseDependencies, tokenDetails) {
-    var _a;
     const headers = await getHeaders(firebaseDependencies);
     const body = getBody(tokenDetails.subscriptionOptions);
     const updateOptions = {
@@ -20313,23 +19669,22 @@ async function requestUpdateToken(firebaseDependencies, tokenDetails) {
         responseData = await response.json();
     }
     catch (err) {
-        throw ERROR_FACTORY.create("token-update-failed" /* TOKEN_UPDATE_FAILED */, {
-            errorInfo: (_a = err) === null || _a === void 0 ? void 0 : _a.toString()
+        throw ERROR_FACTORY.create("token-update-failed" /* ErrorCode.TOKEN_UPDATE_FAILED */, {
+            errorInfo: err === null || err === void 0 ? void 0 : err.toString()
         });
     }
     if (responseData.error) {
         const message = responseData.error.message;
-        throw ERROR_FACTORY.create("token-update-failed" /* TOKEN_UPDATE_FAILED */, {
+        throw ERROR_FACTORY.create("token-update-failed" /* ErrorCode.TOKEN_UPDATE_FAILED */, {
             errorInfo: message
         });
     }
     if (!responseData.token) {
-        throw ERROR_FACTORY.create("token-update-no-token" /* TOKEN_UPDATE_NO_TOKEN */);
+        throw ERROR_FACTORY.create("token-update-no-token" /* ErrorCode.TOKEN_UPDATE_NO_TOKEN */);
     }
     return responseData.token;
 }
 async function requestDeleteToken(firebaseDependencies, token) {
-    var _a;
     const headers = await getHeaders(firebaseDependencies);
     const unsubscribeOptions = {
         method: 'DELETE',
@@ -20340,14 +19695,14 @@ async function requestDeleteToken(firebaseDependencies, token) {
         const responseData = await response.json();
         if (responseData.error) {
             const message = responseData.error.message;
-            throw ERROR_FACTORY.create("token-unsubscribe-failed" /* TOKEN_UNSUBSCRIBE_FAILED */, {
+            throw ERROR_FACTORY.create("token-unsubscribe-failed" /* ErrorCode.TOKEN_UNSUBSCRIBE_FAILED */, {
                 errorInfo: message
             });
         }
     }
     catch (err) {
-        throw ERROR_FACTORY.create("token-unsubscribe-failed" /* TOKEN_UNSUBSCRIBE_FAILED */, {
-            errorInfo: (_a = err) === null || _a === void 0 ? void 0 : _a.toString()
+        throw ERROR_FACTORY.create("token-unsubscribe-failed" /* ErrorCode.TOKEN_UNSUBSCRIBE_FAILED */, {
+            errorInfo: err === null || err === void 0 ? void 0 : err.toString()
         });
     }
 }
@@ -20670,7 +20025,7 @@ function extractAppConfig(app) {
     };
 }
 function getMissingValueError(valueName) {
-    return ERROR_FACTORY.create("missing-app-config-values" /* MISSING_APP_CONFIG_VALUES */, {
+    return ERROR_FACTORY.create("missing-app-config-values" /* ErrorCode.MISSING_APP_CONFIG_VALUES */, {
         valueName
     });
 }
@@ -20729,7 +20084,6 @@ class MessagingService {
  * limitations under the License.
  */
 async function registerDefaultSw(messaging) {
-    var _a;
     try {
         messaging.swRegistration = await navigator.serviceWorker.register(DEFAULT_SW_PATH, {
             scope: DEFAULT_SW_SCOPE
@@ -20744,8 +20098,8 @@ async function registerDefaultSw(messaging) {
         });
     }
     catch (e) {
-        throw ERROR_FACTORY.create("failed-service-worker-registration" /* FAILED_DEFAULT_REGISTRATION */, {
-            browserErrorMessage: (_a = e) === null || _a === void 0 ? void 0 : _a.message
+        throw ERROR_FACTORY.create("failed-service-worker-registration" /* ErrorCode.FAILED_DEFAULT_REGISTRATION */, {
+            browserErrorMessage: e === null || e === void 0 ? void 0 : e.message
         });
     }
 }
@@ -20774,7 +20128,7 @@ async function updateSwReg(messaging, swRegistration) {
         return;
     }
     if (!(swRegistration instanceof ServiceWorkerRegistration)) {
-        throw ERROR_FACTORY.create("invalid-sw-registration" /* INVALID_SW_REGISTRATION */);
+        throw ERROR_FACTORY.create("invalid-sw-registration" /* ErrorCode.INVALID_SW_REGISTRATION */);
     }
     messaging.swRegistration = swRegistration;
 }
@@ -20822,13 +20176,13 @@ async function updateVapidKey(messaging, vapidKey) {
  */
 async function getToken$1(messaging, options) {
     if (!navigator) {
-        throw ERROR_FACTORY.create("only-available-in-window" /* AVAILABLE_IN_WINDOW */);
+        throw ERROR_FACTORY.create("only-available-in-window" /* ErrorCode.AVAILABLE_IN_WINDOW */);
     }
     if (Notification.permission === 'default') {
         await Notification.requestPermission();
     }
     if (Notification.permission !== 'granted') {
-        throw ERROR_FACTORY.create("permission-blocked" /* PERMISSION_BLOCKED */);
+        throw ERROR_FACTORY.create("permission-blocked" /* ErrorCode.PERMISSION_BLOCKED */);
     }
     await updateVapidKey(messaging, options === null || options === void 0 ? void 0 : options.vapidKey);
     await updateSwReg(messaging, options === null || options === void 0 ? void 0 : options.serviceWorkerRegistration);
@@ -20913,7 +20267,7 @@ async function messageEventListener(messaging, event) {
 }
 
 const name = "@firebase/messaging";
-const version = "0.11.0";
+const version = "0.12.4";
 
 /**
  * @license
@@ -20946,8 +20300,8 @@ const WindowMessagingInternalFactory = (container) => {
     return messagingInternal;
 };
 function registerMessagingInWindow() {
-    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_4__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component('messaging', WindowMessagingFactory, "PUBLIC" /* PUBLIC */));
-    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_4__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component('messaging-internal', WindowMessagingInternalFactory, "PRIVATE" /* PRIVATE */));
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_4__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component('messaging', WindowMessagingFactory, "PUBLIC" /* ComponentType.PUBLIC */));
+    (0,_firebase_app__WEBPACK_IMPORTED_MODULE_4__._registerComponent)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.Component('messaging-internal', WindowMessagingInternalFactory, "PRIVATE" /* ComponentType.PRIVATE */));
     (0,_firebase_app__WEBPACK_IMPORTED_MODULE_4__.registerVersion)(name, version);
     // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
     (0,_firebase_app__WEBPACK_IMPORTED_MODULE_4__.registerVersion)(name, version, 'esm2017');
@@ -21016,7 +20370,7 @@ async function isWindowSupported() {
  */
 async function deleteToken$1(messaging) {
     if (!navigator) {
-        throw ERROR_FACTORY.create("only-available-in-window" /* AVAILABLE_IN_WINDOW */);
+        throw ERROR_FACTORY.create("only-available-in-window" /* ErrorCode.AVAILABLE_IN_WINDOW */);
     }
     if (!messaging.swRegistration) {
         await registerDefaultSw(messaging);
@@ -21042,7 +20396,7 @@ async function deleteToken$1(messaging) {
  */
 function onMessage$1(messaging, nextOrObserver) {
     if (!navigator) {
-        throw ERROR_FACTORY.create("only-available-in-window" /* AVAILABLE_IN_WINDOW */);
+        throw ERROR_FACTORY.create("only-available-in-window" /* ErrorCode.AVAILABLE_IN_WINDOW */);
     }
     messaging.onMessageHandler = nextOrObserver;
     return () => {
@@ -21081,11 +20435,11 @@ function getMessagingInWindow(app = (0,_firebase_app__WEBPACK_IMPORTED_MODULE_4_
     isWindowSupported().then(isSupported => {
         // If `isWindowSupported()` resolved, but returned false.
         if (!isSupported) {
-            throw ERROR_FACTORY.create("unsupported-browser" /* UNSUPPORTED_BROWSER */);
+            throw ERROR_FACTORY.create("unsupported-browser" /* ErrorCode.UNSUPPORTED_BROWSER */);
         }
     }, _ => {
         // If `isWindowSupported()` rejected.
-        throw ERROR_FACTORY.create("indexed-db-unsupported" /* INDEXED_DB_UNSUPPORTED */);
+        throw ERROR_FACTORY.create("indexed-db-unsupported" /* ErrorCode.INDEXED_DB_UNSUPPORTED */);
     });
     return (0,_firebase_app__WEBPACK_IMPORTED_MODULE_4__._getProvider)((0,_firebase_util__WEBPACK_IMPORTED_MODULE_3__.getModularInstance)(app), 'messaging').getImmediate();
 }
@@ -21149,6 +20503,83 @@ registerMessagingInWindow();
 
 
 //# sourceMappingURL=index.esm2017.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/firebase/app/dist/esm/index.esm.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/firebase/app/dist/esm/index.esm.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "FirebaseError": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.FirebaseError),
+/* harmony export */   "SDK_VERSION": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.SDK_VERSION),
+/* harmony export */   "_DEFAULT_ENTRY_NAME": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._DEFAULT_ENTRY_NAME),
+/* harmony export */   "_addComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addComponent),
+/* harmony export */   "_addOrOverwriteComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._addOrOverwriteComponent),
+/* harmony export */   "_apps": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._apps),
+/* harmony export */   "_clearComponents": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._clearComponents),
+/* harmony export */   "_components": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._components),
+/* harmony export */   "_getProvider": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._getProvider),
+/* harmony export */   "_registerComponent": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._registerComponent),
+/* harmony export */   "_removeServiceInstance": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__._removeServiceInstance),
+/* harmony export */   "deleteApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.deleteApp),
+/* harmony export */   "getApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApp),
+/* harmony export */   "getApps": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.getApps),
+/* harmony export */   "initializeApp": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp),
+/* harmony export */   "onLog": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.onLog),
+/* harmony export */   "registerVersion": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion),
+/* harmony export */   "setLogLevel": () => (/* reexport safe */ _firebase_app__WEBPACK_IMPORTED_MODULE_0__.setLogLevel)
+/* harmony export */ });
+/* harmony import */ var _firebase_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/app */ "./node_modules/@firebase/app/dist/esm/index.esm2017.js");
+
+
+
+var name = "firebase";
+var version = "9.17.2";
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+(0,_firebase_app__WEBPACK_IMPORTED_MODULE_0__.registerVersion)(name, version, 'app');
+//# sourceMappingURL=index.esm.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/firebase/messaging/dist/esm/index.esm.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/firebase/messaging/dist/esm/index.esm.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "deleteToken": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.deleteToken),
+/* harmony export */   "getMessaging": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.getMessaging),
+/* harmony export */   "getToken": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.getToken),
+/* harmony export */   "isSupported": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.isSupported),
+/* harmony export */   "onMessage": () => (/* reexport safe */ _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__.onMessage)
+/* harmony export */ });
+/* harmony import */ var _firebase_messaging__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @firebase/messaging */ "./node_modules/@firebase/messaging/dist/esm/index.esm2017.js");
+
+//# sourceMappingURL=index.esm.js.map
 
 
 /***/ }),

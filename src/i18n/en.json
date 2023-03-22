@@ -102,7 +102,7 @@
     "defaultMessage": "Add another",
     "description": "Call to action [+ add another]",
     "missing": false,
-    "obsolete": false
+    "obsolete": true
   },
   "button_add_members": {
     "translation": "Add members",
@@ -357,8 +357,8 @@
     "obsolete": false
   },
   "enter_confirmation_code_prompt": {
-    "translation": "Enter confirmation code sent to you by {method}:",
-    "defaultMessage": "Enter confirmation code sent to you by {method}:",
+    "translation": "Confirmation code",
+    "defaultMessage": "Confirmation code",
     "description": "Request to enter confirmation code",
     "missing": false,
     "obsolete": false
@@ -533,7 +533,7 @@
   },
   "label_reset_password": {
     "translation": "Send a password reset email:",
-    "defaultMessage": "Send a password reset email:",
+    "defaultMessage": "Send a password reset email",
     "description": "Label for password reset field",
     "missing": false,
     "obsolete": false
@@ -579,8 +579,8 @@
     "obsolete": false
   },
   "label_user_contacts": {
-    "translation": "Contacts:",
-    "defaultMessage": "Contacts:",
+    "translation": "Contacts",
+    "defaultMessage": "Contacts",
     "description": "Label for user contacts",
     "missing": false,
     "obsolete": false
@@ -1227,7 +1227,7 @@
     "defaultMessage": "confirm",
     "description": "Validate credentail call to action",
     "missing": false,
-    "obsolete": false
+    "obsolete": true
   },
   "description_editing_placeholder": {
     "translation": "Optional description",
@@ -1314,8 +1314,8 @@
     "obsolete": false
   },
   "password_reset_email_sent": {
-    "translation": "An email has been sent to {email}. Follow the directions in the email to reset your password.",
-    "defaultMessage": "An email has been sent to {email}. Follow the directions in the email to reset your password.",
+    "translation": "An email with security code has been sent.",
+    "defaultMessage": "An email with security code has been sent.",
     "description": "Notification that the email with password reset instructions has been sent",
     "missing": false,
     "obsolete": false
@@ -1436,7 +1436,7 @@
     "defaultMessage": "Phone number or email",
     "description": "Placeholer for phone or email",
     "missing": false,
-    "obsolete": false
+    "obsolete": true
   },
   "cred_confirmed_successfully": {
     "translation": "Confirmed successfully",
@@ -1554,6 +1554,90 @@
     "translation": "Format of this video is not recognized",
     "defaultMessage": "Format of this video is not recognized",
     "description": "Error message when uploaded video is invalid",
+    "missing": false,
+    "obsolete": false
+  },
+  "loading_note": {
+    "translation": "Loading...",
+    "defaultMessage": "Loading...",
+    "description": "Message shown when component is loading",
+    "missing": false,
+    "obsolete": false
+  },
+  "password_i_have_code": {
+    "translation": "I have code",
+    "defaultMessage": "I have code",
+    "description": "Call to open field to enter password reset code",
+    "missing": false,
+    "obsolete": false
+  },
+  "label_reset_password_tel": {
+    "translation": "Send a password reset SMS:",
+    "defaultMessage": "Send SMS to reset password",
+    "description": "Label for password reset field by phone",
+    "missing": false,
+    "obsolete": false
+  },
+  "mobile_phone_number": {
+    "translation": "Mobile phone number",
+    "defaultMessage": "Mobile phone number",
+    "description": "Prompt for entering a mobile phone number",
+    "missing": false,
+    "obsolete": false
+  },
+  "password_reset_sms_sent": {
+    "translation": "A text message with security code has been sent.",
+    "defaultMessage": "A text message with security code has been sent.",
+    "description": "Notification that the SMS with password reset instructions has been sent",
+    "missing": false,
+    "obsolete": false
+  },
+  "mobile_number_required": {
+    "translation": "Mobile phone number required",
+    "defaultMessage": "Mobile phone number required",
+    "description": "Error message",
+    "missing": false,
+    "obsolete": false
+  },
+  "current_email": {
+    "translation": "Current email",
+    "defaultMessage": "Current email",
+    "description": "Label for old email",
+    "missing": false,
+    "obsolete": false
+  },
+  "current_phone": {
+    "translation": "Current phone number",
+    "defaultMessage": "Current phone number",
+    "description": "Label for old phone",
+    "missing": false,
+    "obsolete": false
+  },
+  "new_email": {
+    "translation": "New email",
+    "defaultMessage": "New email",
+    "description": "Prompt for entering a new email",
+    "missing": false,
+    "obsolete": false
+  },
+  "new_phone_number": {
+    "translation": "New phone number",
+    "defaultMessage": "New phone number",
+    "description": "Prompt for entering a new telephone number",
+    "missing": false,
+    "obsolete": false
+  },
+  "change_email": {
+    "translation": "Change email",
+    "defaultMessage": "Change email",
+    "description": "Prompt to change current email",
+    "missing": false,
+    "obsolete": false
+  },
+  "change_phone": {
+    "translation": "Change phone number",
+    "defaultMessage": "Change phone number",
+    "description": "Prompt to change current phone number",
     "missing": false,
     "obsolete": false
   },
