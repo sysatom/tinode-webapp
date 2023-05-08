@@ -20,8 +20,8 @@ import MetaMessage from '../widgets/meta-message.jsx';
 import SendMessage from '../widgets/send-message.jsx';
 import VideoPreview from '../widgets/video-preview.jsx';
 
-import { DEFAULT_P2P_ACCESS_MODE, EDIT_PREVIEW_LENGTH, IMAGE_PREVIEW_DIM, KEYPRESS_DELAY,
-  MESSAGES_PAGE, MAX_EXTERN_ATTACHMENT_SIZE, MAX_IMAGE_DIM, MAX_INBAND_ATTACHMENT_SIZE,
+import { DEFAULT_P2P_ACCESS_MODE, EDIT_PREVIEW_LENGTH, IMAGE_PREVIEW_DIM, IMMEDIATE_P2P_SUBSCRIPTION,
+  KEYPRESS_DELAY, MESSAGES_PAGE, MAX_EXTERN_ATTACHMENT_SIZE, MAX_IMAGE_DIM, MAX_INBAND_ATTACHMENT_SIZE,
   READ_DELAY, QUOTED_REPLY_LENGTH, VIDEO_PREVIEW_DIM } from '../config.js';
 import { CALL_STATE_OUTGOING_INITATED, CALL_STATE_IN_PROGRESS } from '../constants.js';
 import { blobToBase64, fileToBase64, imageScaled, makeImageUrl } from '../lib/blob-helpers.js';
@@ -108,6 +108,7 @@ class MessagesView extends React.Component {
 
     this.state = MessagesView.getDerivedStateFromProps(props, {});
 
+    this.componentSetup = this.componentSetup.bind(this);
     this.leave = this.leave.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.retrySend = this.retrySend.bind(this);
@@ -185,6 +186,8 @@ class MessagesView extends React.Component {
 
     // Drag and drop events
     this.mountDnDEvents(this.dndRef);
+
+    this.componentSetup({}, {});
   }
 
   componentWillUnmount() {
@@ -205,9 +208,9 @@ class MessagesView extends React.Component {
     }
   }
 
-  // Scroll last message into view on component update e.g. on message received
-  // or vertical shrinking.
   componentDidUpdate(prevProps, prevState) {
+    // Scroll last message into view on component update e.g. on message received
+    // or vertical shrinking.
     if (this.messagesScroller &&
       (prevState.topic != this.state.topic || prevState.maxSeqId != this.state.maxSeqId ||
         prevState.minSeqId != this.state.minSeqId)) {
@@ -218,6 +221,18 @@ class MessagesView extends React.Component {
       }
     }
 
+    if (!this.props.applicationVisible) {
+      // If application is not visible, flush all unsent 'read' notifications.
+      this.clearNotificationQueue();
+    } else {
+      // Otherwise assume there are unread messages.
+      this.postReadNotification(0);
+    }
+
+    this.componentSetup(prevProps, prevState);
+  }
+
+  componentSetup(prevProps, prevState) {
     const topic = this.props.tinode ? this.props.tinode.getTopic(this.state.topic) : undefined;
     if (this.state.topic != prevState.topic) {
       if (prevState.topic && !Tinode.isNewGroupTopicName(prevState.topic)) {
@@ -237,20 +252,18 @@ class MessagesView extends React.Component {
       }
     }
 
-    if (!this.props.applicationVisible) {
-      // If application is not visible, flush all unsent 'read' notifications.
-      this.clearNotificationQueue();
-    } else {
-      // Otherwise assume there are unread messages.
-      this.postReadNotification(0);
-    }
-
-    if (topic && ((this.state.topic != prevState.topic) || !prevProps.ready)) {
-      // Don't immediately subscribe to a new p2p topic, wait for the first message.
-      if (topic._new && topic.isP2PType()) {
-        topic.getMeta(topic.startMetaQuery().withDesc().build());
-      } else {
-        this.subscribe(topic);
+    if (topic) {
+      if ((this.state.topic != prevState.topic) || (this.props.myUserId && !prevProps.myUserId)) {
+        // Don't immediately subscribe to a new p2p topic, wait for the first message.
+        const newTopic = (this.props.newTopicParams && this.props.newTopicParams._topicName == this.props.topic);
+        if (topic.isP2PType() && newTopic && !IMMEDIATE_P2P_SUBSCRIPTION) {
+          topic.getMeta(topic.startMetaQuery().withDesc().build());
+        } else if (this.props.myUserId) {
+          this.subscribe(topic);
+        }
+      } else if (topic.isSubscribed() && this.state.isReader && !prevState.isReader) {
+        // If reader status has changed and data became available.
+        topic.getMeta(topic.startMetaQuery().withLaterData().build());
       }
     }
   }
