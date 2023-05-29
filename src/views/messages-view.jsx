@@ -298,7 +298,8 @@ class MessagesView extends React.Component {
         reply: null,
         contentToEdit: null,
         showGoToLastButton: false,
-        dragging: false
+        dragging: false,
+        subsVersion: 0
       };
     } else if (nextProps.topic != prevState.topic) {
       const topic = nextProps.tinode.getTopic(nextProps.topic);
@@ -446,7 +447,6 @@ class MessagesView extends React.Component {
 
     // Is this a new topic?
     const newTopic = (this.props.newTopicParams && this.props.newTopicParams._topicName == this.props.topic);
-
     // Don't request the tags. They are useless unless the user
     // is the owner and is editing the topic.
     let getQuery = topic.startMetaQuery().withLaterDesc().withLaterSub();
@@ -470,6 +470,9 @@ class MessagesView extends React.Component {
         }
         if (this.state.topic != ctrl.topic) {
           this.setState({topic: ctrl.topic});
+        }
+        if (this.state.deleted) {
+          this.setState({deleted: false});
         }
         this.props.onNewTopicCreated(this.props.topic, ctrl.topic);
         // If there are unsent messages (except hard-failed and video call messages),
@@ -667,12 +670,12 @@ class MessagesView extends React.Component {
     if (this.state.topic) {
       const subs = [];
       const topic = this.props.tinode.getTopic(this.state.topic);
-      topic.subscribers((sub) => {
+      topic.subscribers(sub => {
         if (sub.online && sub.user != this.props.myUserId) {
           subs.push(sub);
         }
       });
-      const newState = {onlineSubs: subs};
+      const newState = {onlineSubs: subs, subsVersion: this.state.subsVersion + 1};
       const peer = topic.p2pPeerDesc();
       if (peer) {
         Object.assign(newState, {
